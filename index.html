@@ -10,14 +10,14 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --cream: #FAF7F2;
-      --beige: #EDE4D4;
-      --sand: #D4C4A8;
-      --gold: #C9A84C;
-      --gold-light: #E8C97A;
-      --brown: #6B4F35;
-      --dark: #1A1410;
-      --text: #3D2E1E;
+      --cream: #FFF5F7;
+      --beige: #FFE4EC;
+      --sand: #F5C2D0;
+      --gold: #E8728A;
+      --gold-light: #F4A0B5;
+      --brown: #A0435A;
+      --dark: #2A0D16;
+      --text: #4A1A28;
       --serif: 'Cormorant Garamond', serif;
       --sans: 'Jost', sans-serif;
     }
@@ -130,7 +130,7 @@
     .hero-bg-fallback {
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, #2C1F12 0%, #6B4F35 40%, #C9A84C 100%);
+      background: linear-gradient(135deg, #2A0D16 0%, #A0435A 45%, #E8728A 100%);
       z-index: -1;
     }
     .hero-content {
@@ -192,7 +192,7 @@
     .hero-cta:hover {
       background: var(--gold);
       border-color: var(--gold);
-      color: var(--dark);
+      color: #fff;
     }
     .hero-scroll {
       position: absolute;
@@ -339,7 +339,7 @@
 
     /* GALLERY */
     #gallery {
-      background: var(--dark);
+      background: #1A0810;
       padding: 120px 60px;
     }
     .gallery-header {
@@ -359,7 +359,7 @@
     .gallery-item {
       overflow: hidden;
       position: relative;
-      background: #2A2018;
+      background: #2A0D16;
       cursor: none;
     }
     .gallery-item:nth-child(1) { grid-column: span 5; grid-row: span 2; }
@@ -381,7 +381,7 @@
     .gallery-placeholder {
       width: 100%;
       min-height: 260px;
-      background: linear-gradient(145deg, #2A2018, #3D2E1E);
+      background: linear-gradient(145deg, #2A0D16, #4A1A28);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -494,7 +494,7 @@
     }
     .stat {
       text-align: center;
-      color: var(--dark);
+      color: #fff;
     }
     .stat-number {
       font-family: var(--serif);
@@ -583,7 +583,7 @@
       align-self: center;
       margin-top: 8px;
     }
-    .form-submit:hover { background: var(--gold); color: var(--dark); }
+    .form-submit:hover { background: var(--gold); color: #fff; }
     .form-note {
       font-size: 0.75rem;
       color: var(--brown);
@@ -595,7 +595,7 @@
 
     /* FOOTER */
     footer {
-      background: var(--dark);
+      background: #1A0810;
       padding: 60px;
       display: flex;
       justify-content: space-between;
