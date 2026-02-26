@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Fils & Merveilles — Créations Crochet Artisanales</title>
+<title>Le Boudoir De Karoline — Créations Crochet Artisanales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cinzel+Decorative:wght@400;700&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -35,27 +35,9 @@ body {
   font-family: var(--sans);
   font-weight: 300;
   overflow-x: hidden;
-  cursor: none;
 }
 
-/* ─── CURSOR ─── */
-.cursor {
-  width: 10px; height: 10px;
-  background: var(--fuchsia);
-  border-radius: 50%;
-  position: fixed; top:0; left:0;
-  pointer-events: none; z-index: 9999;
-  box-shadow: 0 0 16px var(--fuchsia);
-  transition: transform 0.06s;
-}
-.cursor-ring {
-  width: 38px; height: 38px;
-  border: 1.5px solid var(--orange);
-  border-radius: 50%;
-  position: fixed; top:0; left:0;
-  pointer-events: none; z-index: 9998;
-  transition: transform 0.25s ease, width 0.3s, height 0.3s;
-}
+
 
 /* ─── NAV ─── */
 nav {
@@ -447,7 +429,7 @@ nav.scrolled .nav-links a:hover { color: var(--fuchsia); }
   background-size:200% 200%;
   color:#fff; border:none; padding:18px 64px; font-family:var(--sans);
   font-size:0.72rem; letter-spacing:0.24em; text-transform:uppercase;
-  font-weight:500; cursor:none;
+  font-weight:500;
   transition:background-position 0.5s, transform 0.3s, box-shadow 0.3s;
   box-shadow:0 8px 40px rgba(232,21,109,0.5);
 }
@@ -500,13 +482,9 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
 </head>
 <body>
 
-<!-- CURSOR -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
-<!-- NAV -->
 <nav id="navbar">
-  <a href="#hero" class="nav-logo">Fils & Merveilles</a>
+  <a href="#hero" class="nav-logo">Le Boudoir De Karoline</a>
   <ul class="nav-links">
     <li><a href="#about">Histoire</a></li>
     <li><a href="#gallery">Créations</a></li>
@@ -560,7 +538,7 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
 
   <div class="hero-content">
     <p class="hero-eyebrow">Artisanat Crochet · Fait Main avec Amour</p>
-    <h1 class="hero-title">Fils &amp;<br>Merveilles</h1>
+    <h1 class="hero-title">Le Boudoir<br>De Karoline</h1>
     <span class="hero-title-script">Créations artisanales depuis toujours</span>
     <div class="hero-divider">
       <div class="hero-divider-line"></div>
@@ -746,7 +724,7 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
 <footer>
   <div class="footer-top">
     <div>
-      <div class="footer-logo">Fils & Merveilles</div>
+      <div class="footer-logo">Le Boudoir De Karoline</div>
       <div class="footer-tagline">Artisanat Crochet · Fait Main · France</div>
     </div>
     <ul class="footer-links">
@@ -757,28 +735,12 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
     </ul>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2026 Fils & Merveilles — Tous droits réservés</div>
+    <div class="footer-copy">© 2026 Le Boudoir De Karoline — Tous droits réservés</div>
     <div class="footer-heart">Fait avec ♥ en France</div>
   </div>
 </footer>
 
 <script>
-  const cursor=document.getElementById('cursor');
-  const ring=document.getElementById('cursorRing');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{
-    mx=e.clientX; my=e.clientY;
-    cursor.style.transform=`translate(${mx-5}px,${my-5}px)`;
-  });
-  (function tick(){
-    rx+=(mx-rx-19)*0.12; ry+=(my-ry-19)*0.12;
-    ring.style.transform=`translate(${rx}px,${ry}px)`;
-    requestAnimationFrame(tick);
-  })();
-  document.querySelectorAll('a,button,input,textarea,select').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{ring.style.width='58px';ring.style.height='58px';});
-    el.addEventListener('mouseleave',()=>{ring.style.width='38px';ring.style.height='38px';});
-  });
   window.addEventListener('scroll',()=>{
     document.getElementById('navbar').classList.toggle('scrolled',scrollY>60);
   });
