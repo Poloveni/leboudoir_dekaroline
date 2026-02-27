@@ -392,45 +392,6 @@ nav.scrolled .nav-links a:hover { color: var(--fuchsia); }
 .g-item { transition:opacity 0.4s, transform 0.4s; }
 .g-item.hidden { display:none; }
 
-/* ─── VIDEO ─── */
-#video-section { background:var(--parchment); }
-.video-inner {
-  max-width:1280px; margin:0 auto; padding:120px 64px;
-  display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
-}
-.video-frame-wrap { position:relative; }
-.video-border-outer { position:absolute; inset:-16px; border:1.5px solid var(--orange); pointer-events:none; }
-.video-border-inner { position:absolute; inset:-8px; border:1px solid rgba(232,21,109,0.3); pointer-events:none; }
-.vc { position:absolute; width:40px; height:40px; }
-.vc-tl { top:-20px; left:-20px; border-top:3px solid var(--fuchsia); border-left:3px solid var(--fuchsia); }
-.vc-tr { top:-20px; right:-20px; border-top:3px solid var(--fuchsia); border-right:3px solid var(--fuchsia); }
-.vc-bl { bottom:-20px; left:-20px; border-bottom:3px solid var(--fuchsia); border-left:3px solid var(--fuchsia); }
-.vc-br { bottom:-20px; right:-20px; border-bottom:3px solid var(--fuchsia); border-right:3px solid var(--fuchsia); }
-.video-placeholder {
-  aspect-ratio:16/9; background:linear-gradient(145deg,#FFE0C8,var(--parchment));
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
-}
-.play-btn {
-  width:80px; height:80px;
-  background:linear-gradient(135deg,var(--fuchsia),var(--orange));
-  border-radius:50%;
-  display:flex; align-items:center; justify-content:center; color:#fff;
-  box-shadow:0 8px 40px rgba(232,21,109,0.45);
-  transition:transform 0.3s, box-shadow 0.3s;
-}
-.play-btn:hover { transform:scale(1.08); box-shadow:0 12px 50px rgba(232,21,109,0.6); }
-.video-text .section-title { margin-top:20px; margin-bottom:20px; }
-.video-text p { font-size:1rem; line-height:1.85; opacity:0.8; }
-.tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:28px; }
-.tag {
-  font-size:0.62rem; letter-spacing:0.15em; text-transform:uppercase;
-  padding:7px 16px;
-  background:linear-gradient(135deg,rgba(232,21,109,0.1),rgba(255,92,58,0.08));
-  border:1px solid rgba(232,21,109,0.25); color:var(--fuchsia);
-  transition:background 0.3s, color 0.3s;
-}
-.tag:hover { background:var(--fuchsia); color:#fff; }
-
 /* ─── CONTACT ─── */
 #contact {
   background: linear-gradient(160deg, var(--plum) 0%, #3D0028 50%, #200018 100%);
@@ -503,7 +464,7 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
   nav{padding:18px 24px;} nav.scrolled{padding:12px 24px;} .nav-links{display:none;}
   #about{grid-template-columns:1fr;gap:48px;padding:80px 24px;}
   .about-frame-a,.about-frame-b{display:none;}
-  .video-inner{grid-template-columns:1fr;padding:80px 24px;}
+
   .gallery-grid{grid-template-columns:1fr 1fr;}
   .g-item:nth-child(n){grid-column:span 1;grid-row:span 1;}
   .stats-bar{flex-wrap:wrap;padding:40px 24px;gap:32px;} .stat{padding:0 28px;}
@@ -524,7 +485,6 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
   <ul class="nav-links">
     <li><a href="#about">Histoire</a></li>
     <li><a href="#gallery">Créations</a></li>
-    <li><a href="#video-section">Savoir-faire</a></li>
     <li><a href="#contact">Commander</a></li>
   </ul>
 </nav>
@@ -983,70 +943,7 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
 </section>
 
 <!-- VIDEO -->
-<section id="video-section">
-  <div class="video-inner">
-    <div class="video-frame-wrap reveal">
-      <div class="video-border-outer"></div>
-      <div class="video-border-inner"></div>
-      <div class="vc vc-tl"></div><div class="vc vc-tr"></div>
-      <div class="vc vc-bl"></div><div class="vc vc-br"></div>
-      <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#1a0008;">
-        <!--
-          ✅ POUR AJOUTER TA VIDÉO :
-          1. Mets ton fichier vidéo (ex: video-crochet.mp4) dans le même dossier que index.html
-          2. Remplace "video-crochet.mp4" par le vrai nom de ton fichier ci-dessous
-          3. La vignette (poster) est optionnelle : tu peux mettre une de tes photos JPG
-        -->
-        <video
-          controls
-          poster="karoline.jpg"
-          style="width:100%;height:100%;object-fit:cover;display:block;"
-          preload="none">
-          <source src="video-crochet.mp4" type="video/mp4">
-          Votre navigateur ne supporte pas la lecture vidéo.
-        </video>
-        <!-- Overlay décoratif avant lecture -->
-        <div id="videoOverlay" style="
-          position:absolute;inset:0;
-          display:flex;align-items:center;justify-content:center;
-          pointer-events:none;
-        ">
-          <div style="
-            width:80px;height:80px;
-            background:linear-gradient(135deg,var(--fuchsia),var(--orange));
-            border-radius:50%;
-            display:flex;align-items:center;justify-content:center;
-            color:#fff;
-            box-shadow:0 8px 40px rgba(232,21,109,0.5);
-            opacity:0.92;
-          ">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-        </div>
-      </div>
-      <script>
-        // Masque l'overlay dès que la vidéo démarre
-        document.querySelector('video').addEventListener('play', function(){
-          document.getElementById('videoOverlay').style.display='none';
-        });
-        document.querySelector('video').addEventListener('pause', function(){
-          document.getElementById('videoOverlay').style.display='flex';
-        });
-      </script>
-    </div>
-    <div class="video-text reveal">
-      <div class="section-eyebrow"><span class="orn">✦</span> Savoir-faire</div>
-      <h2 class="section-title">L'art du crochet<br><em>en mouvement</em></h2>
-      <p>Regardez naître une création sous mes doigts. Du choix des fils à la dernière maille, chaque étape est un geste d'amour. Je travaille exclusivement avec des fils naturels et certifiés.</p>
-      <div class="tags">
-        <span class="tag">Coton bio</span>
-        <span class="tag">Laine mérinos</span>
-        <span class="tag">Mohair</span>
-        <span class="tag">Lin naturel</span>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!-- CONTACT -->
 <section id="contact">
@@ -1097,7 +994,6 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
     <ul class="footer-links">
       <li><a href="#about">Histoire</a></li>
       <li><a href="#gallery">Créations</a></li>
-      <li><a href="#video-section">Savoir-faire</a></li>
       <li><a href="#contact">Commander</a></li>
     </ul>
   </div>
