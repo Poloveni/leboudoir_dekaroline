@@ -356,6 +356,31 @@ nav.scrolled .nav-links a:hover { color: var(--fuchsia); }
 .g-item:hover .g-overlay { opacity:1; }
 .g-label { font-family:var(--serif); font-size:1.1rem; font-style:italic; color:#fff; }
 
+/* ─── FILTRES GALERIE ─── */
+.gallery-filters {
+  max-width:1280px; margin:0 auto 48px;
+  display:flex; flex-wrap:wrap; gap:10px;
+  position:relative; z-index:1;
+}
+.filter-btn {
+  font-family:var(--sans); font-size:0.62rem; font-weight:400;
+  letter-spacing:0.2em; text-transform:uppercase;
+  padding:10px 22px;
+  border:1px solid rgba(232,21,109,0.35);
+  background:transparent; color:rgba(255,249,240,0.6);
+  cursor:pointer; transition:all 0.3s;
+}
+.filter-btn:hover {
+  border-color:var(--fuchsia); color:var(--ivory);
+  background:rgba(232,21,109,0.1);
+}
+.filter-btn.active {
+  background:linear-gradient(135deg,var(--fuchsia),var(--coral));
+  border-color:transparent; color:#fff;
+}
+.g-item { transition:opacity 0.4s, transform 0.4s; }
+.g-item.hidden { display:none; }
+
 /* ─── VIDEO ─── */
 #video-section { background:var(--parchment); }
 .video-inner {
@@ -615,319 +640,331 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
     </div>
     <a href="#contact" class="gallery-cta-link">Toutes les créations ⟶</a>
   </div>
+  <!-- Filtres catégories -->
+  <div class="gallery-filters">
+    <button class="filter-btn active" data-filter="all">✦ Tout voir</button>
+    <button class="filter-btn" data-filter="sacs">Sacs & Pochettes</button>
+    <button class="filter-btn" data-filter="bebe">Bébé</button>
+    <button class="filter-btn" data-filter="accessoires">Porte-clés & Accessoires</button>
+    <button class="filter-btn" data-filter="deco">Déco & Maison</button>
+    <button class="filter-btn" data-filter="lampes">Lampes & Abat-jours</button>
+    <button class="filter-btn" data-filter="macrame">Macramé & Attrape-rêves</button>
+    <button class="filter-btn" data-filter="coussins">Coussins & Poufs</button>
+  </div>
+
   <div class="gallery-grid">
     <!-- Rangée 1 -->
-    <div class="g-item reveal" style="grid-column:span 5;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="bebe" style="grid-column:span 5;grid-row:span 2;">
       <img src="p08_set_fraises.jpg" alt="Set fraises bébé" class="g-photo">
       <div class="g-overlay"><span class="g-label">Set naissance Fraises</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="bebe" style="grid-column:span 4;">
       <img src="p01_bandana_fraises.jpg" alt="Bandana fraises" class="g-photo">
       <div class="g-overlay"><span class="g-label">Bandana & Chaussons Fraises</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="p12_sac_rose_chaine1.jpg" alt="Sac rose chaîne" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Rose Chaîne Dorée</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="p13_sac_rose_chaine2.jpg" alt="Sac rose intérieur" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Rose — Intérieur</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
       <img src="p14_sac_rose_chaine3.jpg" alt="Sac rose vue" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Crochet Rose</span></div>
     </div>
     <!-- Rangée 2 -->
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
       <img src="Sac_crochet_.jpg" alt="Sac granny square" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Granny Square</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
       <img src="Sac_crochet___3_.jpg" alt="Sac multicolore" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Multicolore</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
       <img src="p05_sac_rose_poudre.jpg" alt="Sac rose poudré" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Rose Poudré</span></div>
     </div>
     <!-- Rangée 3 -->
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="accessoires" style="grid-column:span 3;">
       <img src="p06_porte_cles_raphia1.jpg" alt="Porte-clés raphia" class="g-photo">
       <div class="g-overlay"><span class="g-label">Porte-clés Raphia</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="accessoires" style="grid-column:span 3;">
       <img src="p07_porte_cles_raphia2.jpg" alt="Porte-clés raphia 2" class="g-photo">
       <div class="g-overlay"><span class="g-label">Porte-clés Étoile</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="accessoires" style="grid-column:span 3;">
       <img src="p02_porte_cles_orange.jpg" alt="Porte-clés orange" class="g-photo">
       <div class="g-overlay"><span class="g-label">Porte-clés Terracotta</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="accessoires" style="grid-column:span 3;">
       <img src="p03_porte_cles_beige.jpg" alt="Porte-clés beige" class="g-photo">
       <div class="g-overlay"><span class="g-label">Porte-clés Bohème</span></div>
     </div>
     <!-- Rangée 4 -->
-    <div class="g-item reveal" style="grid-column:span 5;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 5;grid-row:span 2;">
       <img src="p18_pochette_verte1.jpg" alt="Pochette verte" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Verte Pompons</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 7;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 7;">
       <img src="p19_pochette_verte2.jpg" alt="Pochette verte intérieur" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette — Détail Intérieur</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
       <img src="p17_paniers_jute.jpg" alt="Paniers jute" class="g-photo">
       <div class="g-overlay"><span class="g-label">Paniers Jute & Couleurs</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
       <img src="p15_vases_rose.jpg" alt="Vases crochet" class="g-photo">
       <div class="g-overlay"><span class="g-label">Housses de Vases</span></div>
     </div>
     <!-- Rangée 5 -->
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="bebe" style="grid-column:span 3;">
       <img src="p10_chaussons_verts1.jpg" alt="Chaussons verts" class="g-photo">
       <div class="g-overlay"><span class="g-label">Chaussons Bébé Verts</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="bebe" style="grid-column:span 3;">
       <img src="p11_chaussons_verts2.jpg" alt="Chaussons verts 2" class="g-photo">
       <div class="g-overlay"><span class="g-label">Chaussons Mary Jane</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
       <img src="p16_sapin_dore.jpg" alt="Sapin doré" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sapin Doré Noël</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
       <img src="p09_anges_macrame.jpg" alt="Anges macramé" class="g-photo">
       <div class="g-overlay"><span class="g-label">Anges Macramé</span></div>
     </div>
     <!-- Rangée 6 -->
-    <div class="g-item reveal" style="grid-column:span 6;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 6;">
       <img src="granny_square.jpg" alt="Granny square" class="g-photo">
       <div class="g-overlay"><span class="g-label">Granny Square</span></div>
     </div>
     <!-- Rangée 7 — nouveaux sacs -->
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
       <img src="p20_pochette_caramel.jpg" alt="Pochette caramel chaîne écaille" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Caramel</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
       <img src="p21_vase_boule1.jpg" alt="Vase boule crochet" class="g-photo">
       <div class="g-overlay"><span class="g-label">Vase Boule — Terreau</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
       <img src="p22_vase_boule2.jpg" alt="Vase boule détail" class="g-photo">
       <div class="g-overlay"><span class="g-label">Vase Boule — Détail</span></div>
     </div>
     <!-- Rangée 8 — sacs noirs -->
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="p23_sac_noir_raphia.jpg" alt="Sac noir raphia chaîne dorée" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Noir Raphia</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="p24_sac_noir_interieur.jpg" alt="Sac noir intérieur" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Noir — Intérieur</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="p25_sac_noir_cote.jpg" alt="Sac noir côté" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Noir — Côté</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="p26_sac_noir_detail.jpg" alt="Sac noir détail chaîne" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Noir — Chaîne Dorée</span></div>
     </div>
     <!-- Rangée 9 — sacs raphia granny -->
-    <div class="g-item reveal" style="grid-column:span 5;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 5;grid-row:span 2;">
       <img src="p27_sac_raphia_face.jpg" alt="Grand sac raphia granny" class="g-photo">
       <div class="g-overlay"><span class="g-label">Grand Sac Raphia Granny</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
       <img src="p28_sac_raphia_cote.jpg" alt="Sac raphia côté" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Raphia — Vue Côté</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="p29_sac_raphia_dos.jpg" alt="Sac raphia dos" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Raphia — Dos</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
       <img src="pochette_crochet.jpg" alt="Pochette crochet" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Crochet</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="Sac_crochet___1_.jpg" alt="Sac crochet détail" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac — Détail Chevrons</span></div>
     </div>
 
     <!-- Rangée 10 — Lampes & déco grands formats -->
-    <div class="g-item reveal" style="grid-column:span 4;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="lampes" style="grid-column:span 4;grid-row:span 2;">
       <img src="p31_lampadaire_beige.jpg" alt="Lampadaire crochet beige" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampadaire Crochet Beige</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="lampes" style="grid-column:span 4;grid-row:span 2;">
       <img src="p32_lampadaire_blanc.jpg" alt="Lampadaire crochet blanc" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampadaire Crochet Blanc</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="lampes" style="grid-column:span 4;">
       <img src="p35_lampe_rose_detail.jpg" alt="Lampe rose détail" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampe Rose — Détail</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="lampes" style="grid-column:span 4;">
       <img src="p36_lampe_rose_entiere.jpg" alt="Lampe rose entière" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampe Rose — Vue Entière</span></div>
     </div>
 
     <!-- Rangée 11 — Macramé & textiles muraux -->
-    <div class="g-item reveal" style="grid-column:span 4;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;grid-row:span 2;">
       <img src="p37_macrame_mural_blanc.jpg" alt="Macramé mural blanc" class="g-photo">
       <div class="g-overlay"><span class="g-label">Macramé Mural</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;grid-row:span 2;">
       <img src="p49_macrame_etagere.jpg" alt="Macramé étagère plante" class="g-photo">
       <div class="g-overlay"><span class="g-label">Macramé Étagère</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;">
       <img src="p38_macrame_cactus.jpg" alt="Macramé porte-plantes cactus" class="g-photo">
       <div class="g-overlay"><span class="g-label">Macramé Porte-Plantes</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
       <img src="p48_couronne_fleurs_sechees.jpg" alt="Couronne fleurs séchées" class="g-photo">
       <div class="g-overlay"><span class="g-label">Couronne Fleurs Séchées</span></div>
     </div>
 
     <!-- Rangée 12 — Coussins, tableaux & accessoires -->
-    <div class="g-item reveal" style="grid-column:span 6;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="coussins" style="grid-column:span 6;grid-row:span 2;">
       <img src="p30_coussin_fleurs_frida.jpg" alt="Coussin fleurs style Frida" class="g-photo">
       <div class="g-overlay"><span class="g-label">Coussin Fleuri — Style Frida</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
       <img src="p43_tableau_cercles.jpg" alt="Tableau cercles or" class="g-photo">
       <div class="g-overlay"><span class="g-label">Tableau Cercles Dorés</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
       <img src="p44_tableau_cheval.jpg" alt="Tableau cheval cuivre" class="g-photo">
       <div class="g-overlay"><span class="g-label">Tableau Cheval Cuivré</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="lampes" style="grid-column:span 3;">
       <img src="p39_lampe_suspendue_lumiere.jpg" alt="Lampe suspendue allumée" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampe Suspendue — Lumière</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="lampes" style="grid-column:span 3;">
       <img src="p40_lampe_suspendue_nb.jpg" alt="Lampe suspendue noir et blanc" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampe Suspendue</span></div>
     </div>
 
     <!-- Rangée 13 — Pochettes & déco -->
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="p41_pochette_coquillages.jpg" alt="Pochette coquillages" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Coquillages</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="p42_pochette_fuchsia.jpg" alt="Pochette fuchsia fleur" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Fuchsia</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
       <img src="p46_pochette_jute_franges.jpg" alt="Pochette jute franges noires" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Jute & Franges</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="macrame" style="grid-column:span 3;">
       <img src="p33_tabouret_macrame.jpg" alt="Tabouret macramé" class="g-photo">
       <div class="g-overlay"><span class="g-label">Assise Macramé Bambou</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="coussins" style="grid-column:span 4;">
       <img src="p45_coussin_pouf_jute.jpg" alt="Pouf coussin jute crochet" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pouf Dentelle Jute</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
       <img src="p47_corbeille_jute_perles.jpg" alt="Corbeille jute perles bois" class="g-photo">
       <div class="g-overlay"><span class="g-label">Corbeille Jute & Perles</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
       <img src="p34_cache_pot_raphia.jpg" alt="Cache-pot raphia crochet" class="g-photo">
       <div class="g-overlay"><span class="g-label">Cache-Pot Raphia</span></div>
     </div>
 
     <!-- Rangée 14 — Attrape-rêves -->
-    <div class="g-item reveal" style="grid-column:span 4;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;grid-row:span 2;">
       <img src="p63_attrape_reves_plantes.jpg" alt="Attrape-rêves plantes lumières" class="g-photo">
       <div class="g-overlay"><span class="g-label">Attrape-Rêves & Plantes</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;grid-row:span 2;">
       <img src="p67_attrape_reves_nature.jpg" alt="Attrape-rêves nature mousse" class="g-photo">
       <div class="g-overlay"><span class="g-label">Attrape-Rêves Nature</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;">
       <img src="p68_attrape_reves_plumes.jpg" alt="Attrape-rêves plumes paon" class="g-photo">
       <div class="g-overlay"><span class="g-label">Attrape-Rêves Plume de Paon</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;">
       <img src="p69_attrape_reves_lumineux.jpg" alt="Attrape-rêves lumineux plantes" class="g-photo">
       <div class="g-overlay"><span class="g-label">Attrape-Rêves Lumineux</span></div>
     </div>
 
     <!-- Rangée 15 — Coussins & poufs -->
-    <div class="g-item reveal" style="grid-column:span 6;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="coussins" style="grid-column:span 6;grid-row:span 2;">
       <img src="p53_coussin_rouge_entier.jpg" alt="Grand coussin rouge fleurs" class="g-photo">
       <div class="g-overlay"><span class="g-label">Coussin Pouf Rouge Fleuri</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="coussins" style="grid-column:span 3;">
       <img src="p52_coussin_rouge_fleurs.jpg" alt="Coussin rouge détail" class="g-photo">
       <div class="g-overlay"><span class="g-label">Coussin Rouge — Détail</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="coussins" style="grid-column:span 3;">
       <img src="p50_coussin_fleurs_vue_dessus.jpg" alt="Coussin fleurs vue dessus" class="g-photo">
       <div class="g-overlay"><span class="g-label">Coussin Fleuri — Vue Dessus</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="coussins" style="grid-column:span 3;">
       <img src="p54_pouf_crochet_creme.jpg" alt="Pouf crochet crème" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pouf Crochet Crème</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="coussins" style="grid-column:span 3;">
       <img src="p65_coussin_fleur_perles.jpg" alt="Coussin fleur perles bois" class="g-photo">
       <div class="g-overlay"><span class="g-label">Coussin Fleur & Perles</span></div>
     </div>
 
     <!-- Rangée 16 — Macramés, abat-jours & divers -->
-    <div class="g-item reveal" style="grid-column:span 6;grid-row:span 2;">
+    <div class="g-item reveal" data-cat="macrame" style="grid-column:span 6;grid-row:span 2;">
       <img src="p51_macrame_rideau_grand.jpg" alt="Grand macramé rideau" class="g-photo">
       <div class="g-overlay"><span class="g-label">Grand Macramé Rideau</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="macrame" style="grid-column:span 3;">
       <img src="p60_macrame_grand_mural.jpg" alt="Macramé grand mural" class="g-photo">
       <div class="g-overlay"><span class="g-label">Grand Macramé Mural</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
       <img src="p61_tenture_raphia_frange.jpg" alt="Tenture raphia frange" class="g-photo">
       <div class="g-overlay"><span class="g-label">Tenture Raphia</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="lampes" style="grid-column:span 3;">
       <img src="p57_lampe_suspendue_ambre.jpg" alt="Lampe suspendue ambre" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampe Suspendue Ambrée</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 3;">
+    <div class="g-item reveal" data-cat="lampes" style="grid-column:span 3;">
       <img src="p58_abat_jour_raphia_allume.jpg" alt="Abat-jour raphia allumé" class="g-photo">
       <div class="g-overlay"><span class="g-label">Abat-Jour Raphia — Allumé</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="lampes" style="grid-column:span 4;">
       <img src="p59_abat_jour_raphia_jour.jpg" alt="Abat-jour raphia jour" class="g-photo">
       <div class="g-overlay"><span class="g-label">Abat-Jour Raphia</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
       <img src="p55_sac_bronze_pompons.jpg" alt="Sac bronze pompons" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Bronze & Chaîne</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
       <img src="p56_sac_raphia_blanc.jpg" alt="Sac raphia blanc" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Raphia Naturel</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
       <img src="p62_couronne_lavande.jpg" alt="Couronne fleurs séchées lavande" class="g-photo">
       <div class="g-overlay"><span class="g-label">Couronne Lavande</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
       <img src="p64_tapis_raphia_turquoise.jpg" alt="Tapis raphia fleurs turquoise" class="g-photo">
       <div class="g-overlay"><span class="g-label">Tapis Raphia & Fleurs</span></div>
     </div>
-    <div class="g-item reveal" style="grid-column:span 4;">
+    <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
       <img src="p66_corbeille_tissu_multicolore.jpg" alt="Corbeille tissu multicolore" class="g-photo">
       <div class="g-overlay"><span class="g-label">Corbeille Tissu Upcyclé</span></div>
     </div>
@@ -1141,11 +1178,15 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
   let lbIndex = 0;
 
   function buildLightbox() {
-    // Récupère toutes les images de la galerie
-    document.querySelectorAll('.g-item img.g-photo').forEach((img, i) => {
+    lbImages = [];
+    // Récupère uniquement les images visibles
+    document.querySelectorAll('.g-item:not(.hidden) img.g-photo').forEach((img, i) => {
       lbImages.push({ src: img.src, alt: img.alt });
+      // Evite les doublons d'event listeners
+      img.parentElement.onclick = null;
       img.parentElement.style.cursor = 'pointer';
-      img.parentElement.addEventListener('click', () => openLightbox(i));
+      const index = lbImages.length - 1;
+      img.parentElement.addEventListener('click', () => openLightbox(index));
     });
   }
 
@@ -1201,6 +1242,31 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
   // Fermeture en cliquant en dehors de l'image
   document.getElementById('lightbox').addEventListener('click', function(e) {
     if (e.target === this) closeLightbox();
+  });
+
+  // ─── FILTRES GALERIE ───
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Activer le bouton
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      const items = document.querySelectorAll('.g-item');
+
+      items.forEach(item => {
+        if (filter === 'all' || item.dataset.cat === filter) {
+          item.classList.remove('hidden');
+          // Reset les styles inline de grille pour qu'ils reprennent leurs valeurs
+          item.style.display = '';
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      // Reconstruire la lightbox avec les items visibles
+      buildLightbox();
+    });
   });
 
   // ─── SCROLL & REVEAL ───
