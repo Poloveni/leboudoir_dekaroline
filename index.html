@@ -838,7 +838,151 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
   </div>
 </footer>
 
+<!-- LIGHTBOX -->
+<div id="lightbox" style="
+  display:none; position:fixed; inset:0; z-index:2000;
+  background:rgba(18,0,16,0.95);
+  backdrop-filter:blur(12px);
+  align-items:center; justify-content:center;
+  flex-direction:column;
+">
+  <!-- Barre du haut -->
+  <div style="
+    position:absolute; top:0; left:0; right:0;
+    padding:20px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-bottom:1px solid rgba(232,21,109,0.2);
+  ">
+    <span style="font-family:var(--display);font-size:0.9rem;color:var(--gold);letter-spacing:0.1em;" id="lb-title">Création</span>
+    <button onclick="closeLightbox()" style="
+      background:none; border:1px solid rgba(232,21,109,0.4);
+      color:var(--fuchsia); width:40px; height:40px;
+      font-size:1.2rem; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:background 0.3s;
+    " onmouseover="this.style.background='var(--fuchsia)';this.style.color='#fff'"
+       onmouseout="this.style.background='none';this.style.color='var(--fuchsia)'">✕</button>
+  </div>
+
+  <!-- Image -->
+  <div style="
+    display:flex; align-items:center; justify-content:center;
+    width:100%; height:100%; padding:80px 80px 40px;
+    gap:24px;
+  ">
+    <!-- Prev -->
+    <button onclick="lbNav(-1)" style="
+      background:none; border:1px solid rgba(232,21,109,0.3);
+      color:var(--fuchsia); width:52px; height:52px; flex-shrink:0;
+      font-size:1.4rem; cursor:pointer;
+      transition:background 0.3s, border-color 0.3s;
+    " onmouseover="this.style.background='var(--fuchsia)';this.style.color='#fff'"
+       onmouseout="this.style.background='none';this.style.color='var(--fuchsia)'">‹</button>
+
+    <!-- Image principale -->
+    <div style="flex:1; max-width:860px; max-height:80vh; display:flex; align-items:center; justify-content:center; position:relative;">
+      <img id="lb-img" src="" alt="" style="
+        max-width:100%; max-height:80vh;
+        object-fit:contain;
+        box-shadow:0 20px 80px rgba(232,21,109,0.25);
+        transition:opacity 0.25s ease;
+        border:1px solid rgba(232,21,109,0.15);
+      ">
+    </div>
+
+    <!-- Next -->
+    <button onclick="lbNav(1)" style="
+      background:none; border:1px solid rgba(232,21,109,0.3);
+      color:var(--fuchsia); width:52px; height:52px; flex-shrink:0;
+      font-size:1.4rem; cursor:pointer;
+      transition:background 0.3s;
+    " onmouseover="this.style.background='var(--fuchsia)';this.style.color='#fff'"
+       onmouseout="this.style.background='none';this.style.color='var(--fuchsia)'">›</button>
+  </div>
+
+  <!-- Compteur -->
+  <div style="
+    position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+    font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase;
+    color:rgba(255,208,96,0.5);
+  " id="lb-counter"></div>
+
+  <!-- Points de navigation -->
+  <div id="lb-dots" style="
+    position:absolute; bottom:44px; left:50%; transform:translateX(-50%);
+    display:flex; gap:6px;
+  "></div>
+</div>
+
 <script>
+  // ─── LIGHTBOX ───
+  let lbImages = [];
+  let lbIndex = 0;
+
+  function buildLightbox() {
+    // Récupère toutes les images de la galerie
+    document.querySelectorAll('.g-item img.g-photo').forEach((img, i) => {
+      lbImages.push({ src: img.src, alt: img.alt });
+      img.parentElement.style.cursor = 'pointer';
+      img.parentElement.addEventListener('click', () => openLightbox(i));
+    });
+  }
+
+  function openLightbox(i) {
+    lbIndex = i;
+    const lb = document.getElementById('lightbox');
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    renderLightbox();
+    // Fermeture clavier
+    document.addEventListener('keydown', lbKeyboard);
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', lbKeyboard);
+  }
+
+  function lbNav(dir) {
+    lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+    renderLightbox();
+  }
+
+  function lbKeyboard(e) {
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'ArrowLeft')  lbNav(-1);
+    if (e.key === 'Escape')     closeLightbox();
+  }
+
+  function renderLightbox() {
+    const img = document.getElementById('lb-img');
+    img.style.opacity = '0';
+    setTimeout(() => {
+      img.src = lbImages[lbIndex].src;
+      img.alt = lbImages[lbIndex].alt;
+      img.style.opacity = '1';
+    }, 150);
+    document.getElementById('lb-title').textContent = lbImages[lbIndex].alt || 'Création';
+    document.getElementById('lb-counter').textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+
+    // Dots
+    const dots = document.getElementById('lb-dots');
+    dots.innerHTML = '';
+    lbImages.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.style.cssText = `width:6px;height:6px;border-radius:50%;background:${i===lbIndex?'var(--fuchsia)':'rgba(255,208,96,0.25)'};transition:background 0.3s;cursor:pointer;`;
+      d.addEventListener('click', () => { lbIndex = i; renderLightbox(); });
+      dots.appendChild(d);
+    });
+  }
+
+  // Fermeture en cliquant en dehors de l'image
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+
+  // ─── SCROLL & REVEAL ───
   window.addEventListener('scroll',()=>{
     document.getElementById('navbar').classList.toggle('scrolled',scrollY>60);
   });
@@ -848,6 +992,7 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
     });
   },{threshold:0.1});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
   function handleSubmit(e){
     e.preventDefault();
     const btn=e.target.querySelector('.form-submit');
@@ -855,6 +1000,9 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
     btn.style.background='linear-gradient(135deg,#2ecc71,#27ae60)';
     setTimeout(()=>{btn.textContent='✦ Envoyer ma demande ✦';btn.style.background='';e.target.reset();},3000);
   }
+
+  // Init lightbox après chargement
+  window.addEventListener('load', buildLightbox);
 </script>
 </body>
 </html>
