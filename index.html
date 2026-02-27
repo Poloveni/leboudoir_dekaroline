@@ -651,16 +651,22 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
       <div class="video-border-inner"></div>
       <div class="vc vc-tl"></div><div class="vc vc-tr"></div>
       <div class="vc vc-bl"></div><div class="vc vc-br"></div>
-      <!--
-        <video controls poster="thumbnail.jpg" style="width:100%;display:block;">
-          <source src="video-savoir-faire.mp4" type="video/mp4">
-        </video>
-      -->
-      <div class="video-placeholder">
-        <div class="play-btn">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+      <div class="video-embed-wrap" style="position:relative;aspect-ratio:16/9;overflow:hidden;">
+        <!-- Thumbnail cliquable avant lecture -->
+        <div class="video-thumb" id="videoThumb" onclick="loadVideo()" style="position:absolute;inset:0;cursor:pointer;background:#1a0008;">
+          <img src="https://img.youtube.com/vi/tNg3OcxlEKw/maxresdefault.jpg"
+               alt="Crochet artisanal" 
+               style="width:100%;height:100%;object-fit:cover;opacity:0.85;transition:opacity 0.3s;"
+               onerror="this.style.background='linear-gradient(145deg,#FFE0C8,#FFF0DC)';this.style.display='none'">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div class="play-btn" style="pointer-events:none;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:16px;left:16px;font-family:var(--serif);font-style:italic;font-size:0.85rem;color:rgba(255,249,240,0.7);">▶ Regarder la vidéo</div>
         </div>
-        <span style="font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--coral);opacity:0.5;margin-top:4px;">Ajoute ta vidéo ici</span>
+        <iframe id="ytPlayer" style="display:none;position:absolute;inset:0;width:100%;height:100%;border:none;"
+          src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
     </div>
     <div class="video-text reveal">
@@ -737,6 +743,13 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
 </footer>
 
 <script>
+  function loadVideo(){
+    document.getElementById('videoThumb').style.display='none';
+    const player=document.getElementById('ytPlayer');
+    player.src='https://www.youtube.com/embed/tNg3OcxlEKw?autoplay=1&rel=0&modestbranding=1';
+    player.style.display='block';
+  }
+
   window.addEventListener('scroll',()=>{
     document.getElementById('navbar').classList.toggle('scrolled',scrollY>60);
   });
