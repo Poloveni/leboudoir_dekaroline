@@ -952,6 +952,10 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
     <h2 class="section-title reveal">Une création<br><em style="color:var(--orange)">rien que pour vous</em></h2>
     <p class="contact-sub reveal">Décrivez-moi votre rêve, je le tricoterai avec amour.</p>
     <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+      <!-- Web3Forms access key -->
+      <input type="hidden" name="access_key" value="42f01192-c5fc-4d5e-9591-55455b33d7c9">
+      <input type="hidden" name="subject" value="✦ Nouvelle commande — Le Boudoir De Karoline">
+      <input type="hidden" name="from_name" value="Le Boudoir De Karoline">
       <div class="form-row">
         <div class="form-field">
           <label>Votre prénom</label>
@@ -1206,12 +1210,56 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
   },{threshold:0.1});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-  function handleSubmit(e){
+  async function handleSubmit(e) {
     e.preventDefault();
-    const btn=e.target.querySelector('.form-submit');
-    btn.textContent='✓ Message envoyé !';
-    btn.style.background='linear-gradient(135deg,#2ecc71,#27ae60)';
-    setTimeout(()=>{btn.textContent='✦ Envoyer ma demande ✦';btn.style.background='';e.target.reset();},3000);
+    const btn = e.target.querySelector('.form-submit');
+    const note = e.target.querySelector('.form-note');
+
+    // État chargement
+    btn.textContent = '⏳ Envoi en cours...';
+    btn.disabled = true;
+
+    const formData = new FormData(e.target);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: json
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        btn.textContent = '✓ Message envoyé !';
+        btn.style.background = 'linear-gradient(135deg,#2ecc71,#27ae60)';
+        note.textContent = '✉︎ Karoline vous répondra dans les 24h !';
+        note.style.color = '#2ecc71';
+        e.target.reset();
+        setTimeout(() => {
+          btn.textContent = '✦ Envoyer ma demande ✦';
+          btn.style.background = '';
+          note.textContent = 'Je vous réponds dans les 24h ☁︎';
+          note.style.color = '';
+          btn.disabled = false;
+        }, 4000);
+      } else {
+        throw new Error('Échec envoi');
+      }
+    } catch (err) {
+      btn.textContent = '✗ Erreur, réessayez';
+      btn.style.background = 'linear-gradient(135deg,#e74c3c,#c0392b)';
+      note.textContent = 'Une erreur est survenue. Réessayez ou contactez directement Karoline.';
+      note.style.color = '#e74c3c';
+      setTimeout(() => {
+        btn.textContent = '✦ Envoyer ma demande ✦';
+        btn.style.background = '';
+        note.textContent = 'Je vous réponds dans les 24h ☁︎';
+        note.style.color = '';
+        btn.disabled = false;
+      }, 4000);
+    }
   }
 
   // Init lightbox après chargement
