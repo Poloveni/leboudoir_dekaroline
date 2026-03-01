@@ -359,6 +359,36 @@ nav.scrolled .nav-links a:hover { color: var(--fuchsia); }
 .g-item:hover .g-overlay { opacity:1; }
 .g-label { font-family:var(--serif); font-size:1.1rem; font-style:italic; color:#fff; }
 
+/* ─── BANDEAU DÉFILANT ─── */
+.announcement-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 700;
+  background: linear-gradient(90deg, var(--plum), var(--aubergine), var(--plum));
+  height: 36px;
+  overflow: hidden;
+  display: flex; align-items: center;
+}
+.announcement-track {
+  display: flex; align-items: center;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+}
+.announcement-track:hover { animation-play-state: paused; }
+.announcement-item {
+  font-family: var(--sans); font-size: 0.62rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); padding: 0 48px;
+  display: flex; align-items: center; gap: 16px;
+}
+.announcement-item .orn { color: var(--fuchsia); font-size: 0.55rem; }
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+/* Décale la nav et le hero pour laisser place au bandeau */
+nav { top: 36px !important; }
+#hero { padding-top: calc(100px + 36px) !important; }
+
 /* ─── BOUTON INSTAGRAM FLOTTANT ─── */
 .instagram-float {
   position: fixed;
@@ -502,6 +532,23 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
 </style>
 </head>
 <body>
+
+<!-- Bandeau défilant -->
+<div class="announcement-bar">
+  <div class="announcement-track">
+    <!-- On duplique pour boucle infinie fluide -->
+    <span class="announcement-item"><span class="orn">✦</span> Créations sur commande <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Livraison France entière <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Délai de réalisation 2 à 3 semaines <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> 100% fait main avec amour <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Basée à Nîmes — Gard <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Créations sur commande <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Livraison France entière <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Délai de réalisation 2 à 3 semaines <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> 100% fait main avec amour <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Basée à Nîmes — Gard <span class="orn">✦</span></span>
+  </div>
+</div>
 
 
 <nav id="navbar">
