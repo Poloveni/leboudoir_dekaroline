@@ -582,24 +582,62 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
 /* ─── ANIMATIONS ─── */
 @keyframes fadeUp { from{opacity:0;transform:translateY(32px);} to{opacity:1;transform:translateY(0);} }
 @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-.reveal { opacity:0; transform:translateY(36px); transition:opacity 0.85s ease, transform 0.85s ease; }
+.reveal {
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+  will-change: opacity, transform;
+}
 .reveal.visible { opacity:1; transform:translateY(0); }
+.reveal.visible:nth-child(2) { transition-delay: 0.08s; }
+.reveal.visible:nth-child(3) { transition-delay: 0.16s; }
+.reveal.visible:nth-child(4) { transition-delay: 0.24s; }
 
 /* ─── MOBILE ─── */
 @media(max-width:768px){
-  nav{padding:18px 24px;} nav.scrolled{padding:12px 24px;} .nav-links{display:none;}
+  /* Nav */
+  nav{padding:18px 24px;top:36px !important;} nav.scrolled{padding:12px 24px;}
+  .nav-links{display:none;}
+
+  /* Hero */
+  .hero-title { font-size: clamp(3rem, 16vw, 5.5rem); line-height:1.1; }
+  .hero-title-script { font-size: clamp(1rem, 4.5vw, 1.4rem); }
+  .hero-buttons { flex-direction: column; align-items: center; }
+  .hero-buttons .btn-primary, .hero-buttons .btn-outline { width: 100%; max-width: 300px; text-align:center; }
+
+  /* About */
   #about{grid-template-columns:1fr;gap:48px;padding:80px 24px;}
   .about-frame-a,.about-frame-b{display:none;}
 
+  /* Galerie */
   .gallery-grid{grid-template-columns:1fr 1fr;}
-  .g-item:nth-child(n){grid-column:span 1;grid-row:span 1;}
-  .stats-bar{flex-wrap:wrap;padding:40px 24px;gap:32px;} .stat{padding:0 28px;}
-  #contact,.gallery-header{padding-left:24px;padding-right:24px;}
+  .g-item{grid-column:span 1 !important;grid-row:span 1 !important;}
   #gallery{padding:80px 24px;}
-  .gallery-header{flex-direction:column;align-items:flex-start;gap:20px;}
-  footer{padding:40px 24px;} .footer-top,.footer-bottom{flex-direction:column;align-items:flex-start;}
+  .gallery-header{flex-direction:column;align-items:flex-start;gap:20px;padding-left:0;padding-right:0;}
+  .gallery-filters { gap:8px; }
+  .filter-btn { font-size:0.55rem; padding:8px 14px; }
+
+  /* Stats */
+  .stats-bar{flex-wrap:wrap;padding:40px 24px;gap:32px;} .stat{padding:0 28px;}
+
+  /* Contact */
+  #contact{padding-left:24px;padding-right:24px;padding-top:80px;padding-bottom:80px;}
   .form-row{grid-template-columns:1fr;}
+  .form-submit { padding:16px 32px; width:100%; }
+
+  /* Footer */
+  footer{padding:40px 24px;}
+  .footer-top,.footer-bottom{flex-direction:column;align-items:flex-start;}
+  .footer-logo { font-size:2.2rem; }
+
+  /* Intro */
   .intro-band{flex-wrap:wrap;padding:20px 24px;gap:20px;}
+
+  /* Instagram & WhatsApp flottants */
+  .instagram-float { bottom:20px; right:16px; width:48px; height:48px; }
+
+  /* Bandeau */
+  .announcement-item { font-size:0.55rem; padding:0 28px; }
 }
 </style>
 </head>
@@ -776,309 +814,309 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
       <div class="g-overlay"><span class="g-label">Bandana & Chaussons Fraises</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="p12_sac_rose_chaine1.jpg" alt="Sac rose chaîne" class="g-photo">
+      <img loading="lazy" decoding="async" src="p12_sac_rose_chaine1.jpg" alt="Sac rose chaîne" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Rose Chaîne Dorée</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="p13_sac_rose_chaine2.jpg" alt="Sac rose intérieur" class="g-photo">
+      <img loading="lazy" decoding="async" src="p13_sac_rose_chaine2.jpg" alt="Sac rose intérieur" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Rose — Intérieur</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
-      <img src="p14_sac_rose_chaine3.jpg" alt="Sac rose vue" class="g-photo">
+      <img loading="lazy" decoding="async" src="p14_sac_rose_chaine3.jpg" alt="Sac rose vue" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Crochet Rose</span></div>
     </div>
     <!-- Rangée 2 -->
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
-      <img src="Sac_crochet_.jpg" alt="Sac granny square" class="g-photo">
+      <img loading="lazy" decoding="async" src="Sac_crochet_.jpg" alt="Sac granny square" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Granny Square</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
-      <img src="Sac_crochet___3_.jpg" alt="Sac multicolore" class="g-photo">
+      <img loading="lazy" decoding="async" src="Sac_crochet___3_.jpg" alt="Sac multicolore" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Multicolore</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
-      <img src="p05_sac_rose_poudre.jpg" alt="Sac rose poudré" class="g-photo">
+      <img loading="lazy" decoding="async" src="p05_sac_rose_poudre.jpg" alt="Sac rose poudré" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Rose Poudré</span></div>
     </div>
     <!-- Rangée 3 -->
     <div class="g-item reveal" data-cat="accessoires" style="grid-column:span 3;">
-      <img src="p06_porte_cles_raphia1.jpg" alt="Porte-clés raphia" class="g-photo">
+      <img loading="lazy" decoding="async" src="p06_porte_cles_raphia1.jpg" alt="Porte-clés raphia" class="g-photo">
       <div class="g-overlay"><span class="g-label">Porte-clés Raphia</span></div>
     </div>
     <div class="g-item reveal" data-cat="accessoires" style="grid-column:span 3;">
-      <img src="p07_porte_cles_raphia2.jpg" alt="Porte-clés raphia 2" class="g-photo">
+      <img loading="lazy" decoding="async" src="p07_porte_cles_raphia2.jpg" alt="Porte-clés raphia 2" class="g-photo">
       <div class="g-overlay"><span class="g-label">Porte-clés Étoile</span></div>
     </div>
     <div class="g-item reveal" data-cat="accessoires" style="grid-column:span 3;">
-      <img src="p02_porte_cles_orange.jpg" alt="Porte-clés orange" class="g-photo">
+      <img loading="lazy" decoding="async" src="p02_porte_cles_orange.jpg" alt="Porte-clés orange" class="g-photo">
       <div class="g-overlay"><span class="g-label">Porte-clés Terracotta</span></div>
     </div>
     <div class="g-item reveal" data-cat="accessoires" style="grid-column:span 3;">
-      <img src="p03_porte_cles_beige.jpg" alt="Porte-clés beige" class="g-photo">
+      <img loading="lazy" decoding="async" src="p03_porte_cles_beige.jpg" alt="Porte-clés beige" class="g-photo">
       <div class="g-overlay"><span class="g-label">Porte-clés Bohème</span></div>
     </div>
     <!-- Rangée 4 -->
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 5;grid-row:span 2;">
-      <img src="p18_pochette_verte1.jpg" alt="Pochette verte" class="g-photo">
+      <img loading="lazy" decoding="async" src="p18_pochette_verte1.jpg" alt="Pochette verte" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Verte Pompons</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 7;">
-      <img src="p19_pochette_verte2.jpg" alt="Pochette verte intérieur" class="g-photo">
+      <img loading="lazy" decoding="async" src="p19_pochette_verte2.jpg" alt="Pochette verte intérieur" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette — Détail Intérieur</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
-      <img src="p17_paniers_jute.jpg" alt="Paniers jute" class="g-photo">
+      <img loading="lazy" decoding="async" src="p17_paniers_jute.jpg" alt="Paniers jute" class="g-photo">
       <div class="g-overlay"><span class="g-label">Paniers Jute & Couleurs</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
-      <img src="p15_vases_rose.jpg" alt="Vases crochet" class="g-photo">
+      <img loading="lazy" decoding="async" src="p15_vases_rose.jpg" alt="Vases crochet" class="g-photo">
       <div class="g-overlay"><span class="g-label">Housses de Vases</span></div>
     </div>
     <!-- Rangée 5 -->
     <div class="g-item reveal" data-cat="bebe" style="grid-column:span 3;">
-      <img src="p10_chaussons_verts1.jpg" alt="Chaussons verts" class="g-photo">
+      <img loading="lazy" decoding="async" src="p10_chaussons_verts1.jpg" alt="Chaussons verts" class="g-photo">
       <div class="g-overlay"><span class="g-label">Chaussons Bébé Verts</span></div>
     </div>
     <div class="g-item reveal" data-cat="bebe" style="grid-column:span 3;">
-      <img src="p11_chaussons_verts2.jpg" alt="Chaussons verts 2" class="g-photo">
+      <img loading="lazy" decoding="async" src="p11_chaussons_verts2.jpg" alt="Chaussons verts 2" class="g-photo">
       <div class="g-overlay"><span class="g-label">Chaussons Mary Jane</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
-      <img src="p16_sapin_dore.jpg" alt="Sapin doré" class="g-photo">
+      <img loading="lazy" decoding="async" src="p16_sapin_dore.jpg" alt="Sapin doré" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sapin Doré Noël</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
-      <img src="p09_anges_macrame.jpg" alt="Anges macramé" class="g-photo">
+      <img loading="lazy" decoding="async" src="p09_anges_macrame.jpg" alt="Anges macramé" class="g-photo">
       <div class="g-overlay"><span class="g-label">Anges Macramé</span></div>
     </div>
     <!-- Rangée 6 -->
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 6;">
-      <img src="granny_square.jpg" alt="Granny square" class="g-photo">
+      <img loading="lazy" decoding="async" src="granny_square.jpg" alt="Granny square" class="g-photo">
       <div class="g-overlay"><span class="g-label">Granny Square</span></div>
     </div>
     <!-- Rangée 7 — nouveaux sacs -->
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
-      <img src="p20_pochette_caramel.jpg" alt="Pochette caramel chaîne écaille" class="g-photo">
+      <img loading="lazy" decoding="async" src="p20_pochette_caramel.jpg" alt="Pochette caramel chaîne écaille" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Caramel</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
-      <img src="p21_vase_boule1.jpg" alt="Vase boule crochet" class="g-photo">
+      <img loading="lazy" decoding="async" src="p21_vase_boule1.jpg" alt="Vase boule crochet" class="g-photo">
       <div class="g-overlay"><span class="g-label">Vase Boule — Terreau</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
-      <img src="p22_vase_boule2.jpg" alt="Vase boule détail" class="g-photo">
+      <img loading="lazy" decoding="async" src="p22_vase_boule2.jpg" alt="Vase boule détail" class="g-photo">
       <div class="g-overlay"><span class="g-label">Vase Boule — Détail</span></div>
     </div>
     <!-- Rangée 8 — sacs noirs -->
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="p23_sac_noir_raphia.jpg" alt="Sac noir raphia chaîne dorée" class="g-photo">
+      <img loading="lazy" decoding="async" src="p23_sac_noir_raphia.jpg" alt="Sac noir raphia chaîne dorée" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Noir Raphia</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="p24_sac_noir_interieur.jpg" alt="Sac noir intérieur" class="g-photo">
+      <img loading="lazy" decoding="async" src="p24_sac_noir_interieur.jpg" alt="Sac noir intérieur" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Noir — Intérieur</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="p25_sac_noir_cote.jpg" alt="Sac noir côté" class="g-photo">
+      <img loading="lazy" decoding="async" src="p25_sac_noir_cote.jpg" alt="Sac noir côté" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Noir — Côté</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="p26_sac_noir_detail.jpg" alt="Sac noir détail chaîne" class="g-photo">
+      <img loading="lazy" decoding="async" src="p26_sac_noir_detail.jpg" alt="Sac noir détail chaîne" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Noir — Chaîne Dorée</span></div>
     </div>
     <!-- Rangée 9 — sacs raphia granny -->
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 5;grid-row:span 2;">
-      <img src="p27_sac_raphia_face.jpg" alt="Grand sac raphia granny" class="g-photo">
+      <img loading="lazy" decoding="async" src="p27_sac_raphia_face.jpg" alt="Grand sac raphia granny" class="g-photo">
       <div class="g-overlay"><span class="g-label">Grand Sac Raphia Granny</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
-      <img src="p28_sac_raphia_cote.jpg" alt="Sac raphia côté" class="g-photo">
+      <img loading="lazy" decoding="async" src="p28_sac_raphia_cote.jpg" alt="Sac raphia côté" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Raphia — Vue Côté</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="p29_sac_raphia_dos.jpg" alt="Sac raphia dos" class="g-photo">
+      <img loading="lazy" decoding="async" src="p29_sac_raphia_dos.jpg" alt="Sac raphia dos" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Raphia — Dos</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
-      <img src="pochette_crochet.jpg" alt="Pochette crochet" class="g-photo">
+      <img loading="lazy" decoding="async" src="pochette_crochet.jpg" alt="Pochette crochet" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Crochet</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="Sac_crochet___1_.jpg" alt="Sac crochet détail" class="g-photo">
+      <img loading="lazy" decoding="async" src="Sac_crochet___1_.jpg" alt="Sac crochet détail" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac — Détail Chevrons</span></div>
     </div>
 
     <!-- Rangée 10 — Lampes & déco grands formats -->
     <div class="g-item reveal" data-cat="lampes" style="grid-column:span 4;grid-row:span 2;">
-      <img src="p31_lampadaire_beige.jpg" alt="Lampadaire crochet beige" class="g-photo">
+      <img loading="lazy" decoding="async" src="p31_lampadaire_beige.jpg" alt="Lampadaire crochet beige" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampadaire Crochet Beige</span></div>
     </div>
     <div class="g-item reveal" data-cat="lampes" style="grid-column:span 4;grid-row:span 2;">
-      <img src="p32_lampadaire_blanc.jpg" alt="Lampadaire crochet blanc" class="g-photo">
+      <img loading="lazy" decoding="async" src="p32_lampadaire_blanc.jpg" alt="Lampadaire crochet blanc" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampadaire Crochet Blanc</span></div>
     </div>
     <div class="g-item reveal" data-cat="lampes" style="grid-column:span 4;">
-      <img src="p35_lampe_rose_detail.jpg" alt="Lampe rose détail" class="g-photo">
+      <img loading="lazy" decoding="async" src="p35_lampe_rose_detail.jpg" alt="Lampe rose détail" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampe Rose — Détail</span></div>
     </div>
     <div class="g-item reveal" data-cat="lampes" style="grid-column:span 4;">
-      <img src="p36_lampe_rose_entiere.jpg" alt="Lampe rose entière" class="g-photo">
+      <img loading="lazy" decoding="async" src="p36_lampe_rose_entiere.jpg" alt="Lampe rose entière" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampe Rose — Vue Entière</span></div>
     </div>
 
     <!-- Rangée 11 — Macramé & textiles muraux -->
     <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;grid-row:span 2;">
-      <img src="p37_macrame_mural_blanc.jpg" alt="Macramé mural blanc" class="g-photo">
+      <img loading="lazy" decoding="async" src="p37_macrame_mural_blanc.jpg" alt="Macramé mural blanc" class="g-photo">
       <div class="g-overlay"><span class="g-label">Macramé Mural</span></div>
     </div>
     <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;grid-row:span 2;">
-      <img src="p49_macrame_etagere.jpg" alt="Macramé étagère plante" class="g-photo">
+      <img loading="lazy" decoding="async" src="p49_macrame_etagere.jpg" alt="Macramé étagère plante" class="g-photo">
       <div class="g-overlay"><span class="g-label">Macramé Étagère</span></div>
     </div>
     <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;">
-      <img src="p38_macrame_cactus.jpg" alt="Macramé porte-plantes cactus" class="g-photo">
+      <img loading="lazy" decoding="async" src="p38_macrame_cactus.jpg" alt="Macramé porte-plantes cactus" class="g-photo">
       <div class="g-overlay"><span class="g-label">Macramé Porte-Plantes</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
-      <img src="p48_couronne_fleurs_sechees.jpg" alt="Couronne fleurs séchées" class="g-photo">
+      <img loading="lazy" decoding="async" src="p48_couronne_fleurs_sechees.jpg" alt="Couronne fleurs séchées" class="g-photo">
       <div class="g-overlay"><span class="g-label">Couronne Fleurs Séchées</span></div>
     </div>
 
     <!-- Rangée 12 — Coussins, tableaux & accessoires -->
     <div class="g-item reveal" data-cat="coussins" style="grid-column:span 6;grid-row:span 2;">
-      <img src="p30_coussin_fleurs_frida.jpg" alt="Coussin fleurs style Frida" class="g-photo">
+      <img loading="lazy" decoding="async" src="p30_coussin_fleurs_frida.jpg" alt="Coussin fleurs style Frida" class="g-photo">
       <div class="g-overlay"><span class="g-label">Coussin Fleuri — Style Frida</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
-      <img src="p43_tableau_cercles.jpg" alt="Tableau cercles or" class="g-photo">
+      <img loading="lazy" decoding="async" src="p43_tableau_cercles.jpg" alt="Tableau cercles or" class="g-photo">
       <div class="g-overlay"><span class="g-label">Tableau Cercles Dorés</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
-      <img src="p44_tableau_cheval.jpg" alt="Tableau cheval cuivre" class="g-photo">
+      <img loading="lazy" decoding="async" src="p44_tableau_cheval.jpg" alt="Tableau cheval cuivre" class="g-photo">
       <div class="g-overlay"><span class="g-label">Tableau Cheval Cuivré</span></div>
     </div>
     <div class="g-item reveal" data-cat="lampes" style="grid-column:span 3;">
-      <img src="p39_lampe_suspendue_lumiere.jpg" alt="Lampe suspendue allumée" class="g-photo">
+      <img loading="lazy" decoding="async" src="p39_lampe_suspendue_lumiere.jpg" alt="Lampe suspendue allumée" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampe Suspendue — Lumière</span></div>
     </div>
     <div class="g-item reveal" data-cat="lampes" style="grid-column:span 3;">
-      <img src="p40_lampe_suspendue_nb.jpg" alt="Lampe suspendue noir et blanc" class="g-photo">
+      <img loading="lazy" decoding="async" src="p40_lampe_suspendue_nb.jpg" alt="Lampe suspendue noir et blanc" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampe Suspendue</span></div>
     </div>
 
     <!-- Rangée 13 — Pochettes & déco -->
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="p41_pochette_coquillages.jpg" alt="Pochette coquillages" class="g-photo">
+      <img loading="lazy" decoding="async" src="p41_pochette_coquillages.jpg" alt="Pochette coquillages" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Coquillages</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="p42_pochette_fuchsia.jpg" alt="Pochette fuchsia fleur" class="g-photo">
+      <img loading="lazy" decoding="async" src="p42_pochette_fuchsia.jpg" alt="Pochette fuchsia fleur" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Fuchsia</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 3;">
-      <img src="p46_pochette_jute_franges.jpg" alt="Pochette jute franges noires" class="g-photo">
+      <img loading="lazy" decoding="async" src="p46_pochette_jute_franges.jpg" alt="Pochette jute franges noires" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pochette Jute & Franges</span></div>
     </div>
     <div class="g-item reveal" data-cat="macrame" style="grid-column:span 3;">
-      <img src="p33_tabouret_macrame.jpg" alt="Tabouret macramé" class="g-photo">
+      <img loading="lazy" decoding="async" src="p33_tabouret_macrame.jpg" alt="Tabouret macramé" class="g-photo">
       <div class="g-overlay"><span class="g-label">Assise Macramé Bambou</span></div>
     </div>
     <div class="g-item reveal" data-cat="coussins" style="grid-column:span 4;">
-      <img src="p45_coussin_pouf_jute.jpg" alt="Pouf coussin jute crochet" class="g-photo">
+      <img loading="lazy" decoding="async" src="p45_coussin_pouf_jute.jpg" alt="Pouf coussin jute crochet" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pouf Dentelle Jute</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
-      <img src="p47_corbeille_jute_perles.jpg" alt="Corbeille jute perles bois" class="g-photo">
+      <img loading="lazy" decoding="async" src="p47_corbeille_jute_perles.jpg" alt="Corbeille jute perles bois" class="g-photo">
       <div class="g-overlay"><span class="g-label">Corbeille Jute & Perles</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
-      <img src="p34_cache_pot_raphia.jpg" alt="Cache-pot raphia crochet" class="g-photo">
+      <img loading="lazy" decoding="async" src="p34_cache_pot_raphia.jpg" alt="Cache-pot raphia crochet" class="g-photo">
       <div class="g-overlay"><span class="g-label">Cache-Pot Raphia</span></div>
     </div>
 
     <!-- Rangée 14 — Attrape-rêves -->
     <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;grid-row:span 2;">
-      <img src="p63_attrape_reves_plantes.jpg" alt="Attrape-rêves plantes lumières" class="g-photo">
+      <img loading="lazy" decoding="async" src="p63_attrape_reves_plantes.jpg" alt="Attrape-rêves plantes lumières" class="g-photo">
       <div class="g-overlay"><span class="g-label">Attrape-Rêves & Plantes</span></div>
     </div>
     <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;grid-row:span 2;">
-      <img src="p67_attrape_reves_nature.jpg" alt="Attrape-rêves nature mousse" class="g-photo">
+      <img loading="lazy" decoding="async" src="p67_attrape_reves_nature.jpg" alt="Attrape-rêves nature mousse" class="g-photo">
       <div class="g-overlay"><span class="g-label">Attrape-Rêves Nature</span></div>
     </div>
     <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;">
-      <img src="p68_attrape_reves_plumes.jpg" alt="Attrape-rêves plumes paon" class="g-photo">
+      <img loading="lazy" decoding="async" src="p68_attrape_reves_plumes.jpg" alt="Attrape-rêves plumes paon" class="g-photo">
       <div class="g-overlay"><span class="g-label">Attrape-Rêves Plume de Paon</span></div>
     </div>
     <div class="g-item reveal" data-cat="macrame" style="grid-column:span 4;">
-      <img src="p69_attrape_reves_lumineux.jpg" alt="Attrape-rêves lumineux plantes" class="g-photo">
+      <img loading="lazy" decoding="async" src="p69_attrape_reves_lumineux.jpg" alt="Attrape-rêves lumineux plantes" class="g-photo">
       <div class="g-overlay"><span class="g-label">Attrape-Rêves Lumineux</span></div>
     </div>
 
     <!-- Rangée 15 — Coussins & poufs -->
     <div class="g-item reveal" data-cat="coussins" style="grid-column:span 6;grid-row:span 2;">
-      <img src="p53_coussin_rouge_entier.jpg" alt="Grand coussin rouge fleurs" class="g-photo">
+      <img loading="lazy" decoding="async" src="p53_coussin_rouge_entier.jpg" alt="Grand coussin rouge fleurs" class="g-photo">
       <div class="g-overlay"><span class="g-label">Coussin Pouf Rouge Fleuri</span></div>
     </div>
     <div class="g-item reveal" data-cat="coussins" style="grid-column:span 3;">
-      <img src="p52_coussin_rouge_fleurs.jpg" alt="Coussin rouge détail" class="g-photo">
+      <img loading="lazy" decoding="async" src="p52_coussin_rouge_fleurs.jpg" alt="Coussin rouge détail" class="g-photo">
       <div class="g-overlay"><span class="g-label">Coussin Rouge — Détail</span></div>
     </div>
     <div class="g-item reveal" data-cat="coussins" style="grid-column:span 3;">
-      <img src="p50_coussin_fleurs_vue_dessus.jpg" alt="Coussin fleurs vue dessus" class="g-photo">
+      <img loading="lazy" decoding="async" src="p50_coussin_fleurs_vue_dessus.jpg" alt="Coussin fleurs vue dessus" class="g-photo">
       <div class="g-overlay"><span class="g-label">Coussin Fleuri — Vue Dessus</span></div>
     </div>
     <div class="g-item reveal" data-cat="coussins" style="grid-column:span 3;">
-      <img src="p54_pouf_crochet_creme.jpg" alt="Pouf crochet crème" class="g-photo">
+      <img loading="lazy" decoding="async" src="p54_pouf_crochet_creme.jpg" alt="Pouf crochet crème" class="g-photo">
       <div class="g-overlay"><span class="g-label">Pouf Crochet Crème</span></div>
     </div>
     <div class="g-item reveal" data-cat="coussins" style="grid-column:span 3;">
-      <img src="p65_coussin_fleur_perles.jpg" alt="Coussin fleur perles bois" class="g-photo">
+      <img loading="lazy" decoding="async" src="p65_coussin_fleur_perles.jpg" alt="Coussin fleur perles bois" class="g-photo">
       <div class="g-overlay"><span class="g-label">Coussin Fleur & Perles</span></div>
     </div>
 
     <!-- Rangée 16 — Macramés, abat-jours & divers -->
     <div class="g-item reveal" data-cat="macrame" style="grid-column:span 6;grid-row:span 2;">
-      <img src="p51_macrame_rideau_grand.jpg" alt="Grand macramé rideau" class="g-photo">
+      <img loading="lazy" decoding="async" src="p51_macrame_rideau_grand.jpg" alt="Grand macramé rideau" class="g-photo">
       <div class="g-overlay"><span class="g-label">Grand Macramé Rideau</span></div>
     </div>
     <div class="g-item reveal" data-cat="macrame" style="grid-column:span 3;">
-      <img src="p60_macrame_grand_mural.jpg" alt="Macramé grand mural" class="g-photo">
+      <img loading="lazy" decoding="async" src="p60_macrame_grand_mural.jpg" alt="Macramé grand mural" class="g-photo">
       <div class="g-overlay"><span class="g-label">Grand Macramé Mural</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 3;">
-      <img src="p61_tenture_raphia_frange.jpg" alt="Tenture raphia frange" class="g-photo">
+      <img loading="lazy" decoding="async" src="p61_tenture_raphia_frange.jpg" alt="Tenture raphia frange" class="g-photo">
       <div class="g-overlay"><span class="g-label">Tenture Raphia</span></div>
     </div>
     <div class="g-item reveal" data-cat="lampes" style="grid-column:span 3;">
-      <img src="p57_lampe_suspendue_ambre.jpg" alt="Lampe suspendue ambre" class="g-photo">
+      <img loading="lazy" decoding="async" src="p57_lampe_suspendue_ambre.jpg" alt="Lampe suspendue ambre" class="g-photo">
       <div class="g-overlay"><span class="g-label">Lampe Suspendue Ambrée</span></div>
     </div>
     <div class="g-item reveal" data-cat="lampes" style="grid-column:span 3;">
-      <img src="p58_abat_jour_raphia_allume.jpg" alt="Abat-jour raphia allumé" class="g-photo">
+      <img loading="lazy" decoding="async" src="p58_abat_jour_raphia_allume.jpg" alt="Abat-jour raphia allumé" class="g-photo">
       <div class="g-overlay"><span class="g-label">Abat-Jour Raphia — Allumé</span></div>
     </div>
     <div class="g-item reveal" data-cat="lampes" style="grid-column:span 4;">
-      <img src="p59_abat_jour_raphia_jour.jpg" alt="Abat-jour raphia jour" class="g-photo">
+      <img loading="lazy" decoding="async" src="p59_abat_jour_raphia_jour.jpg" alt="Abat-jour raphia jour" class="g-photo">
       <div class="g-overlay"><span class="g-label">Abat-Jour Raphia</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
-      <img src="p55_sac_bronze_pompons.jpg" alt="Sac bronze pompons" class="g-photo">
+      <img loading="lazy" decoding="async" src="p55_sac_bronze_pompons.jpg" alt="Sac bronze pompons" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Bronze & Chaîne</span></div>
     </div>
     <div class="g-item reveal" data-cat="sacs" style="grid-column:span 4;">
-      <img src="p56_sac_raphia_blanc.jpg" alt="Sac raphia blanc" class="g-photo">
+      <img loading="lazy" decoding="async" src="p56_sac_raphia_blanc.jpg" alt="Sac raphia blanc" class="g-photo">
       <div class="g-overlay"><span class="g-label">Sac Raphia Naturel</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
-      <img src="p62_couronne_lavande.jpg" alt="Couronne fleurs séchées lavande" class="g-photo">
+      <img loading="lazy" decoding="async" src="p62_couronne_lavande.jpg" alt="Couronne fleurs séchées lavande" class="g-photo">
       <div class="g-overlay"><span class="g-label">Couronne Lavande</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
-      <img src="p64_tapis_raphia_turquoise.jpg" alt="Tapis raphia fleurs turquoise" class="g-photo">
+      <img loading="lazy" decoding="async" src="p64_tapis_raphia_turquoise.jpg" alt="Tapis raphia fleurs turquoise" class="g-photo">
       <div class="g-overlay"><span class="g-label">Tapis Raphia & Fleurs</span></div>
     </div>
     <div class="g-item reveal" data-cat="deco" style="grid-column:span 4;">
-      <img src="p66_corbeille_tissu_multicolore.jpg" alt="Corbeille tissu multicolore" class="g-photo">
+      <img loading="lazy" decoding="async" src="p66_corbeille_tissu_multicolore.jpg" alt="Corbeille tissu multicolore" class="g-photo">
       <div class="g-overlay"><span class="g-label">Corbeille Tissu Upcyclé</span></div>
     </div>
   </div>
@@ -1141,6 +1179,7 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
       <li><a href="#about">Histoire</a></li>
       <li><a href="#gallery">Créations</a></li>
       <li><a href="#contact">Commander</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
     </ul>
   </div>
   <div class="footer-bottom">
@@ -1342,15 +1381,23 @@ footer { background:var(--dark); border-top:2px solid var(--fuchsia); padding:60
   });
 
   // ─── SCROLL & REVEAL ───
-  window.addEventListener('scroll',()=>{
-    document.getElementById('navbar').classList.toggle('scrolled',scrollY>60);
-  });
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach((e,i)=>{
-      if(e.isIntersecting){e.target.style.transitionDelay=(i%3)*0.1+'s';e.target.classList.add('visible');}
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60);
+  }, { passive: true });
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        // Délai progressif selon position dans la page
+        const delay = Math.min(i * 0.07, 0.4);
+        e.target.style.transitionDelay = delay + 's';
+        e.target.classList.add('visible');
+        obs.unobserve(e.target); // On arrête d'observer une fois visible = perf
+      }
     });
-  },{threshold:0.1});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
   async function handleSubmit(e) {
     e.preventDefault();
