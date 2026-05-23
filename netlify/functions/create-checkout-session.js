@@ -1,17 +1,43 @@
 // ═══════════════════════════════════════════════════════════════
-//  STRIPE CHECKOUT — Fonction Netlify
-//  Le Boudoir de Karoline
-// ═══════════════════════════════════════════════════════════════
-//
-//  Variables d'environnement à configurer dans Netlify :
-//    STRIPE_SECRET_KEY  → votre clé secrète Stripe (sk_live_...)
-//
+//  STRIPE CHECKOUT — Fonction Netlify (sans dépendance npm)
+//  Utilise l'API Stripe directement via https
 // ═══════════════════════════════════════════════════════════════
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const https = require('https');
+
+// Appel HTTP vers l'API Stripe
+function stripeRequest(path, body) {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  const data = new URLSearchParams(body).toString();
+
+  return new Promise((resolve, reject) => {
+    const options = {
+      hostname: 'api.stripe.com',
+      path,
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${secretKey}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(data),
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      let raw = '';
+      res.on('data', chunk => raw += chunk);
+      res.on('end', () => {
+        try { resolve({ status: res.statusCode, body: JSON.parse(raw) }); }
+        catch (e) { reject(e); }
+      });
+    });
+
+    req.on('error', reject);
+    req.write(data);
+    req.end();
+  });
+}
 
 exports.handler = async (event) => {
-  // Autoriser seulement les requêtes POST
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
@@ -23,75 +49,77 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: 'Panier vide.' }) };
     }
 
-    // ── Construire les lignes du panier pour Stripe ──
-    const line_items = cart.map((item) => ({
-      price_data: {
-        currency: 'eur',
-        product_data: {
-          name: item.name,
-          description: 'Création artisanale faite main — Le Boudoir de Karoline',
-          // images: [`${process.env.URL}/${item.img}`], // décommentez si images hébergées
-        },
-        unit_amount: Math.round(item.price * 100), // Stripe travaille en centimes
-      },
-      quantity: item.qty,
-    }));
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return { statusCode: 500, body: JSON.stringify({ error: 'Clé Stripe non configurée.' }) };
+    }
 
-    // ── Frais de livraison ──
-    line_items.push({
-      price_data: {
-        currency: 'eur',
-        product_data: {
-          name: 'Livraison — Colissimo France',
-          description: 'Suivi inclus. Délai : 2 à 3 semaines (création sur commande).',
-        },
-        unit_amount: 800, // 8,00 € — modifiez selon vos tarifs
-      },
-      quantity: 1,
+    const siteUrl = process.env.URL || 'https://creative-entremet-399555.netlify.app';
+
+    // Construire les paramètres de la session Stripe
+    const params = {};
+
+    // Méthode de paiement
+    params['payment_method_types[0]'] = 'card';
+    params['mode'] = 'payment';
+    params['locale'] = 'fr';
+
+    // Articles du panier
+    cart.forEach((item, i) => {
+      params[`line_items[${i}][price_data][currency]`] = 'eur';
+      params[`line_items[${i}][price_data][product_data][name]`] = item.name;
+      params[`line_items[${i}][price_data][product_data][description]`] = 'Création artisanale faite main — Le Boudoir de Karoline';
+      params[`line_items[${i}][price_data][unit_amount]`] = Math.round(item.price * 100);
+      params[`line_items[${i}][quantity]`] = item.qty;
     });
 
-    // ── Créer la session Stripe Checkout ──
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items,
-      mode: 'payment',
+    // Frais de livraison
+    const li = cart.length;
+    params[`line_items[${li}][price_data][currency]`] = 'eur';
+    params[`line_items[${li}][price_data][product_data][name]`] = 'Livraison Colissimo France';
+    params[`line_items[${li}][price_data][product_data][description]`] = 'Suivi inclus — délai 2 à 3 semaines';
+    params[`line_items[${li}][price_data][unit_amount]`] = 800;
+    params[`line_items[${li}][quantity]`] = 1;
 
-      // Pages de retour (Netlify injecte process.env.URL automatiquement)
-      success_url: `${process.env.URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url:  `${process.env.URL}/boutique.html?cancelled=1`,
+    // URLs de retour
+    params['success_url'] = `${siteUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`;
+    params['cancel_url']  = `${siteUrl}/boutique.html?cancelled=1`;
 
-      // Email pré-rempli si fourni
-      ...(customer?.email && { customer_email: customer.email }),
+    // Email client pré-rempli
+    if (customer?.email) params['customer_email'] = customer.email;
 
-      // Collecte l'adresse de livraison directement sur la page Stripe
-      shipping_address_collection: {
-        allowed_countries: ['FR', 'BE', 'CH', 'LU', 'MC'],
-      },
+    // Collecte adresse livraison sur Stripe
+    params['shipping_address_collection[allowed_countries][0]'] = 'FR';
+    params['shipping_address_collection[allowed_countries][1]'] = 'BE';
+    params['shipping_address_collection[allowed_countries][2]'] = 'CH';
+    params['shipping_address_collection[allowed_countries][3]'] = 'LU';
 
-      // Métadonnées transmises à votre tableau de bord Stripe
-      metadata: {
-        client_nom:     customer?.name    || '',
-        client_email:   customer?.email   || '',
-        client_tel:     customer?.phone   || '',
-        notes:          customer?.notes   || '',
-        articles:       cart.map(i => `${i.name} x${i.qty}`).join(', '),
-      },
+    // Métadonnées
+    if (customer?.name)  params['metadata[client_nom]']   = customer.name;
+    if (customer?.phone) params['metadata[client_tel]']   = customer.phone;
+    if (customer?.notes) params['metadata[notes]']        = customer.notes;
+    params['metadata[articles]'] = cart.map(i => `${i.name} x${i.qty}`).join(', ');
 
-      // Paramètres d'affichage
-      locale: 'fr',
-      payment_intent_data: {
-        description: `Commande Le Boudoir de Karoline — ${cart.map(i => i.name).join(', ')}`,
-      },
-    });
+    params['payment_intent_data[description]'] = `Commande Le Boudoir de Karoline — ${cart.map(i => i.name).join(', ')}`;
+
+    // Créer la session Stripe
+    const result = await stripeRequest('/v1/checkout/sessions', params);
+
+    if (result.status !== 200) {
+      console.error('Stripe API error:', result.body);
+      return {
+        statusCode: result.status,
+        body: JSON.stringify({ error: result.body?.error?.message || 'Erreur Stripe' }),
+      };
+    }
 
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: session.url }),
+      body: JSON.stringify({ url: result.body.url }),
     };
 
   } catch (err) {
-    console.error('Stripe error:', err.message);
+    console.error('Function error:', err);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: err.message }),

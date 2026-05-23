@@ -3,11 +3,8 @@
 # ═══════════════════════════════════════════════════
 
 [build]
-  publish   = "."          # Dossier racine du site
-  functions = "netlify/functions"   # Dossier des fonctions serverless
-
-[functions]
-  node_bundler = "esbuild"  # Bundler moderne, plus rapide
+  publish   = "."
+  functions = "netlify/functions"
 
 # ── Headers de sécurité ──
 [[headers]]
@@ -16,11 +13,3 @@
     X-Frame-Options        = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy        = "strict-origin-when-cross-origin"
-
-# ── Autoriser l'appel des fonctions depuis le frontend ──
-[[headers]]
-  for = "/.netlify/functions/*"
-  [headers.values]
-    Access-Control-Allow-Origin  = "*"
-    Access-Control-Allow-Headers = "Content-Type"
-    Access-Control-Allow-Methods = "POST, OPTIONS"
