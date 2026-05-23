@@ -6,6 +6,8 @@
 <title>Boutique — Le Boudoir de Karoline</title>
 <meta name="description" content="Boutique en ligne de Le Boudoir de Karoline. Créations crochet et macramé faites main à Nîmes. Sacs, amigurumis, coussins, attrape-rêves. Livraison France entière."/>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231E0318'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-size='38' font-style='italic' font-weight='bold' fill='url(%23g)'%3EK%3C/text%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FFD060'/%3E%3Cstop offset='50%25' stop-color='%23FF7A1A'/%3E%3Cstop offset='100%25' stop-color='%23E8156D'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E"/>
+<!-- Plausible Analytics -->
+<script defer data-domain="poloveni.github.io/leboudoir_dekaroline" src="https://plausible.io/js/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;700&family=DM+Sans:wght@200;300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
 
@@ -301,6 +303,121 @@ nav {
   font-size: 1.1rem; color: var(--text); opacity: 0.4;
   display: none;
 }
+
+/* ─── STAGGERED ANIMATION ─── */
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.product-card { animation: cardIn 0.45s ease both; }
+
+/* ─── BOUTON FAVORI ─── */
+.fav-btn {
+  position: absolute; bottom: 12px; right: 12px;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(196,104,122,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1rem; line-height: 1;
+  transition: transform 0.25s, background 0.2s, border-color 0.2s;
+  z-index: 2;
+}
+.fav-btn:hover { transform: scale(1.15); }
+.fav-btn.active { background: var(--fuchsia); border-color: var(--fuchsia); }
+.fav-btn.active svg { fill: #fff; stroke: #fff; }
+.fav-btn svg { width: 14px; height: 14px; fill: none; stroke: var(--fuchsia); stroke-width: 2; transition: fill 0.2s, stroke 0.2s; }
+.filter-btn.fav-filter svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; vertical-align: -1px; margin-right: 4px; }
+
+/* ─── PANEL DÉTAIL PRODUIT ─── */
+.product-panel-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(42,16,24,0.55);
+  backdrop-filter: blur(4px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s;
+}
+.product-panel-overlay.open { opacity: 1; pointer-events: all; }
+
+.product-panel {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: min(580px, 100vw);
+  background: var(--ivory);
+  z-index: 901;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(.32,.72,0,1);
+  overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.product-panel.open { transform: translateX(0); }
+
+.panel-close {
+  position: absolute; top: 20px; right: 20px;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(196,104,122,0.2);
+  cursor: pointer; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s; z-index: 2;
+}
+.panel-close:hover { background: var(--fuchsia); color: #fff; }
+
+.panel-img {
+  width: 100%; aspect-ratio: 4/3;
+  object-fit: cover; display: block;
+  flex-shrink: 0;
+}
+.panel-body {
+  padding: 32px 36px 48px;
+  flex: 1;
+}
+.panel-cat {
+  font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 10px;
+}
+.panel-name {
+  font-family: var(--serif); font-size: 1.8rem; font-weight: 700;
+  color: var(--text); line-height: 1.2; margin-bottom: 16px;
+}
+.panel-desc {
+  font-size: 0.92rem; line-height: 1.8; color: var(--text);
+  opacity: 0.7; margin-bottom: 28px;
+}
+.panel-price-row {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px;
+}
+.panel-price {
+  font-family: var(--display); font-size: 2rem; color: var(--fuchsia);
+}
+.panel-price-note {
+  font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text); opacity: 0.4;
+}
+.panel-avail {
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 28px; display: flex; align-items: center; gap: 8px;
+}
+.panel-avail-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.panel-add-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--fuchsia), var(--coral));
+  color: #fff; border: none;
+  font-family: var(--sans); font-size: 0.72rem;
+  letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500;
+  padding: 18px 32px; cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 6px 24px rgba(196,104,122,0.35);
+}
+.panel-add-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(196,104,122,0.5); }
+.panel-divider { border: none; border-top: 1px solid rgba(196,104,122,0.12); margin: 28px 0; }
+.panel-detail-row {
+  display: flex; justify-content: space-between;
+  font-size: 0.8rem; color: var(--text); opacity: 0.6;
+  padding: 8px 0; border-bottom: 1px solid rgba(196,104,122,0.08);
+}
+.panel-detail-row strong { opacity: 1; font-weight: 500; }
 
 .product-img-overlay {
   position: absolute; inset: 0;
@@ -790,6 +907,33 @@ footer {
   <button class="filter-btn" data-filter="lampes">Lampes</button>
   <button class="filter-btn" data-filter="macrame">Macramé</button>
   <button class="filter-btn" data-filter="coussins">Coussins</button>
+  <button class="filter-btn fav-filter" data-filter="favorites" id="fav-filter-btn" style="margin-left:auto;">
+    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    Coups de cœur <span id="fav-count" style="display:none;background:var(--fuchsia);color:#fff;border-radius:10px;padding:1px 7px;font-size:0.55rem;margin-left:4px;"></span>
+  </button>
+</div>
+
+<!-- ─── PANEL DÉTAIL PRODUIT ─── -->
+<div class="product-panel-overlay" id="panel-overlay" onclick="closePanel()"></div>
+<div class="product-panel" id="product-panel">
+  <button class="panel-close" onclick="closePanel()">✕</button>
+  <img class="panel-img" id="panel-img" src="" alt="">
+  <div class="panel-body">
+    <div class="panel-cat" id="panel-cat"></div>
+    <h2 class="panel-name" id="panel-name"></h2>
+    <p class="panel-desc" id="panel-desc"></p>
+    <div class="panel-price-row">
+      <span class="panel-price" id="panel-price"></span>
+      <span class="panel-price-note">Prix indicatif</span>
+    </div>
+    <div class="panel-avail" id="panel-avail"></div>
+    <button class="panel-add-btn" id="panel-add-btn">+ Ajouter au panier</button>
+    <hr class="panel-divider">
+    <div class="panel-detail-row"><span>Livraison</span><strong>Colissimo suivi — 8 €</strong></div>
+    <div class="panel-detail-row"><span>Délai de réalisation</span><strong id="panel-delay"></strong></div>
+    <div class="panel-detail-row"><span>Matières</span><strong>Coton, raphia, fils naturels</strong></div>
+    <div class="panel-detail-row"><span>Fabrication</span><strong>100 % faite main à Nîmes</strong></div>
+  </div>
 </div>
 
 <!-- ─── RECHERCHE & TRI ─── -->
@@ -1047,6 +1191,7 @@ const PRODUCTS = [
 //  ÉTAT DE L'APPLICATION
 // ═══════════════════════════════════════════════════
 let cart = JSON.parse(localStorage.getItem('boudoir_cart') || '[]');
+let favorites = JSON.parse(localStorage.getItem('boudoir_favorites') || '[]');
 let currentFilter = 'all';
 
 // ═══════════════════════════════════════════════════
@@ -1058,14 +1203,15 @@ function catLabel(cat) {
 }
 
 function renderProducts() {
-  const grid     = document.getElementById('products-grid');
-  const countEl  = document.getElementById('product-count');
-  const emptyEl  = document.getElementById('search-empty');
-  const search   = (document.getElementById('shop-search')?.value || '').toLowerCase().trim();
-  const sort     = document.getElementById('shop-sort')?.value || 'default';
+  const grid    = document.getElementById('products-grid');
+  const countEl = document.getElementById('product-count');
+  const emptyEl = document.getElementById('search-empty');
+  const search  = (document.getElementById('shop-search')?.value || '').toLowerCase().trim();
+  const sort    = document.getElementById('shop-sort')?.value || 'default';
 
-  // Filtrage catégorie + recherche
+  // Filtrage catégorie + favoris + recherche
   let list = PRODUCTS.filter(p => {
+    if (currentFilter === 'favorites') return favorites.includes(p.id);
     const catOk    = currentFilter === 'all' || p.cat === currentFilter;
     const searchOk = !search || p.name.toLowerCase().includes(search) || p.desc.toLowerCase().includes(search);
     return catOk && searchOk;
@@ -1079,7 +1225,7 @@ function renderProducts() {
   countEl.textContent = list.length + ' création' + (list.length > 1 ? 's' : '');
   emptyEl.style.display = list.length === 0 ? 'block' : 'none';
 
-  grid.innerHTML = list.map(p => {
+  grid.innerHTML = list.map((p, i) => {
     const badgeLeftHtml = p.badge === 'new'
       ? '<div class="product-badge-new">Nouveauté</div>'
       : p.badge === 'custom' ? '<div class="product-badge-new" style="background:var(--gold);color:var(--plum);">Sur mesure</div>' : '';
@@ -1088,14 +1234,18 @@ function renderProducts() {
       ? '<div class="product-badge-available">✓ Disponible</div>'
       : '<div class="product-badge-order">Sur commande</div>';
 
+    const isFav = favorites.includes(p.id);
+
     return `
-    <div class="product-card" data-cat="${p.cat}" data-id="${p.id}">
+    <div class="product-card" data-cat="${p.cat}" data-id="${p.id}"
+         style="animation-delay:${i * 0.055}s; cursor:pointer;"
+         onclick="openPanel(${p.id})">
       <div class="product-img-wrap">
         <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='karoline.jpg'">
         ${badgeLeftHtml}
         ${badgeRightHtml}
         <div class="product-img-overlay">
-          <button class="product-zoom-btn" onclick="openLightbox('${p.img}','${p.name.replace(/'/g,"\\'")}')">🔍</button>
+          <button class="product-zoom-btn" onclick="event.stopPropagation();openLightbox('${p.img}','${p.name.replace(/'/g,"\\'")}')">🔍</button>
         </div>
       </div>
       <div class="product-body">
@@ -1108,12 +1258,73 @@ function renderProducts() {
           ${p.price} €
           <small>Prix indicatif</small>
         </div>
-        <button class="add-to-cart-btn" onclick="addToCart(${p.id})" id="btn-${p.id}">
+        <button class="add-to-cart-btn" onclick="event.stopPropagation();addToCart(${p.id})" id="btn-${p.id}">
           + Panier
         </button>
       </div>
+      <button class="fav-btn${isFav ? ' active' : ''}" onclick="event.stopPropagation();toggleFav(${p.id})" title="Coup de cœur" id="fav-${p.id}">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
     </div>`;
   }).join('');
+
+  updateFavCount();
+}
+
+// ── Favoris ──────────────────────────────────────────
+function toggleFav(id) {
+  const idx = favorites.indexOf(id);
+  if (idx === -1) favorites.push(id);
+  else favorites.splice(idx, 1);
+  localStorage.setItem('boudoir_favorites', JSON.stringify(favorites));
+  const btn = document.getElementById('fav-' + id);
+  if (btn) btn.classList.toggle('active', favorites.includes(id));
+  updateFavCount();
+}
+
+function updateFavCount() {
+  const span = document.getElementById('fav-count');
+  if (!span) return;
+  if (favorites.length > 0) {
+    span.textContent = favorites.length;
+    span.style.display = 'inline';
+  } else {
+    span.style.display = 'none';
+  }
+}
+
+// ── Panel détail produit ──────────────────────────────
+function openPanel(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+
+  document.getElementById('panel-img').src  = p.img;
+  document.getElementById('panel-img').alt  = p.name;
+  document.getElementById('panel-cat').textContent   = catLabel(p.cat);
+  document.getElementById('panel-name').textContent  = p.name;
+  document.getElementById('panel-desc').textContent  = p.desc;
+  document.getElementById('panel-price').textContent = p.price + ' €';
+  document.getElementById('panel-delay').textContent = DELAI_COMMANDE;
+
+  const availEl = document.getElementById('panel-avail');
+  if (p.available) {
+    availEl.innerHTML = '<span class="panel-avail-dot" style="background:#4caf82"></span><span style="color:#4caf82">Disponible — expédié rapidement</span>';
+  } else {
+    availEl.innerHTML = '<span class="panel-avail-dot" style="background:var(--gold)"></span><span style="color:var(--gold)">Sur commande — réalisé en ' + DELAI_COMMANDE + '</span>';
+  }
+
+  const addBtn = document.getElementById('panel-add-btn');
+  addBtn.onclick = () => { addToCart(id); closePanel(); };
+
+  document.getElementById('product-panel').classList.add('open');
+  document.getElementById('panel-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePanel() {
+  document.getElementById('product-panel').classList.remove('open');
+  document.getElementById('panel-overlay').classList.remove('open');
+  document.body.style.overflow = '';
 }
 
 // ═══════════════════════════════════════════════════
@@ -1124,7 +1335,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentFilter = btn.dataset.filter;
-    renderProducts(currentFilter);
+    renderProducts();
   });
 });
 

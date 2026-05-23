@@ -76,6 +76,8 @@
 }
 </script>
 
+<!-- Plausible Analytics — remplacer le domaine si nécessaire -->
+<script defer data-domain="poloveni.github.io/leboudoir_dekaroline" src="https://plausible.io/js/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cinzel+Decorative:wght@400;700&family=DM+Sans:wght@200;300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
@@ -564,6 +566,67 @@ nav { top: 36px !important; }
 }
 .form-submit:hover { background-position:100% 0; transform:translateY(-3px); box-shadow:0 16px 60px rgba(196,104,122,0.6); }
 .form-note { font-family:var(--serif); font-style:italic; font-size:0.8rem; color:rgba(201,169,110,0.5); margin-top:6px; }
+
+/* ─── NEWSLETTER ─── */
+#newsletter {
+  background: linear-gradient(135deg, var(--plum) 0%, #5c2a3a 50%, var(--plum) 100%);
+  padding: 80px 64px; text-align: center; position: relative; overflow: hidden;
+}
+#newsletter::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.12) 0%, transparent 65%);
+}
+.nl-eyebrow {
+  font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px; position: relative;
+}
+.nl-title {
+  font-family: var(--script); font-size: clamp(2rem, 5vw, 3rem);
+  color: #fff; margin-bottom: 10px; position: relative;
+}
+.nl-sub {
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.95rem; color: rgba(255,249,240,0.5);
+  margin-bottom: 36px; position: relative;
+}
+.nl-form {
+  display: flex; gap: 0; max-width: 480px; margin: 0 auto;
+  position: relative;
+}
+.nl-input {
+  flex: 1;
+  font-family: var(--sans); font-size: 0.8rem;
+  padding: 16px 20px;
+  border: 1px solid rgba(201,169,110,0.35); border-right: none;
+  background: rgba(255,255,255,0.06); color: #fff;
+  outline: none; transition: border-color 0.2s, background 0.2s;
+}
+.nl-input::placeholder { color: rgba(255,249,240,0.35); }
+.nl-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+.nl-btn {
+  background: linear-gradient(135deg, var(--gold), var(--coral));
+  color: var(--dark); border: none;
+  font-family: var(--sans); font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
+  padding: 16px 28px; cursor: pointer;
+  transition: opacity 0.2s; white-space: nowrap;
+}
+.nl-btn:hover { opacity: 0.88; }
+.nl-note {
+  font-size: 0.65rem; color: rgba(255,249,240,0.3);
+  margin-top: 14px; position: relative;
+}
+.nl-success {
+  display: none; color: var(--gold);
+  font-family: var(--serif); font-style: italic; font-size: 1rem;
+  margin-top: 16px; position: relative;
+}
+@media(max-width:768px) {
+  #newsletter { padding: 60px 24px; }
+  .nl-form { flex-direction: column; }
+  .nl-input { border-right: 1px solid rgba(201,169,110,0.35); border-bottom: none; }
+  .nl-btn { padding: 14px; }
+}
 
 /* ─── INSTAGRAM ─── */
 #instagram { background: var(--dark); padding: 80px 64px; text-align: center; }
@@ -1249,6 +1312,19 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
   </div>
 </section>
 
+<!-- ─── NEWSLETTER ─── -->
+<section id="newsletter" class="reveal">
+  <div class="nl-eyebrow">✦ Restez inspirée ✦</div>
+  <h2 class="nl-title">Les nouveautés en avant-première</h2>
+  <p class="nl-sub">Recevez les nouvelles créations, les offres exclusives et les coulisses de l'atelier</p>
+  <form class="nl-form" id="nl-form" onsubmit="submitNewsletter(event)">
+    <input class="nl-input" type="email" id="nl-email" placeholder="Votre adresse email" required>
+    <button class="nl-btn" type="submit">S'inscrire</button>
+  </form>
+  <p class="nl-note">Pas de spam — juste de la douceur ✦ Désinscription en 1 clic</p>
+  <p class="nl-success" id="nl-success">✦ Merci ! Vous recevrez bientôt des nouvelles de l'atelier.</p>
+</section>
+
 <!-- ─── INSTAGRAM ─── -->
 <section id="instagram" class="reveal">
   <div class="instagram-header">
@@ -1617,6 +1693,30 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
   </svg>
 </a>
 
+<script>
+async function submitNewsletter(e) {
+  e.preventDefault();
+  const email = document.getElementById('nl-email').value.trim();
+  const btn   = e.target.querySelector('button');
+  btn.textContent = '…';
+  btn.disabled = true;
+  try {
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: '42f01192-c5fc-4d5e-9591-55455b33d7c9',
+        subject: '✦ Nouvelle inscription newsletter — Le Boudoir de Karoline',
+        message: `Nouvelle inscription newsletter :\n\nEmail : ${email}\n\nAjouter à la liste de diffusion.`,
+        from_name: 'Newsletter Le Boudoir de Karoline',
+        email,
+      }),
+    });
+  } catch(_) {}
+  document.getElementById('nl-form').style.display = 'none';
+  document.getElementById('nl-success').style.display = 'block';
+}
+</script>
 <script src="cookie-banner.js"></script>
 </body>
 </html>
