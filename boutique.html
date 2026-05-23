@@ -1156,7 +1156,7 @@ async function redirectToStripe(e) {
   note.textContent = 'Création de votre session de paiement sécurisée…';
 
   try {
-    const response = await fetch('/.netlify/functions/create-checkout-session', {
+    const response = await fetch('https://creative-entremet-399555.netlify.app/.netlify/functions/create-checkout-session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cart, customer }),

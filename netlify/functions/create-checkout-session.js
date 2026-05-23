@@ -37,20 +37,32 @@ function stripeRequest(path, body) {
   });
 }
 
+// En-têtes CORS — autorise GitHub Pages à appeler cette fonction
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': 'https://poloveni.github.io',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+};
+
 exports.handler = async (event) => {
+  // Réponse au preflight CORS (OPTIONS)
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: CORS_HEADERS, body: '' };
+  }
+
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+    return { statusCode: 405, headers: CORS_HEADERS, body: 'Method Not Allowed' };
   }
 
   try {
     const { cart, customer } = JSON.parse(event.body);
 
     if (!cart || cart.length === 0) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'Panier vide.' }) };
+      return { statusCode: 400, headers: CORS_HEADERS, body: JSON.stringify({ error: 'Panier vide.' }) };
     }
 
     if (!process.env.STRIPE_SECRET_KEY) {
-      return { statusCode: 500, body: JSON.stringify({ error: 'Clé Stripe non configurée.' }) };
+      return { statusCode: 500, headers: CORS_HEADERS, body: JSON.stringify({ error: 'Clé Stripe non configurée.' }) };
     }
 
     const siteUrl = process.env.URL || 'https://creative-entremet-399555.netlify.app';
@@ -108,13 +120,14 @@ exports.handler = async (event) => {
       console.error('Stripe API error:', result.body);
       return {
         statusCode: result.status,
+        headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
         body: JSON.stringify({ error: result.body?.error?.message || 'Erreur Stripe' }),
       };
     }
 
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: result.body.url }),
     };
 
@@ -122,6 +135,7 @@ exports.handler = async (event) => {
     console.error('Function error:', err);
     return {
       statusCode: 500,
+      headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: err.message }),
     };
   }
