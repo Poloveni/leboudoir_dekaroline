@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Commande confirmée — Le Boudoir de Karoline</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231E0318'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-size='38' font-style='italic' font-weight='bold' fill='url(%23g)'%3EK%3C/text%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FFD060'/%3E%3Cstop offset='50%25' stop-color='%23FF7A1A'/%3E%3Cstop offset='100%25' stop-color='%23E8156D'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root {
+  --fuchsia:#C4687A; --rose:#E8A0A8; --coral:#D4896A;
+  --gold:#C9A96E; --ivory:#FDF6F0; --plum:#3D1A2A;
+  --dark:#2A1018; --text:#3D1F28;
+  --serif:'Playfair Display',serif; --sans:'DM Sans',sans-serif;
+}
+body {
+  background: var(--ivory); color: var(--text);
+  font-family: var(--sans); font-weight: 300;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px 24px; text-align: center;
+}
+
+/* Fond animé doux */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: -1;
+  background: radial-gradient(ellipse at 30% 20%, rgba(196,104,122,0.08) 0%, transparent 55%),
+              radial-gradient(ellipse at 70% 80%, rgba(212,137,106,0.06) 0%, transparent 55%);
+}
+
+.success-card {
+  max-width: 580px; width: 100%;
+  background: #fff;
+  border: 1px solid rgba(196,104,122,0.15);
+  box-shadow: 0 24px 80px rgba(196,104,122,0.1);
+  padding: 56px 48px;
+  position: relative; overflow: hidden;
+}
+.success-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--fuchsia), var(--coral), var(--gold));
+}
+
+/* Icône animée */
+.success-icon {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(196,104,122,0.1), rgba(212,137,106,0.1));
+  border: 2px solid rgba(196,104,122,0.25);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 32px;
+  font-size: 2rem;
+  animation: popIn 0.6s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes popIn { from{transform:scale(0);opacity:0;} to{transform:scale(1);opacity:1;} }
+
+.success-eyebrow {
+  font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--fuchsia); margin-bottom: 14px;
+  opacity: 0; animation: fadeUp 0.7s 0.3s forwards;
+}
+.success-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2.2rem, 7vw, 3.5rem);
+  color: var(--dark); margin-bottom: 16px;
+  opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+}
+.success-subtitle {
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.1rem; color: var(--fuchsia);
+  margin-bottom: 28px;
+  opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
+}
+.success-text {
+  font-size: 0.95rem; line-height: 1.8; color: var(--text); opacity: 0.72;
+  margin-bottom: 36px;
+  opacity: 0; animation: fadeUp 0.7s 0.6s forwards;
+}
+
+.success-steps {
+  background: linear-gradient(135deg, rgba(196,104,122,0.05), rgba(212,137,106,0.04));
+  border: 1px solid rgba(196,104,122,0.12);
+  padding: 24px 28px; margin-bottom: 36px; text-align: left;
+  opacity: 0; animation: fadeUp 0.7s 0.7s forwards;
+}
+.success-steps-title {
+  font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--fuchsia); margin-bottom: 16px;
+}
+.step {
+  display: flex; gap: 14px; align-items: flex-start;
+  margin-bottom: 12px; font-size: 0.9rem; line-height: 1.5; color: var(--text); opacity: 0.75;
+}
+.step:last-child { margin-bottom: 0; }
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--fuchsia), var(--coral));
+  color: #fff; font-size: 0.65rem; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+
+.success-btns {
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.7s 0.8s forwards;
+}
+.btn-primary {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--fuchsia), var(--coral));
+  color: #fff; font-family: var(--sans); font-size: 0.7rem;
+  letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
+  padding: 14px 32px; text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 6px 24px rgba(196,104,122,0.35);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(196,104,122,0.5); }
+.btn-outline {
+  display: inline-block;
+  border: 1px solid rgba(196,104,122,0.4); color: var(--fuchsia);
+  font-family: var(--sans); font-size: 0.7rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 14px 32px; text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+.btn-outline:hover { background: var(--fuchsia); color: #fff; }
+
+.success-logo {
+  font-family: 'Great Vibes', cursive; font-size: 1.6rem;
+  color: var(--fuchsia); opacity: 0.4; margin-top: 40px;
+  opacity: 0; animation: fadeIn 1s 1s forwards;
+}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:translateY(0);} }
+@keyframes fadeIn { from{opacity:0;} to{opacity:0.4;} }
+</style>
+</head>
+<body>
+
+<div class="success-card">
+  <div class="success-icon">✦</div>
+  <div class="success-eyebrow">✦ Paiement confirmé ✦</div>
+  <h1 class="success-title">Merci pour votre commande !</h1>
+  <p class="success-subtitle">Votre création est entre de bonnes mains</p>
+  <p class="success-text">
+    Karoline a bien reçu votre commande et vous enverra un email de confirmation très prochainement.
+    Chaque pièce étant réalisée entièrement à la main, un peu de magie prend du temps…
+  </p>
+
+  <div class="success-steps">
+    <div class="success-steps-title">✦ Les prochaines étapes</div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <span>Vous recevez un <strong>email de confirmation</strong> de Stripe avec votre reçu de paiement.</span>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <span>Karoline vous contacte sous 24h pour confirmer les <strong>détails de votre commande</strong> (couleurs, personnalisation…).</span>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <span>Votre création est réalisée avec amour en <strong>2 à 3 semaines</strong>, puis expédiée en Colissimo suivi.</span>
+    </div>
+  </div>
+
+  <div class="success-btns">
+    <a href="boutique.html" class="btn-primary">Continuer mes achats</a>
+    <a href="index.html" class="btn-outline">Retour à l'accueil</a>
+  </div>
+
+  <div class="success-logo">Le Boudoir de Karoline</div>
+</div>
+
+<script>
+  // Vider le panier après paiement réussi
+  localStorage.removeItem('boudoir_cart');
+</script>
+</body>
+</html>

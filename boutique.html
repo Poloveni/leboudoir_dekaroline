@@ -749,70 +749,62 @@ footer {
   </div>
 </aside>
 
-<!-- ─── MODALE COMMANDE ─── -->
+<!-- ─── MODALE COMMANDE STRIPE ─── -->
 <div class="order-modal-overlay" id="order-modal-overlay" onclick="handleOverlayClick(event)">
   <div class="order-modal" id="order-modal">
     <div class="order-modal-header">
       <h2>Finaliser ma commande</h2>
-      <p>Karoline vous confirmera votre commande sous 24h</p>
+      <p>Paiement 100% sécurisé via Stripe</p>
       <button class="order-modal-close" onclick="closeOrderModal()">✕</button>
     </div>
     <div class="order-modal-body">
+
       <!-- Récap panier -->
       <div class="order-recap">
-        <div class="order-recap-title">✦ Récapitulatif de votre commande</div>
+        <div class="order-recap-title">✦ Récapitulatif</div>
         <div id="order-recap-items"></div>
         <div class="order-recap-total">
-          <span>Total estimé</span>
+          <span>Articles</span>
           <span class="total-price" id="order-total-price">0 €</span>
+        </div>
+        <div class="order-recap-total" style="margin-top:4px;">
+          <span>Livraison Colissimo</span>
+          <span style="font-size:1rem;color:var(--text);opacity:0.6;">+ 8,00 €</span>
         </div>
       </div>
 
-      <!-- Note de paiement -->
-      <div class="payment-note" style="margin-bottom:24px;">
-        <strong>Comment ça marche ?</strong><br>
-        Envoyez votre commande ci-dessous. Karoline vous répondra sous 24h avec la <strong>confirmation de disponibilité</strong> et les <strong>coordonnées de paiement</strong> (virement, PayPal ou Stripe — bientôt disponible directement sur le site).
-      </div>
-
-      <!-- Formulaire -->
-      <form class="order-form" id="order-form" onsubmit="submitOrder(event)">
-        <input type="hidden" name="access_key" value="42f01192-c5fc-4d5e-9591-55455b33d7c9">
-        <input type="hidden" name="subject" value="✦ Nouvelle commande Boutique — Le Boudoir De Karoline">
-        <input type="hidden" name="from_name" value="Le Boudoir De Karoline — Boutique">
-        <input type="hidden" name="cart" id="hidden-cart" value="">
-
+      <!-- Formulaire minimal avant Stripe -->
+      <form class="order-form" id="order-form" onsubmit="redirectToStripe(event)">
         <div class="form-row">
           <div class="form-field">
             <label>Prénom *</label>
-            <input type="text" name="prenom" placeholder="Sophie" required>
+            <input type="text" id="customer-name" placeholder="Sophie" required>
           </div>
-          <div class="form-field">
-            <label>Nom *</label>
-            <input type="text" name="nom" placeholder="Martin" required>
-          </div>
-        </div>
-        <div class="form-row">
           <div class="form-field">
             <label>Email *</label>
-            <input type="email" name="email" placeholder="sophie@email.com" required>
-          </div>
-          <div class="form-field">
-            <label>Téléphone</label>
-            <input type="tel" name="telephone" placeholder="06 12 34 56 78">
+            <input type="email" id="customer-email" placeholder="sophie@email.com" required>
           </div>
         </div>
         <div class="form-field">
-          <label>Adresse de livraison *</label>
-          <input type="text" name="adresse" placeholder="12 rue des Lilas, 75001 Paris" required>
+          <label>Téléphone</label>
+          <input type="tel" id="customer-phone" placeholder="06 12 34 56 78">
         </div>
         <div class="form-field">
-          <label>Message / Précisions (couleurs, personnalisation...)</label>
-          <textarea name="message" placeholder="Ex : Je voudrais le sac en couleur terracotta si possible, c'est pour un cadeau..."></textarea>
+          <label>Personnalisation / Notes (couleurs, message cadeau…)</label>
+          <textarea id="customer-notes" placeholder="Ex : Je souhaite le sac en couleur terracotta, c'est pour un cadeau…"></textarea>
         </div>
+
+        <!-- Note sécurité -->
+        <div class="payment-note">
+          <strong>🔒 Paiement sécurisé par Stripe</strong><br>
+          Vous allez être redirigée vers la page de paiement Stripe. Votre adresse de livraison sera renseignée là-bas. Vos données bancaires ne transitent jamais par ce site.
+        </div>
+
         <button type="submit" class="form-submit-btn" id="order-submit-btn">
-          ✦ Envoyer ma commande ✦
+          <svg style="width:18px;height:18px;fill:currentColor;vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+          Payer avec Stripe
         </button>
-        <p class="form-note" id="order-form-note">Vous recevrez une confirmation par email sous 24h ☁︎</p>
+        <p class="form-note" id="order-form-note">Vous serez redirigée vers la page de paiement Stripe sécurisée ☁︎</p>
       </form>
     </div>
   </div>
@@ -1144,56 +1136,61 @@ function handleOverlayClick(e) {
   if (e.target === document.getElementById('order-modal-overlay')) closeOrderModal();
 }
 
-async function submitOrder(e) {
+// ═══════════════════════════════════════════════════
+//  STRIPE CHECKOUT — appel de la fonction Netlify
+// ═══════════════════════════════════════════════════
+async function redirectToStripe(e) {
   e.preventDefault();
-  const btn = document.getElementById('order-submit-btn');
+  if (cart.length === 0) return;
+
+  const btn  = document.getElementById('order-submit-btn');
   const note = document.getElementById('order-form-note');
 
-  btn.textContent = '⏳ Envoi en cours...';
-  btn.disabled = true;
+  // Collecte les infos client
+  const customer = {
+    name:  document.getElementById('customer-name').value.trim(),
+    email: document.getElementById('customer-email').value.trim(),
+    phone: document.getElementById('customer-phone').value.trim(),
+    notes: document.getElementById('customer-notes').value.trim(),
+  };
 
-  const formData = new FormData(e.target);
-  const object = Object.fromEntries(formData);
-  // Ajouter le contenu du panier dans le message
-  object.message = (object.message ? object.message + '\n\n' : '') + object.cart;
-  delete object.cart;
-  const json = JSON.stringify(object);
+  // État chargement
+  btn.innerHTML = '⏳ Connexion à Stripe…';
+  btn.disabled = true;
+  note.textContent = 'Création de votre session de paiement sécurisée…';
 
   try {
-    const response = await fetch('https://api.web3forms.com/submit', {
+    const response = await fetch('/.netlify/functions/create-checkout-session', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: json
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cart, customer }),
     });
-    const result = await response.json();
 
-    if (result.success) {
-      btn.textContent = '✓ Commande envoyée !';
-      btn.style.background = 'linear-gradient(135deg,#2ecc71,#27ae60)';
-      note.textContent = '✉︎ Karoline vous confirmera votre commande sous 24h !';
-      note.style.color = '#2ecc71';
-      // Vider le panier
-      cart = [];
-      saveCart();
-      updateCartUI();
-      e.target.reset();
-      setTimeout(() => {
-        closeOrderModal();
-        btn.textContent = '✦ Envoyer ma commande ✦';
-        btn.style.background = '';
-        note.textContent = 'Vous recevrez une confirmation par email sous 24h ☁︎';
-        note.style.color = '';
-        btn.disabled = false;
-      }, 4000);
-    } else {
-      throw new Error('Échec');
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || 'Erreur serveur');
     }
+
+    const { url } = await response.json();
+
+    if (!url) throw new Error('URL Stripe manquante');
+
+    // Redirection vers la page de paiement Stripe
+    note.textContent = '✓ Redirection vers Stripe…';
+    window.location.href = url;
+
   } catch (err) {
-    btn.textContent = '✗ Erreur, réessayez';
+    console.error('Stripe error:', err);
+    btn.innerHTML = '<svg style="width:18px;height:18px;fill:currentColor;vertical-align:middle;margin-right:8px;" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>Payer avec Stripe';
     btn.style.background = 'linear-gradient(135deg,#e74c3c,#c0392b)';
-    note.textContent = 'Une erreur est survenue. Écrivez directement à stephant.caroline@gmail.com';
+    note.textContent = '⚠ Erreur : ' + err.message + '. Réessayez ou contactez Karoline directement.';
     note.style.color = '#e74c3c';
-    btn.disabled = false;
+    setTimeout(() => {
+      btn.style.background = '';
+      note.textContent = 'Vous serez redirigée vers la page de paiement Stripe sécurisée ☁︎';
+      note.style.color = '';
+      btn.disabled = false;
+    }, 5000);
   }
 }
 
@@ -1231,6 +1228,13 @@ function showToast(msg) {
 // ═══════════════════════════════════════════════════
 renderProducts();
 updateCartUI();
+
+// Afficher un toast si retour après annulation Stripe
+if (new URLSearchParams(window.location.search).get('cancelled') === '1') {
+  setTimeout(() => showToast('Paiement annulé — votre panier est toujours là 🧶'), 600);
+  // Nettoyer l'URL
+  history.replaceState({}, '', window.location.pathname);
+}
 </script>
 </body>
 </html>

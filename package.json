@@ -1,0 +1,11 @@
+{
+  "name": "leboudoir-dekaroline",
+  "version": "1.0.0",
+  "description": "Le Boudoir de Karoline — Boutique artisanale crochet & macramé",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
