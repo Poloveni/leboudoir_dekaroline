@@ -106,9 +106,12 @@ exports.handler = async (event) => {
     params['shipping_address_collection[allowed_countries][3]'] = 'LU';
 
     // Métadonnées
-    if (customer?.name)  params['metadata[client_nom]']   = customer.name;
-    if (customer?.phone) params['metadata[client_tel]']   = customer.phone;
-    if (customer?.notes) params['metadata[notes]']        = customer.notes;
+    if (customer?.name)    params['metadata[client_nom]']     = customer.name;
+    if (customer?.phone)   params['metadata[client_tel]']     = customer.phone;
+    if (customer?.address) params['metadata[adresse]']        = customer.address;
+    if (customer?.zip)     params['metadata[code_postal]']    = customer.zip;
+    if (customer?.city)    params['metadata[ville]']          = customer.city;
+    if (customer?.notes)   params['metadata[notes]']          = customer.notes;
     params['metadata[articles]'] = cart.map(i => `${i.name} x${i.qty}`).join(', ');
 
     params['payment_intent_data[description]'] = `Commande Le Boudoir de Karoline — ${cart.map(i => i.name).join(', ')}`;

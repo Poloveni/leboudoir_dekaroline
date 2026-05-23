@@ -789,6 +789,23 @@ footer {
           <label>Téléphone</label>
           <input type="tel" id="customer-phone" placeholder="06 12 34 56 78">
         </div>
+
+        <!-- Adresse de livraison -->
+        <div class="form-field">
+          <label>Adresse de livraison *</label>
+          <input type="text" id="customer-address" placeholder="12 rue des Mimosas" required>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Code postal *</label>
+            <input type="text" id="customer-zip" placeholder="30000" pattern="[0-9]{4,10}" required>
+          </div>
+          <div class="form-field">
+            <label>Ville *</label>
+            <input type="text" id="customer-city" placeholder="Nîmes" required>
+          </div>
+        </div>
+
         <div class="form-field">
           <label>Personnalisation / Notes (couleurs, message cadeau…)</label>
           <textarea id="customer-notes" placeholder="Ex : Je souhaite le sac en couleur terracotta, c'est pour un cadeau…"></textarea>
@@ -797,7 +814,7 @@ footer {
         <!-- Note sécurité -->
         <div class="payment-note">
           <strong>🔒 Paiement sécurisé par Stripe</strong><br>
-          Votre <strong>adresse de livraison</strong> et vos coordonnées bancaires seront saisies sur la page Stripe sécurisée — jamais sur ce site. Vous serez redirigée dans un instant.
+          Vos coordonnées bancaires sont saisies directement sur la page Stripe sécurisée — elles ne transitent jamais par ce site.
         </div>
 
         <button type="submit" class="form-submit-btn" id="order-submit-btn">
@@ -1144,10 +1161,13 @@ async function redirectToStripe(e) {
 
   // Collecte les infos client
   const customer = {
-    name:  document.getElementById('customer-name').value.trim(),
-    email: document.getElementById('customer-email').value.trim(),
-    phone: document.getElementById('customer-phone').value.trim(),
-    notes: document.getElementById('customer-notes').value.trim(),
+    name:    document.getElementById('customer-name').value.trim(),
+    email:   document.getElementById('customer-email').value.trim(),
+    phone:   document.getElementById('customer-phone').value.trim(),
+    address: document.getElementById('customer-address').value.trim(),
+    zip:     document.getElementById('customer-zip').value.trim(),
+    city:    document.getElementById('customer-city').value.trim(),
+    notes:   document.getElementById('customer-notes').value.trim(),
   };
 
   // État chargement
