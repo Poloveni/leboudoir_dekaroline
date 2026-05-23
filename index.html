@@ -375,8 +375,16 @@ nav.scrolled .nav-links a:hover { color: var(--fuchsia); }
 }
 .stat { text-align:center; color:#fff; padding:0 56px; position:relative; z-index:1; }
 .stat+.stat::before { content:''; position:absolute; left:0; top:10%; bottom:10%; width:1px; background:rgba(201,169,110,0.2); }
-.stat-number { font-family:var(--display); font-size:2.8rem; color:#C9A96E; display:block; margin-bottom:8px; text-shadow:0 0 30px rgba(201,169,110,0.3); }
+.stat-number { font-family:var(--display); font-size:2.8rem; color:#C9A96E; display:block; margin-bottom:8px; text-shadow:0 0 30px rgba(201,169,110,0.3); transition: transform 0.3s; }
 .stat-label { font-size:0.62rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,249,240,0.6); }
+.stat-heart { display:inline-block; animation: heartbeat 1.8s ease-in-out infinite; transform-origin: center; }
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  14%      { transform: scale(1.18); }
+  28%      { transform: scale(1); }
+  42%      { transform: scale(1.12); }
+  56%      { transform: scale(1); }
+}
 
 /* ─── GALLERY ─── */
 #gallery {
@@ -776,11 +784,11 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
 </section>
 
 <!-- STATS -->
-<div class="stats-bar reveal">
-  <div class="stat"><span class="stat-number">+150</span><span class="stat-label">Créations réalisées</span></div>
-  <div class="stat"><span class="stat-number">20+</span><span class="stat-label">Ans de passion</span></div>
-  <div class="stat"><span class="stat-number">100%</span><span class="stat-label">Fait main</span></div>
-  <div class="stat"><span class="stat-number">♥</span><span class="stat-label">Avec amour</span></div>
+<div class="stats-bar reveal" id="stats-bar">
+  <div class="stat"><span class="stat-number" data-prefix="+" data-target="150">+0</span><span class="stat-label">Créations réalisées</span></div>
+  <div class="stat"><span class="stat-number" data-suffix="+" data-target="20">0+</span><span class="stat-label">Ans de passion</span></div>
+  <div class="stat"><span class="stat-number" data-suffix="%" data-target="100">0%</span><span class="stat-label">Fait main</span></div>
+  <div class="stat"><span class="stat-number stat-heart">♥</span><span class="stat-label">Avec amour</span></div>
 </div>
 
 <!-- GALLERY -->
@@ -1456,6 +1464,42 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
 
   // Init lightbox après chargement
   window.addEventListener('load', buildLightbox);
+
+  // ── Animation compteur stats ─────────────────────
+  function animateCounter(el) {
+    const target   = parseInt(el.dataset.target, 10);
+    const prefix   = el.dataset.prefix  || '';
+    const suffix   = el.dataset.suffix  || '';
+    const duration = 1800; // ms
+    const start    = performance.now();
+
+    function easeOutExpo(t) {
+      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const value    = Math.round(easeOutExpo(progress) * target);
+      el.textContent = prefix + value + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = prefix + target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+
+  const statsBar = document.getElementById('stats-bar');
+  if (statsBar) {
+    const counters = statsBar.querySelectorAll('[data-target]');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          counters.forEach(el => animateCounter(el));
+          obs.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    obs.observe(statsBar);
+  }
 </script>
 <!-- Bouton Instagram flottant -->
 <a href="https://www.instagram.com/leboudoir_dekaroline/" target="_blank" rel="noopener" class="instagram-float" aria-label="Instagram Le Boudoir de Karoline">
