@@ -1119,10 +1119,6 @@ function openOrderModal() {
   ).join('');
   document.getElementById('order-total-price').textContent = getCartTotal() + ' €';
 
-  // Remplir le champ caché avec le résumé du panier
-  const cartSummary = cart.map(item => `${item.name} × ${item.qty} = ${item.price * item.qty}€`).join('\n');
-  document.getElementById('hidden-cart').value = '=== COMMANDE ===\n' + cartSummary + '\n\nTOTAL : ' + getCartTotal() + ' €';
-
   document.getElementById('order-modal-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
