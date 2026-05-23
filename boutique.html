@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Boutique — Le Boudoir de Karoline</title>
+<meta name="description" content="Boutique en ligne de Le Boudoir de Karoline. Créations crochet et macramé faites main à Nîmes. Sacs, amigurumis, coussins, attrape-rêves. Livraison France entière."/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231E0318'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-size='38' font-style='italic' font-weight='bold' fill='url(%23g)'%3EK%3C/text%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FFD060'/%3E%3Cstop offset='50%25' stop-color='%23FF7A1A'/%3E%3Cstop offset='100%25' stop-color='%23E8156D'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;700&family=DM+Sans:wght@200;300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root {
+  --fuchsia:   #C4687A;
+  --rose:      #E8A0A8;
+  --hot:       #B85468;
+  --coral:     #D4896A;
+  --orange:    #C9956E;
+  --amber:     #D4A85A;
+  --gold:      #C9A96E;
+  --ivory:     #FDF6F0;
+  --parchment: #FAF0E8;
+  --plum:      #3D1A2A;
+  --aubergine: #2E1520;
+  --dark:      #2A1018;
+  --text:      #3D1F28;
+  --serif:     'Playfair Display', serif;
+  --display:   'Cinzel Decorative', serif;
+  --sans:      'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ivory);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ─── BANDEAU DÉFILANT ─── */
+.announcement-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 700;
+  background: linear-gradient(90deg, #3D1A2A, #5C2A38, #3D1A2A);
+  height: 36px;
+  overflow: hidden;
+  display: flex; align-items: center;
+}
+.announcement-track {
+  display: flex; align-items: center;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+}
+.announcement-item {
+  font-family: var(--sans); font-size: 0.62rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); padding: 0 48px;
+  display: flex; align-items: center; gap: 16px;
+}
+.orn { color: var(--fuchsia); font-size: 0.55rem; }
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 36px; left: 0; right: 0; z-index: 600;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 64px;
+  background: rgba(253,246,240,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(196,104,122,0.2);
+}
+.nav-logo {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.7rem; color: #0a0008;
+  text-decoration: none; letter-spacing: 0.02em;
+}
+.nav-links { display: flex; gap: 40px; list-style: none; align-items: center; }
+.nav-links a {
+  font-size: 0.68rem; font-weight: 400;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text); text-decoration: none;
+  transition: color 0.3s;
+  position: relative; padding-bottom: 3px;
+}
+.nav-links a::after {
+  content:''; position:absolute; bottom:0; left:0; right:100%;
+  height:1.5px; background: var(--gold);
+  transition: right 0.35s ease;
+}
+.nav-links a:hover::after { right: 0; }
+.nav-links a:hover { color: var(--fuchsia); }
+.nav-links a.active { color: var(--fuchsia); }
+.nav-links a.active::after { right: 0; }
+
+/* Bouton panier dans la nav */
+.nav-cart-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--fuchsia), var(--coral));
+  color: #fff; border: none; cursor: pointer;
+  padding: 9px 20px; font-family: var(--sans);
+  font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+  font-weight: 500; transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(196,104,122,0.35);
+  position: relative;
+}
+.nav-cart-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(196,104,122,0.5); }
+.cart-count {
+  position: absolute; top: -8px; right: -8px;
+  background: var(--gold); color: var(--plum);
+  font-size: 0.6rem; font-weight: 700;
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: scale(0);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.cart-count.visible { opacity: 1; transform: scale(1); }
+
+/* ─── HERO BOUTIQUE ─── */
+.shop-hero {
+  background: linear-gradient(135deg, #2A1018 0%, #5C2535 40%, #8B4558 70%, #C47080 100%);
+  padding: 160px 64px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.shop-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(201,169,110,0.15) 0%, transparent 65%);
+}
+.shop-hero-eyebrow {
+  font-size: 0.62rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  position: relative; z-index: 1;
+}
+.shop-hero h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: #fff; margin-bottom: 12px;
+  position: relative; z-index: 1;
+}
+.shop-hero p {
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.1rem; color: rgba(255,249,240,0.75);
+  position: relative; z-index: 1;
+}
+
+/* ─── FILTRES ─── */
+.shop-filters-bar {
+  background: var(--parchment);
+  border-bottom: 1px solid rgba(196,104,122,0.15);
+  padding: 20px 64px;
+  display: flex; gap: 10px; flex-wrap: wrap;
+  align-items: center; position: sticky; top: 90px; z-index: 500;
+}
+.shop-filters-bar .filter-label {
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text); opacity: 0.45; margin-right: 6px; flex-shrink: 0;
+}
+.filter-btn {
+  font-family: var(--sans); font-size: 0.62rem; font-weight: 400;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 9px 20px;
+  border: 1px solid rgba(196,104,122,0.3);
+  background: transparent; color: var(--text);
+  cursor: pointer; transition: all 0.3s;
+}
+.filter-btn:hover { border-color: var(--fuchsia); color: var(--fuchsia); }
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--fuchsia), var(--coral));
+  border-color: transparent; color: #fff;
+}
+
+/* ─── GRILLE PRODUITS ─── */
+.shop-main {
+  max-width: 1320px; margin: 0 auto;
+  padding: 60px 40px;
+}
+.shop-count {
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text); opacity: 0.4; margin-bottom: 36px;
+}
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 28px;
+}
+
+/* ─── CARTE PRODUIT ─── */
+.product-card {
+  background: #fff;
+  border: 1px solid rgba(196,104,122,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(196,104,122,0.18);
+}
+.product-card.hidden { display: none; }
+
+.product-img-wrap {
+  position: relative; overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+}
+.product-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(.25,.46,.45,.94);
+  display: block;
+}
+.product-card:hover .product-img-wrap img { transform: scale(1.07); }
+
+.product-badge-new {
+  position: absolute; top: 12px; left: 12px;
+  background: var(--fuchsia); color: #fff;
+  font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 4px 10px;
+}
+.product-badge-custom {
+  position: absolute; top: 12px; right: 12px;
+  background: var(--gold); color: var(--plum);
+  font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 4px 10px;
+}
+
+.product-img-overlay {
+  position: absolute; inset: 0;
+  background: rgba(42,16,24,0.55);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.35s;
+}
+.product-card:hover .product-img-overlay { opacity: 1; }
+.product-zoom-btn {
+  background: none; border: 1px solid rgba(255,255,255,0.6);
+  color: #fff; width: 44px; height: 44px;
+  font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
+}
+.product-zoom-btn:hover { background: var(--fuchsia); border-color: var(--fuchsia); }
+
+.product-body {
+  padding: 20px 20px 16px;
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+}
+.product-cat {
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--orange); opacity: 0.8;
+}
+.product-name {
+  font-family: var(--serif); font-size: 1.05rem;
+  font-weight: 700; color: var(--text); line-height: 1.3;
+}
+.product-desc {
+  font-size: 0.82rem; color: var(--text); opacity: 0.6;
+  line-height: 1.6; flex: 1;
+}
+.product-footer {
+  padding: 0 20px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+}
+.product-price {
+  font-family: var(--display);
+  font-size: 1.25rem; color: var(--fuchsia);
+  letter-spacing: 0.03em;
+}
+.product-price small {
+  font-family: var(--sans);
+  font-size: 0.62rem; letter-spacing: 0.12em;
+  color: var(--text); opacity: 0.45;
+  display: block; margin-top: 1px; text-transform: uppercase;
+}
+.add-to-cart-btn {
+  background: linear-gradient(135deg, var(--fuchsia), var(--coral));
+  color: #fff; border: none; cursor: pointer;
+  padding: 10px 18px; font-family: var(--sans);
+  font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+  font-weight: 500; transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(196,104,122,0.3);
+  white-space: nowrap;
+}
+.add-to-cart-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(196,104,122,0.45); }
+.add-to-cart-btn.added {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  box-shadow: 0 4px 16px rgba(46,204,113,0.3);
+}
+
+/* ─── PANIER LATÉRAL ─── */
+.cart-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(42,16,24,0.55);
+  backdrop-filter: blur(6px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s;
+}
+.cart-overlay.open { opacity: 1; pointer-events: all; }
+
+.cart-drawer {
+  position: fixed; top: 0; right: -480px; bottom: 0; z-index: 950;
+  width: 440px; max-width: 95vw;
+  background: var(--ivory);
+  border-left: 1px solid rgba(196,104,122,0.2);
+  display: flex; flex-direction: column;
+  transition: right 0.4s cubic-bezier(.25,.46,.45,.94);
+  overflow: hidden;
+}
+.cart-drawer.open { right: 0; }
+
+.cart-header {
+  padding: 28px 28px 20px;
+  border-bottom: 1px solid rgba(196,104,122,0.15);
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--parchment);
+}
+.cart-title {
+  font-family: var(--serif); font-size: 1.4rem; font-style: italic;
+  color: var(--text);
+}
+.cart-close {
+  background: none; border: 1px solid rgba(196,104,122,0.4);
+  color: var(--fuchsia); width: 38px; height: 38px;
+  font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
+}
+.cart-close:hover { background: var(--fuchsia); color: #fff; }
+
+.cart-items {
+  flex: 1; overflow-y: auto;
+  padding: 20px 28px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.cart-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text); opacity: 0.45;
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.05rem;
+}
+.cart-empty-icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+
+.cart-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(196,104,122,0.1);
+}
+.cart-item-img {
+  width: 72px; height: 72px;
+  object-fit: cover; flex-shrink: 0;
+  border: 1px solid rgba(196,104,122,0.1);
+}
+.cart-item-info { flex: 1; }
+.cart-item-name {
+  font-family: var(--serif); font-weight: 700;
+  font-size: 0.92rem; color: var(--text); margin-bottom: 4px;
+}
+.cart-item-price {
+  font-size: 0.85rem; color: var(--fuchsia);
+  font-family: var(--display); letter-spacing: 0.03em;
+}
+.cart-item-controls {
+  display: flex; align-items: center; gap: 8px; margin-top: 8px;
+}
+.qty-btn {
+  background: none; border: 1px solid rgba(196,104,122,0.3);
+  color: var(--text); width: 26px; height: 26px;
+  font-size: 0.9rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+.qty-btn:hover { background: var(--fuchsia); border-color: var(--fuchsia); color: #fff; }
+.qty-value {
+  font-size: 0.85rem; min-width: 20px; text-align: center;
+  color: var(--text);
+}
+.cart-item-remove {
+  background: none; border: none; cursor: pointer;
+  color: var(--text); opacity: 0.35; font-size: 0.9rem;
+  transition: opacity 0.2s, color 0.2s; margin-left: auto;
+  padding: 2px;
+}
+.cart-item-remove:hover { opacity: 1; color: var(--fuchsia); }
+
+.cart-footer {
+  padding: 20px 28px 28px;
+  border-top: 1px solid rgba(196,104,122,0.15);
+  background: var(--parchment);
+}
+.cart-total-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 6px;
+}
+.cart-total-label {
+  font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text); opacity: 0.5;
+}
+.cart-total-price {
+  font-family: var(--display); font-size: 1.6rem;
+  color: var(--fuchsia);
+}
+.cart-shipping-note {
+  font-size: 0.72rem; color: var(--text); opacity: 0.4;
+  font-style: italic; margin-bottom: 20px;
+}
+.cart-order-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--fuchsia), var(--coral), var(--orange));
+  background-size: 200% 200%;
+  color: #fff; border: none; cursor: pointer;
+  padding: 17px 28px; font-family: var(--sans);
+  font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+  font-weight: 500;
+  transition: background-position 0.5s, transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 8px 30px rgba(196,104,122,0.45);
+  margin-bottom: 10px;
+}
+.cart-order-btn:hover {
+  background-position: 100% 0;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(196,104,122,0.55);
+}
+.cart-continue {
+  width: 100%; text-align: center;
+  font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text); opacity: 0.4; cursor: pointer;
+  background: none; border: none; padding: 6px;
+  transition: opacity 0.3s;
+}
+.cart-continue:hover { opacity: 0.75; }
+
+/* ─── MODALE COMMANDE ─── */
+.order-modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(42,16,24,0.88);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s;
+  padding: 20px;
+}
+.order-modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.order-modal {
+  background: var(--ivory);
+  max-width: 620px; width: 100%;
+  max-height: 92vh; overflow-y: auto;
+  position: relative;
+  border: 1px solid rgba(196,104,122,0.2);
+  box-shadow: 0 40px 120px rgba(42,16,24,0.6);
+}
+.order-modal-header {
+  padding: 32px 36px 24px;
+  background: linear-gradient(135deg, #3D1A2A, #5C2A38);
+  position: sticky; top: 0; z-index: 10;
+}
+.order-modal-header h2 {
+  font-family: var(--serif); font-size: 1.6rem;
+  font-style: italic; color: var(--ivory); margin-bottom: 4px;
+}
+.order-modal-header p {
+  font-size: 0.75rem; color: var(--gold); letter-spacing: 0.1em; opacity: 0.8;
+}
+.order-modal-close {
+  position: absolute; top: 20px; right: 20px;
+  background: none; border: 1px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.6); width: 36px; height: 36px;
+  font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
+}
+.order-modal-close:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+.order-modal-body { padding: 28px 36px 36px; }
+
+/* Récap panier dans la modale */
+.order-recap {
+  background: var(--parchment);
+  border: 1px solid rgba(196,104,122,0.12);
+  padding: 18px 20px; margin-bottom: 24px;
+}
+.order-recap-title {
+  font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 12px;
+}
+.order-recap-item {
+  display: flex; justify-content: space-between;
+  font-size: 0.85rem; color: var(--text);
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(196,104,122,0.08);
+}
+.order-recap-item:last-of-type { border-bottom: none; }
+.order-recap-total {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-top: 10px; margin-top: 4px;
+  border-top: 1px solid rgba(196,104,122,0.2);
+}
+.order-recap-total span:first-child {
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text); opacity: 0.5;
+}
+.order-recap-total .total-price {
+  font-family: var(--display); font-size: 1.3rem; color: var(--fuchsia);
+}
+
+/* Formulaire de la modale */
+.order-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-field { display: flex; flex-direction: column; gap: 7px; }
+.form-field label {
+  font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--text); opacity: 0.5;
+}
+.form-field input, .form-field select, .form-field textarea {
+  background: #fff; border: 1px solid rgba(196,104,122,0.25);
+  padding: 12px 16px; font-family: var(--sans);
+  font-size: 0.9rem; color: var(--text); outline: none;
+  transition: border-color 0.3s;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+  border-color: var(--fuchsia);
+}
+.form-field input::placeholder, .form-field textarea::placeholder {
+  color: rgba(61,31,40,0.3);
+}
+.form-field textarea { min-height: 100px; resize: vertical; }
+
+.payment-note {
+  background: linear-gradient(135deg, rgba(196,104,122,0.06), rgba(212,137,106,0.06));
+  border: 1px solid rgba(196,104,122,0.2);
+  border-left: 3px solid var(--fuchsia);
+  padding: 14px 16px;
+  font-size: 0.82rem; line-height: 1.6;
+  color: var(--text); opacity: 0.8;
+}
+.payment-note strong { color: var(--fuchsia); }
+
+.form-submit-btn {
+  background: linear-gradient(135deg, var(--fuchsia), var(--coral), var(--orange));
+  background-size: 200% 200%;
+  color: #fff; border: none; cursor: pointer;
+  padding: 17px 32px; font-family: var(--sans);
+  font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+  font-weight: 500; transition: background-position 0.5s, transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 8px 30px rgba(196,104,122,0.45);
+}
+.form-submit-btn:hover { background-position: 100% 0; transform: translateY(-2px); }
+.form-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.form-note { font-size: 0.75rem; font-style: italic; color: var(--text); opacity: 0.45; margin-top: 4px; }
+
+/* ─── LIGHTBOX ZOOM ─── */
+#lightbox {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+  background: rgba(42,16,24,0.95);
+  backdrop-filter: blur(14px);
+  align-items: center; justify-content: center;
+}
+#lightbox.open { display: flex; }
+#lb-img {
+  max-width: 85vw; max-height: 85vh;
+  object-fit: contain;
+  border: 1px solid rgba(196,104,122,0.2);
+  box-shadow: 0 20px 80px rgba(196,104,122,0.2);
+}
+#lb-close {
+  position: absolute; top: 20px; right: 28px;
+  background: none; border: 1px solid rgba(196,104,122,0.4);
+  color: var(--fuchsia); width: 42px; height: 42px;
+  font-size: 1.2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s;
+}
+#lb-close:hover { background: var(--fuchsia); color: #fff; }
+#lb-title {
+  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+  font-family: var(--serif); font-style: italic;
+  font-size: 1rem; color: var(--gold); letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--dark);
+  border-top: 1px solid rgba(196,104,122,0.2);
+  padding: 60px 64px;
+}
+.footer-top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 32px; border-bottom: 1px solid rgba(196,104,122,0.15);
+  flex-wrap: wrap; gap: 28px;
+}
+.footer-logo {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem; font-weight: 400;
+  background: linear-gradient(135deg, var(--gold), var(--orange), var(--fuchsia));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.footer-tagline { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,249,240,0.3); margin-top: 6px; }
+.footer-links { display: flex; gap: 36px; list-style: none; flex-wrap: wrap; }
+.footer-links a { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,249,240,0.35); text-decoration: none; transition: color 0.3s; }
+.footer-links a:hover { color: var(--fuchsia); }
+.footer-bottom { padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-copy { font-size: 0.62rem; color: rgba(255,249,240,0.2); letter-spacing: 0.1em; }
+.footer-heart { font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--fuchsia); opacity: 0.6; }
+
+/* ─── INSTAGRAM FLOTTANT ─── */
+.instagram-float {
+  position: fixed; bottom: 32px; right: 32px; z-index: 999;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 110%, #f9ed32 0%, #ee2a7b 40%, #6228d7 80%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 30px rgba(238,42,123,0.5);
+  transition: transform 0.3s, box-shadow 0.3s; text-decoration: none;
+}
+.instagram-float:hover { transform: scale(1.12) translateY(-4px); box-shadow: 0 12px 40px rgba(238,42,123,0.7); }
+.instagram-float svg { width: 24px; height: 24px; fill: #fff; }
+
+/* ─── TOAST NOTIFICATION ─── */
+.toast {
+  position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--plum); color: var(--gold);
+  padding: 12px 28px; font-size: 0.75rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  border: 1px solid rgba(201,169,110,0.3);
+  z-index: 1100;
+  opacity: 0; transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width: 768px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .shop-hero { padding: 130px 24px 60px; }
+  .shop-filters-bar { padding: 14px 20px; top: 80px; }
+  .filter-btn { font-size: 0.55rem; padding: 8px 14px; }
+  .shop-main { padding: 40px 20px; }
+  .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+  .product-body { padding: 14px 14px 10px; }
+  .product-name { font-size: 0.92rem; }
+  .product-footer { padding: 0 14px 14px; }
+  .add-to-cart-btn { font-size: 0.55rem; padding: 9px 12px; }
+  footer { padding: 40px 24px; }
+  .footer-top, .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .cart-drawer { width: 100%; right: -100%; }
+  .order-modal-body { padding: 20px 20px 28px; }
+  .order-modal-header { padding: 24px 20px 18px; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── BANDEAU DÉFILANT ─── -->
+<div class="announcement-bar">
+  <div class="announcement-track">
+    <span class="announcement-item"><span class="orn">✦</span> Livraison France entière <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> 100% Fait main avec amour <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Délai 2 à 3 semaines <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Créations artisanales uniques <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Basée à Nîmes — Gard <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Livraison France entière <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> 100% Fait main avec amour <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Délai 2 à 3 semaines <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Créations artisanales uniques <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Basée à Nîmes — Gard <span class="orn">✦</span></span>
+  </div>
+</div>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="index.html" class="nav-logo">Le Boudoir de Karoline</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">Histoire</a></li>
+    <li><a href="index.html#gallery">Galerie</a></li>
+    <li><a href="boutique.html" class="active">Boutique</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li>
+      <button class="nav-cart-btn" onclick="openCart()">
+        🛒 Panier
+        <span class="cart-count" id="nav-cart-count">0</span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+<!-- ─── HERO BOUTIQUE ─── -->
+<div class="shop-hero">
+  <div class="shop-hero-eyebrow">
+    <span class="orn">✦</span> Artisanat Crochet · Fait Main <span class="orn">✦</span>
+  </div>
+  <h1>La Boutique</h1>
+  <p>Chaque création est unique, réalisée avec amour à Nîmes</p>
+</div>
+
+<!-- ─── FILTRES ─── -->
+<div class="shop-filters-bar">
+  <span class="filter-label">Filtrer :</span>
+  <button class="filter-btn active" data-filter="all">✦ Tout voir</button>
+  <button class="filter-btn" data-filter="sacs">Sacs & Pochettes</button>
+  <button class="filter-btn" data-filter="bebe">Bébé</button>
+  <button class="filter-btn" data-filter="accessoires">Accessoires</button>
+  <button class="filter-btn" data-filter="deco">Déco & Maison</button>
+  <button class="filter-btn" data-filter="lampes">Lampes</button>
+  <button class="filter-btn" data-filter="macrame">Macramé</button>
+  <button class="filter-btn" data-filter="coussins">Coussins</button>
+</div>
+
+<!-- ─── GRILLE PRODUITS ─── -->
+<main class="shop-main">
+  <p class="shop-count" id="product-count"></p>
+  <div class="products-grid" id="products-grid">
+    <!-- Les cartes produits sont générées en JS ci-dessous -->
+  </div>
+</main>
+
+<!-- ─── PANIER LATÉRAL ─── -->
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-header">
+    <div class="cart-title">Mon Panier</div>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items-list">
+    <div class="cart-empty">
+      <span class="cart-empty-icon">🧶</span>
+      Votre panier est vide.<br>Ajoutez vos créations préférées !
+    </div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none;">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total estimé</span>
+      <span class="cart-total-price" id="cart-total">0 €</span>
+    </div>
+    <p class="cart-shipping-note">* Frais de livraison calculés à la commande</p>
+    <button class="cart-order-btn" onclick="openOrderModal()">✦ Passer commande ✦</button>
+    <button class="cart-continue" onclick="closeCart()">Continuer mes achats</button>
+  </div>
+</aside>
+
+<!-- ─── MODALE COMMANDE ─── -->
+<div class="order-modal-overlay" id="order-modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="order-modal" id="order-modal">
+    <div class="order-modal-header">
+      <h2>Finaliser ma commande</h2>
+      <p>Karoline vous confirmera votre commande sous 24h</p>
+      <button class="order-modal-close" onclick="closeOrderModal()">✕</button>
+    </div>
+    <div class="order-modal-body">
+      <!-- Récap panier -->
+      <div class="order-recap">
+        <div class="order-recap-title">✦ Récapitulatif de votre commande</div>
+        <div id="order-recap-items"></div>
+        <div class="order-recap-total">
+          <span>Total estimé</span>
+          <span class="total-price" id="order-total-price">0 €</span>
+        </div>
+      </div>
+
+      <!-- Note de paiement -->
+      <div class="payment-note" style="margin-bottom:24px;">
+        <strong>Comment ça marche ?</strong><br>
+        Envoyez votre commande ci-dessous. Karoline vous répondra sous 24h avec la <strong>confirmation de disponibilité</strong> et les <strong>coordonnées de paiement</strong> (virement, PayPal ou Stripe — bientôt disponible directement sur le site).
+      </div>
+
+      <!-- Formulaire -->
+      <form class="order-form" id="order-form" onsubmit="submitOrder(event)">
+        <input type="hidden" name="access_key" value="42f01192-c5fc-4d5e-9591-55455b33d7c9">
+        <input type="hidden" name="subject" value="✦ Nouvelle commande Boutique — Le Boudoir De Karoline">
+        <input type="hidden" name="from_name" value="Le Boudoir De Karoline — Boutique">
+        <input type="hidden" name="cart" id="hidden-cart" value="">
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Prénom *</label>
+            <input type="text" name="prenom" placeholder="Sophie" required>
+          </div>
+          <div class="form-field">
+            <label>Nom *</label>
+            <input type="text" name="nom" placeholder="Martin" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Email *</label>
+            <input type="email" name="email" placeholder="sophie@email.com" required>
+          </div>
+          <div class="form-field">
+            <label>Téléphone</label>
+            <input type="tel" name="telephone" placeholder="06 12 34 56 78">
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Adresse de livraison *</label>
+          <input type="text" name="adresse" placeholder="12 rue des Lilas, 75001 Paris" required>
+        </div>
+        <div class="form-field">
+          <label>Message / Précisions (couleurs, personnalisation...)</label>
+          <textarea name="message" placeholder="Ex : Je voudrais le sac en couleur terracotta si possible, c'est pour un cadeau..."></textarea>
+        </div>
+        <button type="submit" class="form-submit-btn" id="order-submit-btn">
+          ✦ Envoyer ma commande ✦
+        </button>
+        <p class="form-note" id="order-form-note">Vous recevrez une confirmation par email sous 24h ☁︎</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ─── LIGHTBOX ZOOM ─── -->
+<div id="lightbox" onclick="closeLightbox()">
+  <img id="lb-img" src="" alt="">
+  <button id="lb-close" onclick="closeLightbox()">✕</button>
+  <div id="lb-title"></div>
+</div>
+
+<!-- ─── TOAST ─── -->
+<div class="toast" id="toast"></div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Le Boudoir de Karoline</div>
+      <div class="footer-tagline">Artisanat Crochet · Fait Main · France</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="index.html#about">Histoire</a></li>
+      <li><a href="index.html#gallery">Galerie</a></li>
+      <li><a href="boutique.html">Boutique</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="cgv.html">CGV</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Le Boudoir De Karoline — Tous droits réservés</div>
+    <div class="footer-heart">Fait avec ♥ en France</div>
+  </div>
+</footer>
+
+<!-- ─── INSTAGRAM FLOTTANT ─── -->
+<a href="https://www.instagram.com/leboudoir_dekaroline/" target="_blank" rel="noopener" class="instagram-float" aria-label="Instagram Le Boudoir de Karoline">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+  </svg>
+</a>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  DONNÉES PRODUITS — modifiez librement les prix !
+// ═══════════════════════════════════════════════════
+const PRODUCTS = [
+  // ── SACS & POCHETTES ──
+  { id: 1,  cat: 'sacs',       img: 'p12_sac_rose_chaine1.jpg',    name: 'Sac Rose Chaîne Dorée',     price: 65,  desc: 'Sac au crochet rose avec anse chaîne dorée. Doublure tissu.',  badge: 'new' },
+  { id: 2,  cat: 'sacs',       img: 'Sac_crochet_.jpg',            name: 'Sac Granny Square',          price: 55,  desc: 'Sac coloré assemblé de motifs granny. Fait main, unique.' },
+  { id: 3,  cat: 'sacs',       img: 'Sac_crochet___3_.jpg',        name: 'Sac Multicolore',            price: 60,  desc: 'Explosion de couleurs pour ce sac festif au crochet.' },
+  { id: 4,  cat: 'sacs',       img: 'p05_sac_rose_poudre.jpg',     name: 'Sac Rose Poudré',            price: 58,  desc: 'Sac en coton rose poudré, délicat et romantique.' },
+  { id: 5,  cat: 'sacs',       img: 'p18_pochette_verte1.jpg',     name: 'Pochette Verte Pompons',     price: 45,  desc: 'Pochette verte ornée de pompons ludiques. Fermeture zip.' },
+  { id: 6,  cat: 'sacs',       img: 'p20_pochette_caramel.jpg',    name: 'Pochette Caramel',           price: 42,  desc: 'Pochette caramel avec chaîne écaille, style rétro chic.' },
+  { id: 7,  cat: 'sacs',       img: 'p23_sac_noir_raphia.jpg',     name: 'Sac Noir Raphia',            price: 75,  desc: 'Grand sac en raphia noir, chaîne dorée. Élégant et pratique.', badge: 'new' },
+  { id: 8,  cat: 'sacs',       img: 'p27_sac_raphia_face.jpg',     name: 'Grand Sac Raphia Granny',   price: 80,  desc: 'Grand sac en raphia naturel, motifs granny. Spacieux.' },
+  { id: 9,  cat: 'sacs',       img: 'pochette_crochet.jpg',        name: 'Pochette Crochet Classique', price: 38,  desc: 'Pochette au crochet intemporelle. Idéale pour les sorties.' },
+  { id: 10, cat: 'sacs',       img: 'p55_sac_bronze_pompons.jpg',  name: 'Sac Bronze & Chaîne',        price: 70,  desc: 'Sac bronze cuivré, anse chaîne dorée. Parfait pour le soir.' },
+  { id: 11, cat: 'sacs',       img: 'p56_sac_raphia_blanc.jpg',    name: 'Sac Raphia Naturel',         price: 65,  desc: 'Sac en raphia blanc naturel, esprit bohème et estival.' },
+  { id: 12, cat: 'sacs',       img: 'p41_pochette_coquillages.jpg',name: 'Pochette Coquillages',       price: 40,  desc: 'Pochette ornée de coquillages, idéale pour la plage.' },
+  { id: 13, cat: 'sacs',       img: 'p42_pochette_fuchsia.jpg',    name: 'Pochette Fuchsia',           price: 35,  desc: 'Pochette fuchsia vif avec fleur crochetée. Colorée et fun.' },
+  { id: 14, cat: 'sacs',       img: 'p46_pochette_jute_franges.jpg',name: 'Pochette Jute & Franges',  price: 38,  desc: 'Pochette en jute avec franges noires, style ethnique.' },
+
+  // ── BÉBÉ ──
+  { id: 15, cat: 'bebe',       img: 'p08_set_fraises.jpg',         name: 'Set Naissance Fraises',      price: 48,  desc: 'Set complet : bandana + chaussons motif fraises. Cadeau idéal !', badge: 'new' },
+  { id: 16, cat: 'bebe',       img: 'p01_bandana_fraises.jpg',     name: 'Bandana & Chaussons Fraises',price: 32,  desc: 'Duo assorti bandana et chaussons aux jolies fraises crochetées.' },
+  { id: 17, cat: 'bebe',       img: 'p10_chaussons_verts1.jpg',    name: 'Chaussons Bébé Verts',       price: 22,  desc: 'Chaussons doux en coton vert, pour bébé 0-12 mois.' },
+  { id: 18, cat: 'bebe',       img: 'p11_chaussons_verts2.jpg',    name: 'Chaussons Mary Jane',        price: 24,  desc: 'Chaussons style Mary Jane, élégants et confortables.' },
+  { id: 19, cat: 'bebe',       img: 'p04_amigurumi.jpg',           name: 'Amigurumi Bébé',             price: 28,  desc: 'Peluche amigurumi faite main. Doux, sécurisé, unique.', badge: 'custom' },
+
+  // ── ACCESSOIRES ──
+  { id: 20, cat: 'accessoires',img: 'p06_porte_cles_raphia1.jpg',  name: 'Porte-clés Raphia',          price: 12,  desc: 'Porte-clés en raphia tressé, finition soignée.' },
+  { id: 21, cat: 'accessoires',img: 'p07_porte_cles_raphia2.jpg',  name: 'Porte-clés Étoile',          price: 12,  desc: 'Porte-clés en forme d\'étoile crochetée.' },
+  { id: 22, cat: 'accessoires',img: 'p02_porte_cles_orange.jpg',   name: 'Porte-clés Terracotta',      price: 10,  desc: 'Porte-clés terracotta, couleur tendance.' },
+  { id: 23, cat: 'accessoires',img: 'p03_porte_cles_beige.jpg',    name: 'Porte-clés Bohème',          price: 10,  desc: 'Porte-clés style bohème en fils naturels.' },
+
+  // ── DÉCO & MAISON ──
+  { id: 24, cat: 'deco',       img: 'p17_paniers_jute.jpg',        name: 'Paniers Jute & Couleurs',    price: 45,  desc: 'Set de paniers en jute et fils colorés. Rangement stylé.' },
+  { id: 25, cat: 'deco',       img: 'p15_vases_rose.jpg',          name: 'Housses de Vases',           price: 25,  desc: 'Housses crochetées pour vases, effet cosy garanti.' },
+  { id: 26, cat: 'deco',       img: 'p16_sapin_dore.jpg',          name: 'Sapin Doré Noël',            price: 22,  desc: 'Petit sapin décoratif doré pour vos fêtes de Noël.' },
+  { id: 27, cat: 'deco',       img: 'p09_anges_macrame.jpg',       name: 'Anges Macramé',              price: 18,  desc: 'Petits anges en macramé, parfaits pour décorer ou offrir.' },
+  { id: 28, cat: 'deco',       img: 'p21_vase_boule1.jpg',         name: 'Vase Boule Crochet',         price: 35,  desc: 'Vase recouvert de crochet façon nid, naturel et poétique.' },
+  { id: 29, cat: 'deco',       img: 'p48_couronne_fleurs_sechees.jpg',name:'Couronne Fleurs Séchées',  price: 38,  desc: 'Couronne décorative en fleurs séchées et crochet.' },
+  { id: 30, cat: 'deco',       img: 'p62_couronne_lavande.jpg',    name: 'Couronne Lavande',           price: 35,  desc: 'Couronne provençale en lavande séchée. Sent divinement bon.' },
+  { id: 31, cat: 'deco',       img: 'p64_tapis_raphia_turquoise.jpg',name:'Tapis Raphia & Fleurs',     price: 85,  desc: 'Tapis en raphia orné de fleurs crochetées turquoise.' },
+  { id: 32, cat: 'deco',       img: 'p66_corbeille_tissu_multicolore.jpg',name:'Corbeille Tissu Upcyclé',price:42, desc: 'Corbeille en tissu recyclé, colorée et écologique.' },
+  { id: 33, cat: 'deco',       img: 'p43_tableau_cercles.jpg',     name: 'Tableau Cercles Dorés',      price: 55,  desc: 'Composition murale en cercles de fils dorés, effet art déco.' },
+  { id: 34, cat: 'deco',       img: 'p44_tableau_cheval.jpg',      name: 'Tableau Cheval Cuivré',      price: 55,  desc: 'Tableau mural représentation cheval en fils cuivrés.' },
+  { id: 35, cat: 'deco',       img: 'p61_tenture_raphia_frange.jpg',name:'Tenture Raphia',             price: 48,  desc: 'Tenture murale en raphia à franges, effet bohème naturel.' },
+  { id: 36, cat: 'deco',       img: 'p47_corbeille_jute_perles.jpg',name:'Corbeille Jute & Perles',   price: 38,  desc: 'Corbeille jute décorée de perles bois. Rangement déco.' },
+  { id: 37, cat: 'deco',       img: 'p34_cache_pot_raphia.jpg',    name: 'Cache-Pot Raphia',           price: 22,  desc: 'Cache-pot en raphia crocheté, pour vos plantes d\'intérieur.' },
+
+  // ── LAMPES ──
+  { id: 38, cat: 'lampes',     img: 'p31_lampadaire_beige.jpg',    name: 'Lampadaire Crochet Beige',   price: 120, desc: 'Grand lampadaire avec abat-jour crocheté beige. Chaleureux.', badge: 'new' },
+  { id: 39, cat: 'lampes',     img: 'p32_lampadaire_blanc.jpg',    name: 'Lampadaire Crochet Blanc',   price: 120, desc: 'Lampadaire élégant avec abat-jour crocheté blanc ivoire.' },
+  { id: 40, cat: 'lampes',     img: 'p35_lampe_rose_detail.jpg',   name: 'Lampe Rose',                 price: 85,  desc: 'Lampe à poser avec abat-jour crocheté rose doux.' },
+  { id: 41, cat: 'lampes',     img: 'p39_lampe_suspendue_lumiere.jpg',name:'Lampe Suspendue',          price: 75,  desc: 'Suspension lumineuse au crochet, ambiance cosy assurée.' },
+  { id: 42, cat: 'lampes',     img: 'p57_lampe_suspendue_ambre.jpg',name:'Lampe Suspendue Ambrée',    price: 80,  desc: 'Suspension en fils ambrés, lumière chaleureuse et dorée.' },
+  { id: 43, cat: 'lampes',     img: 'p58_abat_jour_raphia_allume.jpg',name:'Abat-Jour Raphia',        price: 55,  desc: 'Abat-jour en raphia naturel. S\'adapte à vos luminaires.' },
+
+  // ── MACRAMÉ & ATTRAPE-RÊVES ──
+  { id: 44, cat: 'macrame',    img: 'p37_macrame_mural_blanc.jpg', name: 'Macramé Mural',              price: 65,  desc: 'Macramé mural en coton blanc, motifs géométriques élégants.' },
+  { id: 45, cat: 'macrame',    img: 'p49_macrame_etagere.jpg',     name: 'Macramé Étagère',            price: 75,  desc: 'Étagère suspendue en macramé pour plantes et décorations.' },
+  { id: 46, cat: 'macrame',    img: 'p38_macrame_cactus.jpg',      name: 'Macramé Porte-Plantes',      price: 35,  desc: 'Suspension macramé pour plantes, style bohème naturel.' },
+  { id: 47, cat: 'macrame',    img: 'p51_macrame_rideau_grand.jpg',name: 'Grand Macramé Rideau',       price: 120, desc: 'Grand rideau en macramé, séparateur d\'espace ou fenêtre.', badge: 'new' },
+  { id: 48, cat: 'macrame',    img: 'p60_macrame_grand_mural.jpg', name: 'Grand Macramé Mural',        price: 95,  desc: 'Grande pièce murale en macramé, pièce maîtresse de déco.' },
+  { id: 49, cat: 'macrame',    img: 'p33_tabouret_macrame.jpg',    name: 'Assise Macramé Bambou',      price: 85,  desc: 'Assise ronde en macramé sur cadre bambou. Original et fonctionnel.' },
+  { id: 50, cat: 'macrame',    img: 'p63_attrape_reves_plantes.jpg',name:'Attrape-Rêves & Plantes',   price: 45,  desc: 'Attrape-rêves poétique parmi les plantes, lumières tamisées.' },
+  { id: 51, cat: 'macrame',    img: 'p67_attrape_reves_nature.jpg',name: 'Attrape-Rêves Nature',      price: 42,  desc: 'Attrape-rêves naturel avec mousse, bois et fils organiques.' },
+  { id: 52, cat: 'macrame',    img: 'p68_attrape_reves_plumes.jpg',name: 'Attrape-Rêves Paon',        price: 48,  desc: 'Attrape-rêves avec plumes de paon, somptueux et coloré.' },
+  { id: 53, cat: 'macrame',    img: 'p69_attrape_reves_lumineux.jpg',name:'Attrape-Rêves Lumineux',   price: 52,  desc: 'Attrape-rêves avec guirlande lumineuse intégrée. Féerique.' },
+
+  // ── COUSSINS & POUFS ──
+  { id: 54, cat: 'coussins',   img: 'p30_coussin_fleurs_frida.jpg',name: 'Coussin Fleuri Style Frida', price: 65,  desc: 'Grand coussin fleuri aux couleurs vives, esprit Frida Kahlo.', badge: 'new' },
+  { id: 55, cat: 'coussins',   img: 'p53_coussin_rouge_entier.jpg',name: 'Coussin Pouf Rouge Fleuri',  price: 72,  desc: 'Pouf-coussin rouge orné de fleurs crochetées, très cosy.' },
+  { id: 56, cat: 'coussins',   img: 'p50_coussin_fleurs_vue_dessus.jpg',name:'Coussin Fleuri',        price: 60,  desc: 'Coussin au motif fleuri, parfait pour le canapé ou une chambre.' },
+  { id: 57, cat: 'coussins',   img: 'p54_pouf_crochet_creme.jpg',  name: 'Pouf Crochet Crème',         price: 85,  desc: 'Grand pouf en crochet crème ivoire. Confort et esthétique.' },
+  { id: 58, cat: 'coussins',   img: 'p65_coussin_fleur_perles.jpg',name: 'Coussin Fleur & Perles',     price: 68,  desc: 'Coussin avec grande fleur crochetée et perles de bois.' },
+  { id: 59, cat: 'coussins',   img: 'p45_coussin_pouf_jute.jpg',   name: 'Pouf Dentelle Jute',         price: 78,  desc: 'Pouf en jute naturel avec motifs dentelle au crochet.' },
+];
+
+// ═══════════════════════════════════════════════════
+//  ÉTAT DE L'APPLICATION
+// ═══════════════════════════════════════════════════
+let cart = JSON.parse(localStorage.getItem('boudoir_cart') || '[]');
+let currentFilter = 'all';
+
+// ═══════════════════════════════════════════════════
+//  RENDU DES PRODUITS
+// ═══════════════════════════════════════════════════
+function catLabel(cat) {
+  const labels = { sacs: 'Sacs & Pochettes', bebe: 'Bébé', accessoires: 'Accessoires', deco: 'Déco & Maison', lampes: 'Lampes', macrame: 'Macramé', coussins: 'Coussins' };
+  return labels[cat] || cat;
+}
+
+function renderProducts(filter = 'all') {
+  const grid = document.getElementById('products-grid');
+  const countEl = document.getElementById('product-count');
+  const visible = PRODUCTS.filter(p => filter === 'all' || p.cat === filter);
+
+  countEl.textContent = visible.length + ' création' + (visible.length > 1 ? 's' : '');
+
+  grid.innerHTML = PRODUCTS.map(p => {
+    const hidden = (filter !== 'all' && p.cat !== filter) ? ' hidden' : '';
+    const badgeHtml = p.badge === 'new'
+      ? '<div class="product-badge-new">Nouveauté</div>'
+      : p.badge === 'custom' ? '<div class="product-badge-custom">Sur mesure</div>' : '';
+
+    return `
+    <div class="product-card${hidden}" data-cat="${p.cat}" data-id="${p.id}">
+      <div class="product-img-wrap">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='karoline.jpg'">
+        ${badgeHtml}
+        <div class="product-badge-custom" style="top:12px;right:12px;background:rgba(61,26,42,0.7);color:var(--gold);">Sur commande</div>
+        <div class="product-img-overlay">
+          <button class="product-zoom-btn" onclick="openLightbox('${p.img}','${p.name.replace(/'/g,"\\'")}')">🔍</button>
+        </div>
+      </div>
+      <div class="product-body">
+        <div class="product-cat">${catLabel(p.cat)}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+      </div>
+      <div class="product-footer">
+        <div class="product-price">
+          ${p.price} €
+          <small>Prix indicatif</small>
+        </div>
+        <button class="add-to-cart-btn" onclick="addToCart(${p.id})" id="btn-${p.id}">
+          + Panier
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════
+//  FILTRES
+// ═══════════════════════════════════════════════════
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderProducts(currentFilter);
+  });
+});
+
+// ═══════════════════════════════════════════════════
+//  PANIER
+// ═══════════════════════════════════════════════════
+function saveCart() {
+  localStorage.setItem('boudoir_cart', JSON.stringify(cart));
+}
+
+function addToCart(productId) {
+  const p = PRODUCTS.find(x => x.id === productId);
+  if (!p) return;
+  const existing = cart.find(x => x.id === productId);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id: p.id, name: p.name, price: p.price, img: p.img, qty: 1 });
+  }
+  saveCart();
+  updateCartUI();
+
+  // Feedback bouton
+  const btn = document.getElementById('btn-' + productId);
+  if (btn) {
+    btn.textContent = '✓ Ajouté !';
+    btn.classList.add('added');
+    setTimeout(() => {
+      btn.textContent = '+ Panier';
+      btn.classList.remove('added');
+    }, 1800);
+  }
+
+  showToast('✦ ' + p.name + ' ajouté au panier');
+  openCart();
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter(x => x.id !== productId);
+  saveCart();
+  updateCartUI();
+}
+
+function changeQty(productId, delta) {
+  const item = cart.find(x => x.id === productId);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(productId);
+  else { saveCart(); updateCartUI(); }
+}
+
+function getCartTotal() {
+  return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+}
+
+function getCartCount() {
+  return cart.reduce((sum, item) => sum + item.qty, 0);
+}
+
+function updateCartUI() {
+  // Compteur nav
+  const countEl = document.getElementById('nav-cart-count');
+  const count = getCartCount();
+  countEl.textContent = count;
+  if (count > 0) countEl.classList.add('visible');
+  else countEl.classList.remove('visible');
+
+  // Liste des articles
+  const listEl = document.getElementById('cart-items-list');
+  const footerEl = document.getElementById('cart-footer');
+  const totalEl = document.getElementById('cart-total');
+
+  if (cart.length === 0) {
+    listEl.innerHTML = '<div class="cart-empty"><span class="cart-empty-icon">🧶</span>Votre panier est vide.<br>Ajoutez vos créations préférées !</div>';
+    footerEl.style.display = 'none';
+    return;
+  }
+
+  footerEl.style.display = 'block';
+  totalEl.textContent = getCartTotal() + ' €';
+
+  listEl.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <img class="cart-item-img" src="${item.img}" alt="${item.name}" onerror="this.src='karoline.jpg'">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">${item.price} €</div>
+        <div class="cart-item-controls">
+          <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+          <span class="qty-value">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+          <button class="cart-item-remove" onclick="removeFromCart(${item.id})" title="Supprimer">✕</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openCart() {
+  document.getElementById('cart-overlay').classList.add('open');
+  document.getElementById('cart-drawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cart-overlay').classList.remove('open');
+  document.getElementById('cart-drawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ═══════════════════════════════════════════════════
+//  MODALE DE COMMANDE
+// ═══════════════════════════════════════════════════
+function openOrderModal() {
+  if (cart.length === 0) return;
+  closeCart();
+
+  // Remplir le récap
+  const recapEl = document.getElementById('order-recap-items');
+  recapEl.innerHTML = cart.map(item =>
+    `<div class="order-recap-item">
+      <span>${item.name} × ${item.qty}</span>
+      <span>${item.price * item.qty} €</span>
+    </div>`
+  ).join('');
+  document.getElementById('order-total-price').textContent = getCartTotal() + ' €';
+
+  // Remplir le champ caché avec le résumé du panier
+  const cartSummary = cart.map(item => `${item.name} × ${item.qty} = ${item.price * item.qty}€`).join('\n');
+  document.getElementById('hidden-cart').value = '=== COMMANDE ===\n' + cartSummary + '\n\nTOTAL : ' + getCartTotal() + ' €';
+
+  document.getElementById('order-modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOrderModal() {
+  document.getElementById('order-modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('order-modal-overlay')) closeOrderModal();
+}
+
+async function submitOrder(e) {
+  e.preventDefault();
+  const btn = document.getElementById('order-submit-btn');
+  const note = document.getElementById('order-form-note');
+
+  btn.textContent = '⏳ Envoi en cours...';
+  btn.disabled = true;
+
+  const formData = new FormData(e.target);
+  const object = Object.fromEntries(formData);
+  // Ajouter le contenu du panier dans le message
+  object.message = (object.message ? object.message + '\n\n' : '') + object.cart;
+  delete object.cart;
+  const json = JSON.stringify(object);
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: json
+    });
+    const result = await response.json();
+
+    if (result.success) {
+      btn.textContent = '✓ Commande envoyée !';
+      btn.style.background = 'linear-gradient(135deg,#2ecc71,#27ae60)';
+      note.textContent = '✉︎ Karoline vous confirmera votre commande sous 24h !';
+      note.style.color = '#2ecc71';
+      // Vider le panier
+      cart = [];
+      saveCart();
+      updateCartUI();
+      e.target.reset();
+      setTimeout(() => {
+        closeOrderModal();
+        btn.textContent = '✦ Envoyer ma commande ✦';
+        btn.style.background = '';
+        note.textContent = 'Vous recevrez une confirmation par email sous 24h ☁︎';
+        note.style.color = '';
+        btn.disabled = false;
+      }, 4000);
+    } else {
+      throw new Error('Échec');
+    }
+  } catch (err) {
+    btn.textContent = '✗ Erreur, réessayez';
+    btn.style.background = 'linear-gradient(135deg,#e74c3c,#c0392b)';
+    note.textContent = 'Une erreur est survenue. Écrivez directement à stephant.caroline@gmail.com';
+    note.style.color = '#e74c3c';
+    btn.disabled = false;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  LIGHTBOX ZOOM
+// ═══════════════════════════════════════════════════
+function openLightbox(src, title) {
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lb-title').textContent = title;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeLightbox(); closeOrderModal(); closeCart(); }
+});
+
+// ═══════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+renderProducts();
+updateCartUI();
+</script>
+</body>
+</html>
