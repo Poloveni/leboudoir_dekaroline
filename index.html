@@ -565,6 +565,78 @@ nav { top: 36px !important; }
 .form-submit:hover { background-position:100% 0; transform:translateY(-3px); box-shadow:0 16px 60px rgba(196,104,122,0.6); }
 .form-note { font-family:var(--serif); font-style:italic; font-size:0.8rem; color:rgba(201,169,110,0.5); margin-top:6px; }
 
+/* ─── INSTAGRAM ─── */
+#instagram { background: var(--dark); padding: 80px 64px; text-align: center; }
+.instagram-header { margin-bottom: 48px; }
+.instagram-eyebrow {
+  font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+}
+.instagram-title {
+  font-family: var(--script); font-size: clamp(2rem, 5vw, 3rem);
+  color: #fff; margin-bottom: 12px;
+}
+.instagram-subtitle {
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.95rem; color: rgba(255,249,240,0.45);
+}
+.instagram-handle {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--gold); font-size: 0.8rem; letter-spacing: 0.1em;
+  text-decoration: none; margin-top: 12px;
+  transition: color 0.3s;
+}
+.instagram-handle:hover { color: var(--fuchsia); }
+.instagram-handle svg { width: 18px; height: 18px; fill: currentColor; }
+
+.instagram-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  max-width: 900px;
+  margin: 0 auto 48px;
+}
+.instagram-tile {
+  aspect-ratio: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,169,110,0.08);
+  position: relative; overflow: hidden;
+  cursor: pointer;
+}
+.instagram-tile img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(.25,.46,.45,.94), filter 0.4s;
+  filter: brightness(0.88);
+}
+.instagram-tile:hover img { transform: scale(1.08); filter: brightness(1); }
+.instagram-tile-overlay {
+  position: absolute; inset: 0;
+  background: rgba(196,104,122,0.65);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.3s;
+}
+.instagram-tile:hover .instagram-tile-overlay { opacity: 1; }
+.instagram-tile-overlay svg { width: 28px; height: 28px; fill: #fff; }
+
+.instagram-cta {
+  display: inline-flex; align-items: center; gap: 12px;
+  border: 1px solid rgba(201,169,110,0.4);
+  color: var(--gold); padding: 14px 36px;
+  font-family: var(--sans); font-size: 0.65rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  text-decoration: none; transition: all 0.3s;
+}
+.instagram-cta:hover {
+  background: var(--gold); color: var(--dark);
+  border-color: var(--gold);
+}
+.instagram-cta svg { width: 16px; height: 16px; fill: currentColor; }
+@media(max-width:768px) {
+  #instagram { padding: 60px 24px; }
+  .instagram-grid { grid-template-columns: repeat(2, 1fr); max-width: 420px; }
+}
+
 /* ─── FOOTER ─── */
 footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); padding:60px 64px; }
 .footer-top {
@@ -1175,6 +1247,43 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
       <p class="form-note">Je vous réponds dans les 24h ☁︎</p>
     </form>
   </div>
+</section>
+
+<!-- ─── INSTAGRAM ─── -->
+<section id="instagram" class="reveal">
+  <div class="instagram-header">
+    <div class="instagram-eyebrow">✦ Suivez l'atelier ✦</div>
+    <h2 class="instagram-title">Sur Instagram</h2>
+    <p class="instagram-subtitle">Les créations en cours, les coulisses et les nouveautés en avant-première</p>
+    <a href="https://www.instagram.com/leboudoir_dekaroline/" target="_blank" rel="noopener" class="instagram-handle">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      @leboudoir_dekaroline
+    </a>
+  </div>
+
+  <div class="instagram-grid">
+    <a class="instagram-tile" href="https://www.instagram.com/leboudoir_dekaroline/" target="_blank" rel="noopener">
+      <img src="p12_sac_rose_chaine1.jpg" alt="Sac Rose Chaîne Dorée" loading="lazy">
+      <div class="instagram-tile-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </a>
+    <a class="instagram-tile" href="https://www.instagram.com/leboudoir_dekaroline/" target="_blank" rel="noopener">
+      <img src="p31_lampadaire_beige.jpg" alt="Lampadaire Crochet" loading="lazy">
+      <div class="instagram-tile-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </a>
+    <a class="instagram-tile" href="https://www.instagram.com/leboudoir_dekaroline/" target="_blank" rel="noopener">
+      <img src="p30_coussin_fleurs_frida.jpg" alt="Coussin Fleuri" loading="lazy">
+      <div class="instagram-tile-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </a>
+    <a class="instagram-tile" href="https://www.instagram.com/leboudoir_dekaroline/" target="_blank" rel="noopener">
+      <img src="p51_macrame_rideau_grand.jpg" alt="Grand Macramé" loading="lazy">
+      <div class="instagram-tile-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+    </a>
+  </div>
+
+  <a href="https://www.instagram.com/leboudoir_dekaroline/" target="_blank" rel="noopener" class="instagram-cta">
+    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    Voir toutes les créations
+  </a>
 </section>
 
 <!-- FOOTER -->

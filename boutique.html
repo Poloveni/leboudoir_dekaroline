@@ -232,6 +232,75 @@ nav {
   font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
   padding: 4px 10px;
 }
+.product-badge-available {
+  position: absolute; top: 12px; right: 12px;
+  background: #4caf82; color: #fff;
+  font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 4px 10px;
+}
+.product-badge-order {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(61,26,42,0.72); color: var(--gold);
+  font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 4px 10px;
+}
+
+/* ─── BANDEAU DÉLAI ─── */
+.delay-banner {
+  background: linear-gradient(90deg, var(--plum), #5c2a3a);
+  border-bottom: 1px solid rgba(201,169,110,0.25);
+  padding: 12px 64px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  font-size: 0.72rem; color: rgba(255,249,240,0.85);
+}
+.delay-banner strong { color: var(--gold); }
+.delay-banner-close {
+  background: none; border: none; color: rgba(255,249,240,0.4);
+  cursor: pointer; font-size: 1rem; line-height: 1; padding: 0;
+  transition: color 0.2s; flex-shrink: 0;
+}
+.delay-banner-close:hover { color: rgba(255,249,240,0.85); }
+
+/* ─── RECHERCHE + TRI ─── */
+.shop-toolbar {
+  background: var(--parchment);
+  border-bottom: 1px solid rgba(196,104,122,0.1);
+  padding: 14px 64px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.search-input-wrap {
+  position: relative; flex: 1; min-width: 200px; max-width: 360px;
+}
+.search-input-wrap svg {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; opacity: 0.4; pointer-events: none;
+}
+.shop-search {
+  width: 100%;
+  font-family: var(--sans); font-size: 0.72rem;
+  padding: 9px 12px 9px 34px;
+  border: 1px solid rgba(196,104,122,0.25);
+  background: #fff; color: var(--text);
+  outline: none; transition: border-color 0.2s;
+}
+.shop-search:focus { border-color: var(--fuchsia); }
+.shop-search::placeholder { opacity: 0.4; }
+.shop-sort {
+  font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text);
+  padding: 9px 28px 9px 12px;
+  border: 1px solid rgba(196,104,122,0.25);
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C4687A'/%3E%3C/svg%3E") no-repeat right 10px center;
+  -webkit-appearance: none; appearance: none;
+  cursor: pointer; outline: none; transition: border-color 0.2s;
+}
+.shop-sort:focus { border-color: var(--fuchsia); }
+.search-empty {
+  text-align: center; padding: 80px 20px;
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.1rem; color: var(--text); opacity: 0.4;
+  display: none;
+}
 
 .product-img-overlay {
   position: absolute; inset: 0;
@@ -704,6 +773,12 @@ footer {
   <p>Chaque création est unique, réalisée avec amour à Nîmes</p>
 </div>
 
+<!-- ─── BANDEAU DÉLAI ─── -->
+<div class="delay-banner" id="delay-banner">
+  <span>⏳ <strong>Délai actuel :</strong> <span id="delay-text"></span> — Chaque création est réalisée à la main avec amour ✦</span>
+  <button class="delay-banner-close" onclick="document.getElementById('delay-banner').style.display='none'" aria-label="Fermer">✕</button>
+</div>
+
 <!-- ─── FILTRES ─── -->
 <div class="shop-filters-bar">
   <span class="filter-label">Filtrer :</span>
@@ -717,12 +792,27 @@ footer {
   <button class="filter-btn" data-filter="coussins">Coussins</button>
 </div>
 
+<!-- ─── RECHERCHE & TRI ─── -->
+<div class="shop-toolbar">
+  <div class="search-input-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="search" class="shop-search" id="shop-search" placeholder="Rechercher une création…" oninput="renderProducts()">
+  </div>
+  <select class="shop-sort" id="shop-sort" onchange="renderProducts()">
+    <option value="default">Ordre par défaut</option>
+    <option value="price-asc">Prix croissant</option>
+    <option value="price-desc">Prix décroissant</option>
+    <option value="name-asc">Nom A → Z</option>
+  </select>
+</div>
+
 <!-- ─── GRILLE PRODUITS ─── -->
 <main class="shop-main">
   <p class="shop-count" id="product-count"></p>
   <div class="products-grid" id="products-grid">
     <!-- Les cartes produits sont générées en JS ci-dessous -->
   </div>
+  <p class="search-empty" id="search-empty">Aucune création ne correspond à votre recherche.</p>
 </main>
 
 <!-- ─── PANIER LATÉRAL ─── -->
@@ -870,79 +960,87 @@ footer {
 // ═══════════════════════════════════════════════════
 //  DONNÉES PRODUITS — modifiez librement les prix !
 // ═══════════════════════════════════════════════════
+// ─────────────────────────────────────────────────────
+//  ⏳ DÉLAI DE COMMANDE — modifiez cette ligne pour mettre à jour le bandeau
+const DELAI_COMMANDE = '2 à 3 semaines';
+// ─────────────────────────────────────────────────────
+
+// 💡 DISPONIBILITÉ — pour chaque produit :
+//    available: true  → badge vert "Disponible" (pièce déjà réalisée, envoi rapide)
+//    available: false → badge "Sur commande" (réalisée après commande)
 const PRODUCTS = [
   // ── SACS & POCHETTES ──
-  { id: 1,  cat: 'sacs',       img: 'p12_sac_rose_chaine1.jpg',    name: 'Sac Rose Chaîne Dorée',     price: 65,  desc: 'Sac au crochet rose avec anse chaîne dorée. Doublure tissu.',  badge: 'new' },
-  { id: 2,  cat: 'sacs',       img: 'Sac_crochet_.jpg',            name: 'Sac Granny Square',          price: 55,  desc: 'Sac coloré assemblé de motifs granny. Fait main, unique.' },
-  { id: 3,  cat: 'sacs',       img: 'Sac_crochet___3_.jpg',        name: 'Sac Multicolore',            price: 60,  desc: 'Explosion de couleurs pour ce sac festif au crochet.' },
-  { id: 4,  cat: 'sacs',       img: 'p05_sac_rose_poudre.jpg',     name: 'Sac Rose Poudré',            price: 58,  desc: 'Sac en coton rose poudré, délicat et romantique.' },
-  { id: 5,  cat: 'sacs',       img: 'p18_pochette_verte1.jpg',     name: 'Pochette Verte Pompons',     price: 45,  desc: 'Pochette verte ornée de pompons ludiques. Fermeture zip.' },
-  { id: 6,  cat: 'sacs',       img: 'p20_pochette_caramel.jpg',    name: 'Pochette Caramel',           price: 42,  desc: 'Pochette caramel avec chaîne écaille, style rétro chic.' },
-  { id: 7,  cat: 'sacs',       img: 'p23_sac_noir_raphia.jpg',     name: 'Sac Noir Raphia',            price: 75,  desc: 'Grand sac en raphia noir, chaîne dorée. Élégant et pratique.', badge: 'new' },
-  { id: 8,  cat: 'sacs',       img: 'p27_sac_raphia_face.jpg',     name: 'Grand Sac Raphia Granny',   price: 80,  desc: 'Grand sac en raphia naturel, motifs granny. Spacieux.' },
-  { id: 9,  cat: 'sacs',       img: 'pochette_crochet.jpg',        name: 'Pochette Crochet Classique', price: 38,  desc: 'Pochette au crochet intemporelle. Idéale pour les sorties.' },
-  { id: 10, cat: 'sacs',       img: 'p55_sac_bronze_pompons.jpg',  name: 'Sac Bronze & Chaîne',        price: 70,  desc: 'Sac bronze cuivré, anse chaîne dorée. Parfait pour le soir.' },
-  { id: 11, cat: 'sacs',       img: 'p56_sac_raphia_blanc.jpg',    name: 'Sac Raphia Naturel',         price: 65,  desc: 'Sac en raphia blanc naturel, esprit bohème et estival.' },
-  { id: 12, cat: 'sacs',       img: 'p41_pochette_coquillages.jpg',name: 'Pochette Coquillages',       price: 40,  desc: 'Pochette ornée de coquillages, idéale pour la plage.' },
-  { id: 13, cat: 'sacs',       img: 'p42_pochette_fuchsia.jpg',    name: 'Pochette Fuchsia',           price: 35,  desc: 'Pochette fuchsia vif avec fleur crochetée. Colorée et fun.' },
-  { id: 14, cat: 'sacs',       img: 'p46_pochette_jute_franges.jpg',name: 'Pochette Jute & Franges',  price: 38,  desc: 'Pochette en jute avec franges noires, style ethnique.' },
+  { id: 1,  cat: 'sacs',       img: 'p12_sac_rose_chaine1.jpg',    name: 'Sac Rose Chaîne Dorée',     price: 65,  desc: 'Sac au crochet rose avec anse chaîne dorée. Doublure tissu.',  badge: 'new', available: true },
+  { id: 2,  cat: 'sacs',       img: 'Sac_crochet_.jpg',            name: 'Sac Granny Square',          price: 55,  desc: 'Sac coloré assemblé de motifs granny. Fait main, unique.', available: false },
+  { id: 3,  cat: 'sacs',       img: 'Sac_crochet___3_.jpg',        name: 'Sac Multicolore',            price: 60,  desc: 'Explosion de couleurs pour ce sac festif au crochet.', available: false },
+  { id: 4,  cat: 'sacs',       img: 'p05_sac_rose_poudre.jpg',     name: 'Sac Rose Poudré',            price: 58,  desc: 'Sac en coton rose poudré, délicat et romantique.', available: false },
+  { id: 5,  cat: 'sacs',       img: 'p18_pochette_verte1.jpg',     name: 'Pochette Verte Pompons',     price: 45,  desc: 'Pochette verte ornée de pompons ludiques. Fermeture zip.', available: true },
+  { id: 6,  cat: 'sacs',       img: 'p20_pochette_caramel.jpg',    name: 'Pochette Caramel',           price: 42,  desc: 'Pochette caramel avec chaîne écaille, style rétro chic.', available: false },
+  { id: 7,  cat: 'sacs',       img: 'p23_sac_noir_raphia.jpg',     name: 'Sac Noir Raphia',            price: 75,  desc: 'Grand sac en raphia noir, chaîne dorée. Élégant et pratique.', badge: 'new', available: false },
+  { id: 8,  cat: 'sacs',       img: 'p27_sac_raphia_face.jpg',     name: 'Grand Sac Raphia Granny',   price: 80,  desc: 'Grand sac en raphia naturel, motifs granny. Spacieux.', available: false },
+  { id: 9,  cat: 'sacs',       img: 'pochette_crochet.jpg',        name: 'Pochette Crochet Classique', price: 38,  desc: 'Pochette au crochet intemporelle. Idéale pour les sorties.', available: false },
+  { id: 10, cat: 'sacs',       img: 'p55_sac_bronze_pompons.jpg',  name: 'Sac Bronze & Chaîne',        price: 70,  desc: 'Sac bronze cuivré, anse chaîne dorée. Parfait pour le soir.', available: false },
+  { id: 11, cat: 'sacs',       img: 'p56_sac_raphia_blanc.jpg',    name: 'Sac Raphia Naturel',         price: 65,  desc: 'Sac en raphia blanc naturel, esprit bohème et estival.', available: false },
+  { id: 12, cat: 'sacs',       img: 'p41_pochette_coquillages.jpg',name: 'Pochette Coquillages',       price: 40,  desc: 'Pochette ornée de coquillages, idéale pour la plage.', available: false },
+  { id: 13, cat: 'sacs',       img: 'p42_pochette_fuchsia.jpg',    name: 'Pochette Fuchsia',           price: 35,  desc: 'Pochette fuchsia vif avec fleur crochetée. Colorée et fun.', available: false },
+  { id: 14, cat: 'sacs',       img: 'p46_pochette_jute_franges.jpg',name: 'Pochette Jute & Franges',  price: 38,  desc: 'Pochette en jute avec franges noires, style ethnique.', available: false },
 
   // ── BÉBÉ ──
-  { id: 15, cat: 'bebe',       img: 'p08_set_fraises.jpg',         name: 'Set Naissance Fraises',      price: 48,  desc: 'Set complet : bandana + chaussons motif fraises. Cadeau idéal !', badge: 'new' },
-  { id: 16, cat: 'bebe',       img: 'p01_bandana_fraises.jpg',     name: 'Bandana & Chaussons Fraises',price: 32,  desc: 'Duo assorti bandana et chaussons aux jolies fraises crochetées.' },
-  { id: 17, cat: 'bebe',       img: 'p10_chaussons_verts1.jpg',    name: 'Chaussons Bébé Verts',       price: 22,  desc: 'Chaussons doux en coton vert, pour bébé 0-12 mois.' },
-  { id: 18, cat: 'bebe',       img: 'p11_chaussons_verts2.jpg',    name: 'Chaussons Mary Jane',        price: 24,  desc: 'Chaussons style Mary Jane, élégants et confortables.' },
-  { id: 19, cat: 'bebe',       img: 'p04_amigurumi.jpg',           name: 'Amigurumi Bébé',             price: 28,  desc: 'Peluche amigurumi faite main. Doux, sécurisé, unique.', badge: 'custom' },
+  { id: 15, cat: 'bebe',       img: 'p08_set_fraises.jpg',         name: 'Set Naissance Fraises',      price: 48,  desc: 'Set complet : bandana + chaussons motif fraises. Cadeau idéal !', badge: 'new', available: true },
+  { id: 16, cat: 'bebe',       img: 'p01_bandana_fraises.jpg',     name: 'Bandana & Chaussons Fraises',price: 32,  desc: 'Duo assorti bandana et chaussons aux jolies fraises crochetées.', available: false },
+  { id: 17, cat: 'bebe',       img: 'p10_chaussons_verts1.jpg',    name: 'Chaussons Bébé Verts',       price: 22,  desc: 'Chaussons doux en coton vert, pour bébé 0-12 mois.', available: true },
+  { id: 18, cat: 'bebe',       img: 'p11_chaussons_verts2.jpg',    name: 'Chaussons Mary Jane',        price: 24,  desc: 'Chaussons style Mary Jane, élégants et confortables.', available: false },
+  { id: 19, cat: 'bebe',       img: 'p04_amigurumi.jpg',           name: 'Amigurumi Bébé',             price: 28,  desc: 'Peluche amigurumi faite main. Doux, sécurisé, unique.', badge: 'custom', available: false },
 
   // ── ACCESSOIRES ──
-  { id: 20, cat: 'accessoires',img: 'p06_porte_cles_raphia1.jpg',  name: 'Porte-clés Raphia',          price: 12,  desc: 'Porte-clés en raphia tressé, finition soignée.' },
-  { id: 21, cat: 'accessoires',img: 'p07_porte_cles_raphia2.jpg',  name: 'Porte-clés Étoile',          price: 12,  desc: 'Porte-clés en forme d\'étoile crochetée.' },
-  { id: 22, cat: 'accessoires',img: 'p02_porte_cles_orange.jpg',   name: 'Porte-clés Terracotta',      price: 10,  desc: 'Porte-clés terracotta, couleur tendance.' },
-  { id: 23, cat: 'accessoires',img: 'p03_porte_cles_beige.jpg',    name: 'Porte-clés Bohème',          price: 10,  desc: 'Porte-clés style bohème en fils naturels.' },
+  { id: 20, cat: 'accessoires',img: 'p06_porte_cles_raphia1.jpg',  name: 'Porte-clés Raphia',          price: 12,  desc: 'Porte-clés en raphia tressé, finition soignée.', available: true },
+  { id: 21, cat: 'accessoires',img: 'p07_porte_cles_raphia2.jpg',  name: 'Porte-clés Étoile',          price: 12,  desc: 'Porte-clés en forme d\'étoile crochetée.', available: true },
+  { id: 22, cat: 'accessoires',img: 'p02_porte_cles_orange.jpg',   name: 'Porte-clés Terracotta',      price: 10,  desc: 'Porte-clés terracotta, couleur tendance.', available: true },
+  { id: 23, cat: 'accessoires',img: 'p03_porte_cles_beige.jpg',    name: 'Porte-clés Bohème',          price: 10,  desc: 'Porte-clés style bohème en fils naturels.', available: true },
 
   // ── DÉCO & MAISON ──
-  { id: 24, cat: 'deco',       img: 'p17_paniers_jute.jpg',        name: 'Paniers Jute & Couleurs',    price: 45,  desc: 'Set de paniers en jute et fils colorés. Rangement stylé.' },
-  { id: 25, cat: 'deco',       img: 'p15_vases_rose.jpg',          name: 'Housses de Vases',           price: 25,  desc: 'Housses crochetées pour vases, effet cosy garanti.' },
-  { id: 26, cat: 'deco',       img: 'p16_sapin_dore.jpg',          name: 'Sapin Doré Noël',            price: 22,  desc: 'Petit sapin décoratif doré pour vos fêtes de Noël.' },
-  { id: 27, cat: 'deco',       img: 'p09_anges_macrame.jpg',       name: 'Anges Macramé',              price: 18,  desc: 'Petits anges en macramé, parfaits pour décorer ou offrir.' },
-  { id: 28, cat: 'deco',       img: 'p21_vase_boule1.jpg',         name: 'Vase Boule Crochet',         price: 35,  desc: 'Vase recouvert de crochet façon nid, naturel et poétique.' },
-  { id: 29, cat: 'deco',       img: 'p48_couronne_fleurs_sechees.jpg',name:'Couronne Fleurs Séchées',  price: 38,  desc: 'Couronne décorative en fleurs séchées et crochet.' },
-  { id: 30, cat: 'deco',       img: 'p62_couronne_lavande.jpg',    name: 'Couronne Lavande',           price: 35,  desc: 'Couronne provençale en lavande séchée. Sent divinement bon.' },
-  { id: 31, cat: 'deco',       img: 'p64_tapis_raphia_turquoise.jpg',name:'Tapis Raphia & Fleurs',     price: 85,  desc: 'Tapis en raphia orné de fleurs crochetées turquoise.' },
-  { id: 32, cat: 'deco',       img: 'p66_corbeille_tissu_multicolore.jpg',name:'Corbeille Tissu Upcyclé',price:42, desc: 'Corbeille en tissu recyclé, colorée et écologique.' },
-  { id: 33, cat: 'deco',       img: 'p43_tableau_cercles.jpg',     name: 'Tableau Cercles Dorés',      price: 55,  desc: 'Composition murale en cercles de fils dorés, effet art déco.' },
-  { id: 34, cat: 'deco',       img: 'p44_tableau_cheval.jpg',      name: 'Tableau Cheval Cuivré',      price: 55,  desc: 'Tableau mural représentation cheval en fils cuivrés.' },
-  { id: 35, cat: 'deco',       img: 'p61_tenture_raphia_frange.jpg',name:'Tenture Raphia',             price: 48,  desc: 'Tenture murale en raphia à franges, effet bohème naturel.' },
-  { id: 36, cat: 'deco',       img: 'p47_corbeille_jute_perles.jpg',name:'Corbeille Jute & Perles',   price: 38,  desc: 'Corbeille jute décorée de perles bois. Rangement déco.' },
-  { id: 37, cat: 'deco',       img: 'p34_cache_pot_raphia.jpg',    name: 'Cache-Pot Raphia',           price: 22,  desc: 'Cache-pot en raphia crocheté, pour vos plantes d\'intérieur.' },
+  { id: 24, cat: 'deco',       img: 'p17_paniers_jute.jpg',        name: 'Paniers Jute & Couleurs',    price: 45,  desc: 'Set de paniers en jute et fils colorés. Rangement stylé.', available: false },
+  { id: 25, cat: 'deco',       img: 'p15_vases_rose.jpg',          name: 'Housses de Vases',           price: 25,  desc: 'Housses crochetées pour vases, effet cosy garanti.', available: false },
+  { id: 26, cat: 'deco',       img: 'p16_sapin_dore.jpg',          name: 'Sapin Doré Noël',            price: 22,  desc: 'Petit sapin décoratif doré pour vos fêtes de Noël.', available: false },
+  { id: 27, cat: 'deco',       img: 'p09_anges_macrame.jpg',       name: 'Anges Macramé',              price: 18,  desc: 'Petits anges en macramé, parfaits pour décorer ou offrir.', available: true },
+  { id: 28, cat: 'deco',       img: 'p21_vase_boule1.jpg',         name: 'Vase Boule Crochet',         price: 35,  desc: 'Vase recouvert de crochet façon nid, naturel et poétique.', available: false },
+  { id: 29, cat: 'deco',       img: 'p48_couronne_fleurs_sechees.jpg',name:'Couronne Fleurs Séchées',  price: 38,  desc: 'Couronne décorative en fleurs séchées et crochet.', available: false },
+  { id: 30, cat: 'deco',       img: 'p62_couronne_lavande.jpg',    name: 'Couronne Lavande',           price: 35,  desc: 'Couronne provençale en lavande séchée. Sent divinement bon.', available: false },
+  { id: 31, cat: 'deco',       img: 'p64_tapis_raphia_turquoise.jpg',name:'Tapis Raphia & Fleurs',     price: 85,  desc: 'Tapis en raphia orné de fleurs crochetées turquoise.', available: false },
+  { id: 32, cat: 'deco',       img: 'p66_corbeille_tissu_multicolore.jpg',name:'Corbeille Tissu Upcyclé',price:42, desc: 'Corbeille en tissu recyclé, colorée et écologique.', available: false },
+  { id: 33, cat: 'deco',       img: 'p43_tableau_cercles.jpg',     name: 'Tableau Cercles Dorés',      price: 55,  desc: 'Composition murale en cercles de fils dorés, effet art déco.', available: false },
+  { id: 34, cat: 'deco',       img: 'p44_tableau_cheval.jpg',      name: 'Tableau Cheval Cuivré',      price: 55,  desc: 'Tableau mural représentation cheval en fils cuivrés.', available: false },
+  { id: 35, cat: 'deco',       img: 'p61_tenture_raphia_frange.jpg',name:'Tenture Raphia',             price: 48,  desc: 'Tenture murale en raphia à franges, effet bohème naturel.', available: false },
+  { id: 36, cat: 'deco',       img: 'p47_corbeille_jute_perles.jpg',name:'Corbeille Jute & Perles',   price: 38,  desc: 'Corbeille jute décorée de perles bois. Rangement déco.', available: false },
+  { id: 37, cat: 'deco',       img: 'p34_cache_pot_raphia.jpg',    name: 'Cache-Pot Raphia',           price: 22,  desc: 'Cache-pot en raphia crocheté, pour vos plantes d\'intérieur.', available: false },
 
   // ── LAMPES ──
-  { id: 38, cat: 'lampes',     img: 'p31_lampadaire_beige.jpg',    name: 'Lampadaire Crochet Beige',   price: 120, desc: 'Grand lampadaire avec abat-jour crocheté beige. Chaleureux.', badge: 'new' },
-  { id: 39, cat: 'lampes',     img: 'p32_lampadaire_blanc.jpg',    name: 'Lampadaire Crochet Blanc',   price: 120, desc: 'Lampadaire élégant avec abat-jour crocheté blanc ivoire.' },
-  { id: 40, cat: 'lampes',     img: 'p35_lampe_rose_detail.jpg',   name: 'Lampe Rose',                 price: 85,  desc: 'Lampe à poser avec abat-jour crocheté rose doux.' },
-  { id: 41, cat: 'lampes',     img: 'p39_lampe_suspendue_lumiere.jpg',name:'Lampe Suspendue',          price: 75,  desc: 'Suspension lumineuse au crochet, ambiance cosy assurée.' },
-  { id: 42, cat: 'lampes',     img: 'p57_lampe_suspendue_ambre.jpg',name:'Lampe Suspendue Ambrée',    price: 80,  desc: 'Suspension en fils ambrés, lumière chaleureuse et dorée.' },
-  { id: 43, cat: 'lampes',     img: 'p58_abat_jour_raphia_allume.jpg',name:'Abat-Jour Raphia',        price: 55,  desc: 'Abat-jour en raphia naturel. S\'adapte à vos luminaires.' },
+  { id: 38, cat: 'lampes',     img: 'p31_lampadaire_beige.jpg',    name: 'Lampadaire Crochet Beige',   price: 120, desc: 'Grand lampadaire avec abat-jour crocheté beige. Chaleureux.', badge: 'new', available: false },
+  { id: 39, cat: 'lampes',     img: 'p32_lampadaire_blanc.jpg',    name: 'Lampadaire Crochet Blanc',   price: 120, desc: 'Lampadaire élégant avec abat-jour crocheté blanc ivoire.', available: false },
+  { id: 40, cat: 'lampes',     img: 'p35_lampe_rose_detail.jpg',   name: 'Lampe Rose',                 price: 85,  desc: 'Lampe à poser avec abat-jour crocheté rose doux.', available: false },
+  { id: 41, cat: 'lampes',     img: 'p39_lampe_suspendue_lumiere.jpg',name:'Lampe Suspendue',          price: 75,  desc: 'Suspension lumineuse au crochet, ambiance cosy assurée.', available: false },
+  { id: 42, cat: 'lampes',     img: 'p57_lampe_suspendue_ambre.jpg',name:'Lampe Suspendue Ambrée',    price: 80,  desc: 'Suspension en fils ambrés, lumière chaleureuse et dorée.', available: false },
+  { id: 43, cat: 'lampes',     img: 'p58_abat_jour_raphia_allume.jpg',name:'Abat-Jour Raphia',        price: 55,  desc: 'Abat-jour en raphia naturel. S\'adapte à vos luminaires.', available: false },
 
   // ── MACRAMÉ & ATTRAPE-RÊVES ──
-  { id: 44, cat: 'macrame',    img: 'p37_macrame_mural_blanc.jpg', name: 'Macramé Mural',              price: 65,  desc: 'Macramé mural en coton blanc, motifs géométriques élégants.' },
-  { id: 45, cat: 'macrame',    img: 'p49_macrame_etagere.jpg',     name: 'Macramé Étagère',            price: 75,  desc: 'Étagère suspendue en macramé pour plantes et décorations.' },
-  { id: 46, cat: 'macrame',    img: 'p38_macrame_cactus.jpg',      name: 'Macramé Porte-Plantes',      price: 35,  desc: 'Suspension macramé pour plantes, style bohème naturel.' },
-  { id: 47, cat: 'macrame',    img: 'p51_macrame_rideau_grand.jpg',name: 'Grand Macramé Rideau',       price: 120, desc: 'Grand rideau en macramé, séparateur d\'espace ou fenêtre.', badge: 'new' },
-  { id: 48, cat: 'macrame',    img: 'p60_macrame_grand_mural.jpg', name: 'Grand Macramé Mural',        price: 95,  desc: 'Grande pièce murale en macramé, pièce maîtresse de déco.' },
-  { id: 49, cat: 'macrame',    img: 'p33_tabouret_macrame.jpg',    name: 'Assise Macramé Bambou',      price: 85,  desc: 'Assise ronde en macramé sur cadre bambou. Original et fonctionnel.' },
-  { id: 50, cat: 'macrame',    img: 'p63_attrape_reves_plantes.jpg',name:'Attrape-Rêves & Plantes',   price: 45,  desc: 'Attrape-rêves poétique parmi les plantes, lumières tamisées.' },
-  { id: 51, cat: 'macrame',    img: 'p67_attrape_reves_nature.jpg',name: 'Attrape-Rêves Nature',      price: 42,  desc: 'Attrape-rêves naturel avec mousse, bois et fils organiques.' },
-  { id: 52, cat: 'macrame',    img: 'p68_attrape_reves_plumes.jpg',name: 'Attrape-Rêves Paon',        price: 48,  desc: 'Attrape-rêves avec plumes de paon, somptueux et coloré.' },
-  { id: 53, cat: 'macrame',    img: 'p69_attrape_reves_lumineux.jpg',name:'Attrape-Rêves Lumineux',   price: 52,  desc: 'Attrape-rêves avec guirlande lumineuse intégrée. Féerique.' },
+  { id: 44, cat: 'macrame',    img: 'p37_macrame_mural_blanc.jpg', name: 'Macramé Mural',              price: 65,  desc: 'Macramé mural en coton blanc, motifs géométriques élégants.', available: false },
+  { id: 45, cat: 'macrame',    img: 'p49_macrame_etagere.jpg',     name: 'Macramé Étagère',            price: 75,  desc: 'Étagère suspendue en macramé pour plantes et décorations.', available: false },
+  { id: 46, cat: 'macrame',    img: 'p38_macrame_cactus.jpg',      name: 'Macramé Porte-Plantes',      price: 35,  desc: 'Suspension macramé pour plantes, style bohème naturel.', available: false },
+  { id: 47, cat: 'macrame',    img: 'p51_macrame_rideau_grand.jpg',name: 'Grand Macramé Rideau',       price: 120, desc: 'Grand rideau en macramé, séparateur d\'espace ou fenêtre.', badge: 'new', available: false },
+  { id: 48, cat: 'macrame',    img: 'p60_macrame_grand_mural.jpg', name: 'Grand Macramé Mural',        price: 95,  desc: 'Grande pièce murale en macramé, pièce maîtresse de déco.', available: false },
+  { id: 49, cat: 'macrame',    img: 'p33_tabouret_macrame.jpg',    name: 'Assise Macramé Bambou',      price: 85,  desc: 'Assise ronde en macramé sur cadre bambou. Original et fonctionnel.', available: false },
+  { id: 50, cat: 'macrame',    img: 'p63_attrape_reves_plantes.jpg',name:'Attrape-Rêves & Plantes',   price: 45,  desc: 'Attrape-rêves poétique parmi les plantes, lumières tamisées.', available: false },
+  { id: 51, cat: 'macrame',    img: 'p67_attrape_reves_nature.jpg',name: 'Attrape-Rêves Nature',      price: 42,  desc: 'Attrape-rêves naturel avec mousse, bois et fils organiques.', available: false },
+  { id: 52, cat: 'macrame',    img: 'p68_attrape_reves_plumes.jpg',name: 'Attrape-Rêves Paon',        price: 48,  desc: 'Attrape-rêves avec plumes de paon, somptueux et coloré.', available: false },
+  { id: 53, cat: 'macrame',    img: 'p69_attrape_reves_lumineux.jpg',name:'Attrape-Rêves Lumineux',   price: 52,  desc: 'Attrape-rêves avec guirlande lumineuse intégrée. Féerique.', available: false },
 
   // ── COUSSINS & POUFS ──
-  { id: 54, cat: 'coussins',   img: 'p30_coussin_fleurs_frida.jpg',name: 'Coussin Fleuri Style Frida', price: 65,  desc: 'Grand coussin fleuri aux couleurs vives, esprit Frida Kahlo.', badge: 'new' },
-  { id: 55, cat: 'coussins',   img: 'p53_coussin_rouge_entier.jpg',name: 'Coussin Pouf Rouge Fleuri',  price: 72,  desc: 'Pouf-coussin rouge orné de fleurs crochetées, très cosy.' },
-  { id: 56, cat: 'coussins',   img: 'p50_coussin_fleurs_vue_dessus.jpg',name:'Coussin Fleuri',        price: 60,  desc: 'Coussin au motif fleuri, parfait pour le canapé ou une chambre.' },
-  { id: 57, cat: 'coussins',   img: 'p54_pouf_crochet_creme.jpg',  name: 'Pouf Crochet Crème',         price: 85,  desc: 'Grand pouf en crochet crème ivoire. Confort et esthétique.' },
-  { id: 58, cat: 'coussins',   img: 'p65_coussin_fleur_perles.jpg',name: 'Coussin Fleur & Perles',     price: 68,  desc: 'Coussin avec grande fleur crochetée et perles de bois.' },
-  { id: 59, cat: 'coussins',   img: 'p45_coussin_pouf_jute.jpg',   name: 'Pouf Dentelle Jute',         price: 78,  desc: 'Pouf en jute naturel avec motifs dentelle au crochet.' },
+  { id: 54, cat: 'coussins',   img: 'p30_coussin_fleurs_frida.jpg',name: 'Coussin Fleuri Style Frida', price: 65,  desc: 'Grand coussin fleuri aux couleurs vives, esprit Frida Kahlo.', badge: 'new', available: false },
+  { id: 55, cat: 'coussins',   img: 'p53_coussin_rouge_entier.jpg',name: 'Coussin Pouf Rouge Fleuri',  price: 72,  desc: 'Pouf-coussin rouge orné de fleurs crochetées, très cosy.', available: false },
+  { id: 56, cat: 'coussins',   img: 'p50_coussin_fleurs_vue_dessus.jpg',name:'Coussin Fleuri',        price: 60,  desc: 'Coussin au motif fleuri, parfait pour le canapé ou une chambre.', available: false },
+  { id: 57, cat: 'coussins',   img: 'p54_pouf_crochet_creme.jpg',  name: 'Pouf Crochet Crème',         price: 85,  desc: 'Grand pouf en crochet crème ivoire. Confort et esthétique.', available: false },
+  { id: 58, cat: 'coussins',   img: 'p65_coussin_fleur_perles.jpg',name: 'Coussin Fleur & Perles',     price: 68,  desc: 'Coussin avec grande fleur crochetée et perles de bois.', available: false },
+  { id: 59, cat: 'coussins',   img: 'p45_coussin_pouf_jute.jpg',   name: 'Pouf Dentelle Jute',         price: 78,  desc: 'Pouf en jute naturel avec motifs dentelle au crochet.', available: false },
 ];
 
 // ═══════════════════════════════════════════════════
@@ -959,25 +1057,43 @@ function catLabel(cat) {
   return labels[cat] || cat;
 }
 
-function renderProducts(filter = 'all') {
-  const grid = document.getElementById('products-grid');
-  const countEl = document.getElementById('product-count');
-  const visible = PRODUCTS.filter(p => filter === 'all' || p.cat === filter);
+function renderProducts() {
+  const grid     = document.getElementById('products-grid');
+  const countEl  = document.getElementById('product-count');
+  const emptyEl  = document.getElementById('search-empty');
+  const search   = (document.getElementById('shop-search')?.value || '').toLowerCase().trim();
+  const sort     = document.getElementById('shop-sort')?.value || 'default';
 
-  countEl.textContent = visible.length + ' création' + (visible.length > 1 ? 's' : '');
+  // Filtrage catégorie + recherche
+  let list = PRODUCTS.filter(p => {
+    const catOk    = currentFilter === 'all' || p.cat === currentFilter;
+    const searchOk = !search || p.name.toLowerCase().includes(search) || p.desc.toLowerCase().includes(search);
+    return catOk && searchOk;
+  });
 
-  grid.innerHTML = PRODUCTS.map(p => {
-    const hidden = (filter !== 'all' && p.cat !== filter) ? ' hidden' : '';
-    const badgeHtml = p.badge === 'new'
+  // Tri
+  if (sort === 'price-asc')  list = [...list].sort((a, b) => a.price - b.price);
+  if (sort === 'price-desc') list = [...list].sort((a, b) => b.price - a.price);
+  if (sort === 'name-asc')   list = [...list].sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+
+  countEl.textContent = list.length + ' création' + (list.length > 1 ? 's' : '');
+  emptyEl.style.display = list.length === 0 ? 'block' : 'none';
+
+  grid.innerHTML = list.map(p => {
+    const badgeLeftHtml = p.badge === 'new'
       ? '<div class="product-badge-new">Nouveauté</div>'
-      : p.badge === 'custom' ? '<div class="product-badge-custom">Sur mesure</div>' : '';
+      : p.badge === 'custom' ? '<div class="product-badge-new" style="background:var(--gold);color:var(--plum);">Sur mesure</div>' : '';
+
+    const badgeRightHtml = p.available
+      ? '<div class="product-badge-available">✓ Disponible</div>'
+      : '<div class="product-badge-order">Sur commande</div>';
 
     return `
-    <div class="product-card${hidden}" data-cat="${p.cat}" data-id="${p.id}">
+    <div class="product-card" data-cat="${p.cat}" data-id="${p.id}">
       <div class="product-img-wrap">
         <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='karoline.jpg'">
-        ${badgeHtml}
-        <div class="product-badge-custom" style="top:12px;right:12px;background:rgba(61,26,42,0.7);color:var(--gold);">Sur commande</div>
+        ${badgeLeftHtml}
+        ${badgeRightHtml}
         <div class="product-img-overlay">
           <button class="product-zoom-btn" onclick="openLightbox('${p.img}','${p.name.replace(/'/g,"\\'")}')">🔍</button>
         </div>
@@ -1242,6 +1358,10 @@ function showToast(msg) {
 // ═══════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════
+
+// Injecter le délai dans le bandeau
+document.getElementById('delay-text').textContent = DELAI_COMMANDE;
+
 renderProducts();
 updateCartUI();
 
