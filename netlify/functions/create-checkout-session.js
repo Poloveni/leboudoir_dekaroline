@@ -84,13 +84,18 @@ exports.handler = async (event) => {
       params[`line_items[${i}][quantity]`] = item.qty;
     });
 
-    // Frais de livraison
-    const li = cart.length;
-    params[`line_items[${li}][price_data][currency]`] = 'eur';
-    params[`line_items[${li}][price_data][product_data][name]`] = 'Livraison Colissimo France';
-    params[`line_items[${li}][price_data][product_data][description]`] = 'Suivi inclus — délai 2 à 3 semaines';
-    params[`line_items[${li}][price_data][unit_amount]`] = 800;
-    params[`line_items[${li}][quantity]`] = 1;
+    // Frais de livraison — OFFERTS dès 80 € d'achat
+    const FREE_SHIPPING_THRESHOLD = 80; // en euros
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+    if (subtotal < FREE_SHIPPING_THRESHOLD) {
+      const li = cart.length;
+      params[`line_items[${li}][price_data][currency]`] = 'eur';
+      params[`line_items[${li}][price_data][product_data][name]`] = 'Livraison Colissimo France';
+      params[`line_items[${li}][price_data][product_data][description]`] = 'Suivi inclus — délai 2 à 3 semaines';
+      params[`line_items[${li}][price_data][unit_amount]`] = 800;
+      params[`line_items[${li}][quantity]`] = 1;
+    }
 
     // URLs de retour
     params['success_url'] = `${siteUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`;
@@ -143,3 +148,4 @@ exports.handler = async (event) => {
     };
   }
 };
+// Fin du fichier

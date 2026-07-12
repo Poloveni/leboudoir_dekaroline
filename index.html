@@ -10,7 +10,7 @@
 <meta name="keywords" content="crochet Nîmes, artisanat Gard, création fait main Nîmes, macramé Nîmes, amigurumi Gard, sac crochet artisanal, cadeau naissance fait main, décoration crochet, Le Boudoir de Karoline, créations artisanales Nîmes"/>
 <meta name="author" content="Karoline — Le Boudoir de Karoline"/>
 <meta name="robots" content="index, follow"/>
-<link rel="canonical" href="https://leboudoirdekaroline.fr/"/>
+<link rel="canonical" href="https://poloveni.github.io/leboudoir_dekaroline/"/>
 
 <!-- ─── FAVICON ─── -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231E0318'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia%2C serif' font-size='38' font-style='italic' font-weight='bold' fill='url(%23g)'%3EK%3C/text%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23FFD060'/%3E%3Cstop offset='50%25' stop-color='%23FF7A1A'/%3E%3Cstop offset='100%25' stop-color='%23E8156D'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E"/>
@@ -18,10 +18,10 @@
 
 <!-- ─── OPEN GRAPH (partage réseaux sociaux) ─── -->
 <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://leboudoirdekaroline.fr/"/>
+<meta property="og:url" content="https://poloveni.github.io/leboudoir_dekaroline/"/>
 <meta property="og:title" content="Le Boudoir de Karoline — Crochet & Créations Artisanales à Nîmes"/>
 <meta property="og:description" content="Créations crochet et macramé faites main à Nîmes. Sacs, amigurumis, coussins, attrape-rêves sur commande. Livraison France entière."/>
-<meta property="og:image" content="https://leboudoirdekaroline.fr/karoline.jpg"/>
+<meta property="og:image" content="https://poloveni.github.io/leboudoir_dekaroline/karoline.jpg"/>
 <meta property="og:locale" content="fr_FR"/>
 <meta property="og:site_name" content="Le Boudoir de Karoline"/>
 
@@ -29,7 +29,7 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Le Boudoir de Karoline — Crochet Artisanal à Nîmes"/>
 <meta name="twitter:description" content="Créations crochet et macramé faites main à Nîmes (Gard). Sur commande, livraison France entière."/>
-<meta name="twitter:image" content="https://leboudoirdekaroline.fr/karoline.jpg"/>
+<meta name="twitter:image" content="https://poloveni.github.io/leboudoir_dekaroline/karoline.jpg"/>
 
 <!-- ─── SCHEMA.ORG (données structurées Google) ─── -->
 <script type="application/ld+json">
@@ -38,8 +38,8 @@
   "@type": "LocalBusiness",
   "name": "Le Boudoir de Karoline",
   "description": "Créations crochet et macramé artisanales faites main à Nîmes. Sacs, amigurumis, coussins, attrape-rêves, décoration sur commande.",
-  "url": "https://leboudoirdekaroline.fr",
-  "image": "https://leboudoirdekaroline.fr/karoline.jpg",
+  "url": "https://poloveni.github.io/leboudoir_dekaroline",
+  "image": "https://poloveni.github.io/leboudoir_dekaroline/karoline.jpg",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Nîmes",
@@ -128,9 +128,9 @@ nav.scrolled {
 }
 .nav-logo {
   font-family: 'Great Vibes', cursive;
-  font-size: 1.7rem; color: #0a0008;
+  font-size: 1.7rem; color: rgba(255,255,255,0.94);
   text-decoration: none; letter-spacing: 0.02em;
-  text-shadow: none;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.25);
   transition: color 0.4s;
   font-weight: 400;
 }
@@ -151,6 +151,47 @@ nav.scrolled .nav-logo { color: #0a0008; text-shadow: none; }
 .nav-links a:hover::after { right: 0; }
 nav.scrolled .nav-links a { color: var(--text); }
 nav.scrolled .nav-links a:hover { color: var(--fuchsia); }
+
+/* ─── MENU BURGER MOBILE ─── */
+.nav-burger {
+  display:none; background:none; border:none; cursor:pointer;
+  width:44px; height:44px; padding:10px;
+  flex-direction:column; justify-content:center; gap:6px;
+  position:relative; z-index:760;
+  color:rgba(255,255,255,0.92);
+}
+nav.scrolled .nav-burger { color:var(--text); }
+.nav-burger span {
+  display:block; height:2px; width:100%;
+  background:currentColor; border-radius:2px;
+  transition:transform 0.3s, opacity 0.3s;
+}
+.nav-burger.open { color:var(--gold); }
+.nav-burger.open span:nth-child(1) { transform:translateY(8px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity:0; }
+.nav-burger.open span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
+.mobile-menu {
+  position:fixed; inset:0; z-index:750;
+  background:rgba(42,16,24,0.97);
+  backdrop-filter:blur(14px);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:34px;
+  opacity:0; pointer-events:none; transition:opacity 0.35s;
+}
+.mobile-menu.open { opacity:1; pointer-events:auto; }
+.mobile-menu a {
+  font-family:var(--serif); font-style:italic;
+  font-size:1.7rem; color:var(--ivory);
+  text-decoration:none; letter-spacing:0.04em;
+  transition:color 0.3s;
+}
+.mobile-menu a:hover { color:var(--gold); }
+.mobile-menu .mm-boutique {
+  font-style:normal; font-family:var(--sans);
+  font-size:0.8rem; letter-spacing:0.24em; text-transform:uppercase;
+  background:linear-gradient(135deg,#C4687A,#D4896A);
+  color:#fff; padding:16px 44px; margin-top:10px;
+}
 
 /* ─── HERO ─── */
 #hero {
@@ -741,6 +782,7 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
   /* Nav */
   nav{padding:18px 24px;top:36px !important;} nav.scrolled{padding:12px 24px;}
   .nav-links{display:none;}
+  .nav-burger{display:flex;}
 
   /* Hero */
   .hero-title { font-size: clamp(3rem, 16vw, 5.5rem); line-height:1.1; }
@@ -791,12 +833,12 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
   <div class="announcement-track">
     <!-- On duplique pour boucle infinie fluide -->
     <span class="announcement-item"><span class="orn">✦</span> Créations sur commande <span class="orn">✦</span></span>
-    <span class="announcement-item"><span class="orn">✦</span> Livraison France entière <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Livraison France entière — offerte dès 80 € <span class="orn">✦</span></span>
     <span class="announcement-item"><span class="orn">✦</span> Délai de réalisation 2 à 3 semaines <span class="orn">✦</span></span>
     <span class="announcement-item"><span class="orn">✦</span> 100% fait main avec amour <span class="orn">✦</span></span>
     <span class="announcement-item"><span class="orn">✦</span> Basée à Nîmes — Gard <span class="orn">✦</span></span>
     <span class="announcement-item"><span class="orn">✦</span> Créations sur commande <span class="orn">✦</span></span>
-    <span class="announcement-item"><span class="orn">✦</span> Livraison France entière <span class="orn">✦</span></span>
+    <span class="announcement-item"><span class="orn">✦</span> Livraison France entière — offerte dès 80 € <span class="orn">✦</span></span>
     <span class="announcement-item"><span class="orn">✦</span> Délai de réalisation 2 à 3 semaines <span class="orn">✦</span></span>
     <span class="announcement-item"><span class="orn">✦</span> 100% fait main avec amour <span class="orn">✦</span></span>
     <span class="announcement-item"><span class="orn">✦</span> Basée à Nîmes — Gard <span class="orn">✦</span></span>
@@ -805,14 +847,25 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
 
 
 <nav id="navbar">
-  <a href="#hero" class="nav-logo"></a>
+  <a href="#hero" class="nav-logo">Le Boudoir de Karoline</a>
   <ul class="nav-links">
     <li><a href="#about">Histoire</a></li>
     <li><a href="#gallery">Créations</a></li>
     <li><a href="boutique.html" style="color:var(--gold);font-weight:500;">✦ Boutique</a></li>
     <li><a href="#contact">Commander</a></li>
   </ul>
+  <button class="nav-burger" id="nav-burger" aria-label="Ouvrir le menu" aria-expanded="false" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MENU MOBILE PLEIN ÉCRAN -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" onclick="toggleMobileMenu()">Histoire</a>
+  <a href="#gallery" onclick="toggleMobileMenu()">Créations</a>
+  <a href="#contact" onclick="toggleMobileMenu()">Commander</a>
+  <a href="boutique.html" class="mm-boutique">✦ Boutique en ligne</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -1575,6 +1628,16 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
       buildLightbox();
     });
   });
+
+  // ─── MENU MOBILE ───
+  function toggleMobileMenu() {
+    const menu   = document.getElementById('mobile-menu');
+    const burger = document.getElementById('nav-burger');
+    const open   = menu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
 
   // ─── SCROLL & REVEAL ───
   window.addEventListener('scroll', () => {
