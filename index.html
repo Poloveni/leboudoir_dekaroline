@@ -223,7 +223,19 @@ nav.scrolled .nav-burger { color:var(--text); }
 .hero-video-wrap video { width:100%; height:100%; object-fit:cover; }
 .hero-video-wrap::after {
   content:''; position:absolute; inset:0;
-  background: linear-gradient(125deg,rgba(42,16,24,0.55),rgba(196,104,122,0.15),rgba(212,137,106,0.1));
+  background: linear-gradient(125deg,rgba(42,16,24,0.85),rgba(92,42,56,0.72),rgba(42,16,24,0.82));
+}
+/* Mosaïque de créations en fond du hero */
+.hero-collage {
+  position:absolute; inset:0;
+  display:grid; grid-template-columns:repeat(3,1fr);
+}
+.hero-collage img {
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+@media(max-width:768px){
+  .hero-collage { grid-template-columns:repeat(2,1fr); }
+  .hero-collage img:nth-child(n+5) { display:none; }
 }
 
 /* Decorative SVG florals */
@@ -257,8 +269,8 @@ nav.scrolled .nav-burger { color:var(--text); }
   font-family: 'Great Vibes', cursive;
   font-size: clamp(3.5rem, 11vw, 10rem);
   line-height: 1.05; letter-spacing: 0.02em;
-  color: #0a0008;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.18);
+  color: var(--ivory);
+  text-shadow: 0 3px 34px rgba(0,0,0,0.5);
   margin-bottom: 16px;
   opacity: 0; animation: fadeUp 1s 0.5s forwards;
   font-weight: 400;
@@ -429,6 +441,38 @@ nav.scrolled .nav-burger { color:var(--text); }
   56%      { transform: scale(1); }
 }
 
+/* ─── COUPS DE CŒUR ─── */
+#featured { padding: 110px 64px; max-width: 1280px; margin: 0 auto; }
+.featured-header { text-align: center; margin-bottom: 56px; }
+.featured-header .section-eyebrow { justify-content: center; }
+.featured-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.featured-card {
+  background: #fff; border: 1px solid rgba(196,104,122,0.15);
+  text-decoration: none; color: var(--text); display: block;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.featured-card:hover { transform: translateY(-6px); box-shadow: 0 18px 50px rgba(196,104,122,0.22); }
+.featured-card img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+.featured-card-body { padding: 18px 16px 20px; text-align: center; }
+.featured-avail {
+  display: inline-block; font-size: 0.55rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: #2e8b57; margin-bottom: 8px;
+}
+.featured-card-name { font-family: var(--serif); font-size: 1.05rem; margin-bottom: 6px; }
+.featured-card-price { font-size: 0.95rem; color: var(--fuchsia); font-weight: 500; letter-spacing: 0.04em; margin-bottom: 14px; }
+.featured-card-cta {
+  display: inline-block; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  border: 1px solid var(--fuchsia); color: var(--fuchsia); padding: 9px 18px;
+  transition: background 0.3s, color 0.3s;
+}
+.featured-card:hover .featured-card-cta { background: var(--fuchsia); color: #fff; }
+.featured-more { text-align: center; margin-top: 48px; }
+@media(max-width:768px){
+  #featured { padding: 70px 24px; }
+  .featured-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .featured-card-body { padding: 14px 10px 16px; }
+}
+
 /* ─── GALLERY ─── */
 #gallery {
   background: #2A1018; padding:120px 64px;
@@ -454,6 +498,7 @@ nav.scrolled .nav-burger { color:var(--text); }
 .gallery-grid {
   max-width:1280px; margin:0 auto;
   display:grid; grid-template-columns:repeat(12,1fr); gap:14px;
+  grid-auto-flow:dense; /* comble automatiquement les trous de la mosaïque */
   position:relative; z-index:1;
 }
 .g-item { overflow:hidden; position:relative; background:#2A1018; }
@@ -901,8 +946,17 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
     </g>
   </svg>
 
-  <!-- VIDEO HÉRO — décommente pour activer -->
+  <!-- MOSAÏQUE DE CRÉATIONS EN FOND -->
   <div class="hero-video-wrap">
+    <div class="hero-collage">
+      <img src="p12_sac_rose_chaine1.jpg" alt="" fetchpriority="high" decoding="async">
+      <img src="p08_set_fraises.jpg" alt="" decoding="async">
+      <img src="p31_lampadaire_beige.jpg" alt="" decoding="async">
+      <img src="p51_macrame_rideau_grand.jpg" alt="" decoding="async">
+      <img src="p30_coussin_fleurs_frida.jpg" alt="" decoding="async">
+      <img src="p27_sac_raphia_face.jpg" alt="" decoding="async">
+    </div>
+    <!-- VIDEO HÉRO — décommente pour activer -->
     <!--
       <video autoplay muted loop playsinline>
         <source src="hero-video.mp4" type="video/mp4">
@@ -979,6 +1033,55 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
   <div class="stat"><span class="stat-number stat-heart">♥</span><span class="stat-label">Avec amour</span></div>
 </div>
 
+<!-- COUPS DE CŒUR -->
+<section id="featured">
+  <div class="featured-header reveal">
+    <div class="section-eyebrow"><span class="orn">✦</span> Disponibles immédiatement <span class="orn">✦</span></div>
+    <h2 class="section-title">Les coups de <em>cœur</em></h2>
+  </div>
+  <div class="featured-grid">
+    <a href="boutique.html" class="featured-card reveal">
+      <img src="p12_sac_rose_chaine1.jpg" alt="Sac Rose Chaîne Dorée" loading="lazy" decoding="async">
+      <div class="featured-card-body">
+        <span class="featured-avail">✓ Disponible</span>
+        <div class="featured-card-name">Sac Rose Chaîne Dorée</div>
+        <div class="featured-card-price">65 €</div>
+        <span class="featured-card-cta">Voir en boutique</span>
+      </div>
+    </a>
+    <a href="boutique.html" class="featured-card reveal">
+      <img src="p08_set_fraises.jpg" alt="Set Naissance Fraises" loading="lazy" decoding="async">
+      <div class="featured-card-body">
+        <span class="featured-avail">✓ Disponible</span>
+        <div class="featured-card-name">Set Naissance Fraises</div>
+        <div class="featured-card-price">48 €</div>
+        <span class="featured-card-cta">Voir en boutique</span>
+      </div>
+    </a>
+    <a href="boutique.html" class="featured-card reveal">
+      <img src="p18_pochette_verte1.jpg" alt="Pochette Verte Pompons" loading="lazy" decoding="async">
+      <div class="featured-card-body">
+        <span class="featured-avail">✓ Disponible</span>
+        <div class="featured-card-name">Pochette Verte Pompons</div>
+        <div class="featured-card-price">45 €</div>
+        <span class="featured-card-cta">Voir en boutique</span>
+      </div>
+    </a>
+    <a href="boutique.html" class="featured-card reveal">
+      <img src="p06_porte_cles_raphia1.jpg" alt="Porte-clés Raphia" loading="lazy" decoding="async">
+      <div class="featured-card-body">
+        <span class="featured-avail">✓ Disponible</span>
+        <div class="featured-card-name">Porte-clés Raphia</div>
+        <div class="featured-card-price">12 €</div>
+        <span class="featured-card-cta">Voir en boutique</span>
+      </div>
+    </a>
+  </div>
+  <div class="featured-more reveal">
+    <a href="boutique.html" class="btn-primary">✦ Voir toute la boutique</a>
+  </div>
+</section>
+
 <!-- GALLERY -->
 <section id="gallery">
   <div class="gallery-header reveal">
@@ -986,7 +1089,7 @@ footer { background:var(--dark); border-top:1px solid rgba(196,104,122,0.2); pad
       <div class="section-eyebrow"><span class="orn">✦</span> Portfolio</div>
       <h2 class="section-title" style="color:var(--ivory)">Mes dernières <em style="color:var(--orange)">créations</em></h2>
     </div>
-    <a href="#contact" class="gallery-cta-link">Toutes les créations ⟶</a>
+    <a href="boutique.html" class="gallery-cta-link">Visiter la boutique ⟶</a>
   </div>
   <!-- Filtres catégories -->
   <div class="gallery-filters">
